@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Back in the Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:ital,wght@0,400;0,600;0,700;1,500&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: homework as a second studio session. Each task is a "take" on the mixing desk, the word bank sits inside the task. Same night-studio look as the lesson. */
+:root{
+  --bg:#16131F; --desk:#201B2C; --desk-2:#2A2338; --line:#3A3149;
+  --amber:#F2A541; --rose:#E0577A; --violet:#6C5B8A; --violet-soft:#A99BC4;
+  --cream:#F4EDE4; --muted:#B6ABC2; --on-amber:#2A1A05; --ok:#F2A541; --bad:#4A2232;
+  --f-display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+  --f-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Space Mono",ui-monospace,"Courier New",monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--cream);font-family:var(--f-body);font-size:17.5px;line-height:1.6;padding-inline:20px;padding-block:0 80px;overflow-x:hidden}
+.wrap{max-width:900px;margin:0 auto}
+h1,h2,h3{text-wrap:balance;margin:0}
+p{text-wrap:pretty;margin:0}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:6px}
+::selection{background:var(--amber);color:var(--on-amber)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* hero */
+.hero{padding-block:44px 10px}
+.topbar{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--f-mono);font-size:13px;letter-spacing:.16em;color:var(--muted)}
+.rec{display:inline-flex;align-items:center;gap:10px;color:var(--rose);font-weight:700}
+.rec i{width:12px;height:12px;border-radius:50%;background:var(--rose);animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+.monitor{margin-top:18px;background:var(--desk);border:1.5px solid var(--line);border-radius:22px;padding:32px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:28px;align-items:center}
+.hero h1{font-family:var(--f-display);font-weight:800;font-size:clamp(46px,8vw,88px);line-height:.88;letter-spacing:-.035em}
+.hero h1 span{color:var(--amber);display:block}
+.lead{margin-top:16px;color:var(--muted);max-width:480px}
+.lead b{color:var(--cream)}
+.setlist{background:var(--desk-2);border-radius:16px;padding:18px 20px;font-family:var(--f-mono);font-size:13px;line-height:1.9;color:var(--muted)}
+.setlist b{color:var(--amber);font-weight:700;letter-spacing:.14em;display:block;margin-bottom:4px}
+.setlist span{color:var(--cream)}
+
+/* take */
+section.take{margin-top:34px;background:var(--desk);border:1.5px solid var(--line);border-radius:22px;padding:28px 30px}
+.take-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.no{font-family:var(--f-mono);font-weight:700;font-size:13px;letter-spacing:.14em;color:var(--on-amber);background:var(--amber);border-radius:8px;padding:4px 10px}
+.take:nth-of-type(3n+2) .no{background:var(--rose);color:#2B0712}
+.take:nth-of-type(3n) .no{background:var(--violet-soft);color:#1C1428}
+.take h2{font-family:var(--f-display);font-weight:800;font-size:clamp(26px,4vw,34px);line-height:1}
+.task{color:var(--muted);margin-top:8px;max-width:680px}
+.task b{color:var(--cream);font-weight:600}
+
+/* bank */
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding:14px;background:var(--desk-2);border-radius:14px;position:sticky;top:env(safe-area-inset-top,0px);z-index:2;border:1px solid var(--line)}
+.bank span{border:1.5px solid var(--amber);color:var(--amber);border-radius:999px;padding:4px 12px;font-size:15px;font-weight:600;transition:opacity .3s}
+.bank span.used{opacity:.35;text-decoration:line-through}
+
+ol.items{margin:18px 0 0;padding-left:28px;display:grid;gap:14px}
+ol.items li::marker{color:var(--amber);font-family:var(--f-mono);font-weight:700}
+select.g,input.g{font:inherit;font-size:16.5px;font-weight:600;color:var(--amber);border:0;border-bottom:2px dashed var(--amber);background:var(--desk-2);border-radius:8px 8px 0 0;padding:2px 8px;max-width:100%;cursor:pointer}
+select.g option{color:var(--cream);background:var(--desk)}
+.ok{background:var(--amber)!important;color:var(--on-amber)!important;border-bottom-style:solid!important}
+.no-ans{background:var(--bad)!important;color:#FFC9D6!important;border-bottom-color:var(--rose)!important}
+
+.pairs{display:grid;gap:10px;margin-top:18px}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:14px;align-items:center;background:var(--desk-2);border-radius:14px;padding:12px 16px}
+.pair select{width:100%}
+
+.dlg{display:grid;gap:12px;margin-top:18px}
+.dl{background:var(--desk-2);border-radius:14px;padding:14px 18px}
+.dl p{font-size:16.5px}
+.dl p + p{margin-top:4px}
+.dl .who{font-family:var(--f-mono);font-size:12.5px;font-weight:700;color:var(--violet-soft);margin-right:8px}
+
+/* blog */
+.blog{margin-top:18px;background:var(--cream);color:#2A2230;border-radius:16px;padding:24px 26px;font-size:17px;line-height:1.75}
+.blog .hdr{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:#6C5B8A;margin-bottom:8px}
+.blog mark{background:#FBE2B6;color:#2A2230;border-radius:4px;padding:1px 4px}
+.blog sup{font-family:var(--f-mono);font-weight:700;color:#B5341E;font-size:12px;margin-left:2px}
+.fixes{display:grid;gap:10px;margin-top:16px}
+.fix{display:grid;grid-template-columns:40px 150px minmax(0,1fr);gap:12px;align-items:center;background:var(--desk-2);border-radius:14px;padding:10px 14px}
+.fix .n{font-family:var(--f-mono);font-weight:700;color:var(--amber)}
+.fix select,.fix input{width:100%}
+.fix input{font:inherit;font-size:15.5px;background:transparent;border:0;border-bottom:1.5px solid var(--line);color:var(--cream);padding:6px 2px}
+.fix input:focus{outline:none;border-bottom-color:var(--amber)}
+.fix input::placeholder{color:#6F6480}
+.fix .model{grid-column:2/-1;font-size:14.5px;color:var(--amber)}
+
+/* writing */
+textarea{font:inherit;font-size:17px;width:100%;min-height:230px;resize:vertical;background:var(--desk-2);border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;color:var(--cream);line-height:1.6;margin-top:16px}
+textarea:focus{outline:none;border-color:var(--amber)}
+textarea::placeholder{color:#6F6480}
+.meter{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--f-mono);font-size:13px;color:var(--muted);margin-top:8px}
+.meter b{color:var(--amber)}
+.starter{margin-top:14px;font-size:15.5px;color:var(--muted)}
+.starter i{color:var(--cream)}
+ul.qs{margin:16px 0 0;padding-left:22px;display:grid;gap:8px}
+ul.qs li::marker{color:var(--rose)}
+.check{display:flex;align-items:center;gap:12px;margin-top:18px;font-weight:600;cursor:pointer}
+.check input{width:22px;height:22px;accent-color:var(--amber)}
+
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;align-items:center}
+.btn{font:inherit;font-weight:700;font-size:15.5px;border-radius:999px;padding:10px 20px;cursor:pointer;border:2px solid var(--amber);background:var(--amber);color:var(--on-amber);transition:transform .45s var(--ease)}
+.btn:hover{transform:translateY(-3px)}
+.btn.ghost{background:transparent;color:var(--amber)}
+.result{font-family:var(--f-mono);font-size:15px;color:var(--amber);letter-spacing:.04em}
+
+/* send */
+.send{margin-top:44px;border:1.5px solid var(--amber);border-radius:22px;padding:30px;background:var(--desk);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:22px;align-items:center}
+.send h2{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,4.6vw,46px);line-height:.95}
+.send h2 span{color:var(--amber)}
+.send p{margin-top:10px;color:var(--muted)}
+.send .btn{font-size:17px;padding:14px 28px}
+.copied{font-family:var(--f-mono);color:var(--amber);font-size:14px;margin-top:10px;min-height:20px}
+#fallback{width:100%;min-height:160px;margin-top:14px;font-family:var(--f-mono);font-size:13px}
+.burst{position:fixed;pointer-events:none;z-index:50;font-size:24px}
+
+@media (max-width:720px){
+  body{padding-inline:16px;font-size:16.5px}
+  .monitor{grid-template-columns:1fr;padding:24px 20px}
+  section.take{padding:22px 18px}
+  .pair{grid-template-columns:1fr}
+  .fix{grid-template-columns:32px minmax(0,1fr)}
+  .fix input{grid-column:1/-1}
+  .fix .model{grid-column:1/-1}
+  .send{grid-template-columns:1fr}
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="topbar"><span class="rec"><i></i>REC · TAKE 07</span><span>HOMEWORK SESSION</span></div>
+  <div class="monitor">
+    <div>
+      <h1>Back in <span>the studio</span></h1>
+      <p class="lead">Time for a&nbsp;second take. Revise the words, phrases and stories from our lesson. When you finish, press <b>Copy my answers</b> at&nbsp;the bottom and send them to&nbsp;me.</p>
+    </div>
+    <div class="setlist"><b>SETLIST</b><span>01</span> Song map<br><span>02</span> Studio talk<br><span>03</span> Fact check<br><span>04</span> Sound like a pro<br><span>05</span> Telling the story<br><span>06</span> Your liner notes</div>
+  </div>
+</header>
+
+<!-- 01 -->
+<section class="take" id="t1">
+  <div class="take-head"><span class="no">TAKE 01</span><h2>Song map</h2></div>
+  <p class="task">Match each part of&nbsp;a&nbsp;song to&nbsp;what it&nbsp;does.</p>
+  <div class="pairs" id="parts"></div>
+  <div class="btns"><button class="btn" data-check="parts">Check</button><span class="result" id="r-parts"></span></div>
+</section>
+
+<!-- 02 -->
+<section class="take" id="t2">
+  <div class="take-head"><span class="no">TAKE 02</span><h2>Studio talk</h2></div>
+  <p class="task">Complete the sentences. Use each word once.</p>
+  <div class="bank" id="bank-studio"></div>
+  <ol class="items" id="studio"></ol>
+  <div class="btns"><button class="btn" data-check="studio">Check</button><span class="result" id="r-studio"></span></div>
+</section>
+
+<!-- 03 -->
+<section class="take" id="t3">
+  <div class="take-head"><span class="no">TAKE 03</span><h2>Fact check</h2></div>
+  <p class="task">A&nbsp;music blogger wrote about the six songs from our lesson, but <b>six of&nbsp;the ten highlighted facts are wrong</b>. Mark each one, and correct the wrong ones in&nbsp;a&nbsp;full sentence.</p>
+  <div class="blog" id="blog">
+    <div class="hdr">MIDNIGHT RECORDS BLOG · 6 SONGS, 6 STORIES</div>
+    Paul McCartney got the idea for&nbsp;“Yesterday” <mark>after a&nbsp;long walk in&nbsp;the park</mark><sup>1</sup>. Until he found the real words, he sang it with silly lyrics about <mark>scrambled eggs</mark><sup>2</sup>. Keith Richards recorded the riff of&nbsp;“Satisfaction” <mark>in a&nbsp;big studio in&nbsp;London</mark><sup>3</sup>, and on&nbsp;the tape you can also hear <mark>about forty minutes of&nbsp;him snoring</mark><sup>4</sup>. “Respect” was first written and recorded by <mark>Aretha Franklin herself</mark><sup>5</sup>. Leonard Cohen wrote <mark>only three verses</mark><sup>6</sup> for “Hallelujah”, and the song finally became famous <mark>through other artists’ covers</mark><sup>7</sup>. Kurt Cobain <mark>knew that Teen Spirit was a&nbsp;deodorant</mark><sup>8</sup> when he chose the title. Olivia Rodrigo was <mark>twenty-five</mark><sup>9</sup> when she wrote “drivers license”, and the song <mark>debuted at&nbsp;number one</mark><sup>10</sup> in&nbsp;the U.S.
+  </div>
+  <div class="fixes" id="fixes"></div>
+  <div class="btns"><button class="btn" data-check="fixes">Check</button><span class="result" id="r-fixes"></span></div>
+</section>
+
+<!-- 04 -->
+<section class="take" id="t4">
+  <div class="take-head"><span class="no">TAKE 04</span><h2>Sound like a&nbsp;pro</h2></div>
+  <p class="task">Complete the mini dialogues with the phrases.</p>
+  <div class="bank" id="bank-pro"></div>
+  <div class="dlg" id="pro"></div>
+  <div class="btns"><button class="btn" data-check="pro">Check</button><span class="result" id="r-pro"></span></div>
+</section>
+
+<!-- 05 -->
+<section class="take" id="t5">
+  <div class="take-head"><span class="no">TAKE 05</span><h2>Telling the story</h2></div>
+  <p class="task"><b>Past Simple</b> moves the story forward. <b>Past Continuous</b> sets the scene: what was happening at&nbsp;that moment. Choose the right form.</p>
+  <ol class="items" id="tenses"></ol>
+  <div class="btns"><button class="btn" data-check="tenses">Check</button><span class="result" id="r-tenses"></span></div>
+</section>
+
+<!-- 06 -->
+<section class="take" id="t6">
+  <div class="take-head"><span class="no">TAKE 06</span><h2>Your liner notes</h2></div>
+  <p class="task">Write the story behind a&nbsp;song you love, or one you wrote yourself (<b>80–120 words</b>). Use <b>at&nbsp;least five</b> words or phrases from the bank. They light up when you use them.</p>
+  <div class="bank" id="bank-write"></div>
+  <p class="starter">You can start like this: <i>I first heard this song when I&nbsp;was…</i> or <i>I was sitting in&nbsp;my room when the hook came to&nbsp;me…</i></p>
+  <label for="essay" class="task" style="display:block;margin-top:6px;position:absolute;left:-9999px">Your liner notes</label>
+  <textarea id="essay" placeholder="Write your story here…"></textarea>
+  <div class="meter"><span id="wc">0 words</span><span id="uc">studio words used: <b>0</b> / 5</span></div>
+</section>
+
+<div class="send">
+  <div>
+    <h2>That’s a&nbsp;<span>wrap</span></h2>
+    <p>Press the button, then paste your answers in&nbsp;a&nbsp;message to&nbsp;me.</p>
+    <div class="copied" id="copied" aria-live="polite"></div>
+    <textarea id="fallback" hidden readonly aria-label="Your answers"></textarea>
+  </div>
+  <button class="btn" id="copyAll">Copy my answers</button>
+</div>
+
+</div>
+
+<script>
+const store={get(k,d){try{const v=localStorage.getItem('bts-hw-'+k);return v===null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('bts-hw-'+k,JSON.stringify(v))}catch(e){}}};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const esc=s=>s.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+function opts(list,ph){return `<option value="">${ph||'choose…'}</option>`+list.map(o=>`<option value="${o}">${o}</option>`).join('')}
+function mkSel(key,i,list,ans,ph){const s=document.createElement('select');s.className='g';s.id=key+i;s.dataset.ans=ans;s.dataset.key=key;s.innerHTML=opts(list,ph);s.setAttribute('aria-label',key+' item '+(i+1));
+ const sv=store.get(key,{});if(sv[i])s.value=sv[i];s.addEventListener('change',()=>{s.classList.remove('ok','no-ans');const o=store.get(key,{});o[i]=s.value;store.set(key,o);syncBank(key)});return s}
+function bank(id,words){document.getElementById(id).innerHTML=words.map(w=>`<span data-w="${w}">${w}</span>`).join('')}
+const BANKS={studio:'bank-studio',pro:'bank-pro'};
+function syncBank(key){if(!BANKS[key])return;const used=[...document.querySelectorAll(`select[data-key="${key}"]`)].map(s=>s.value);
+ document.querySelectorAll('#'+BANKS[key]+' span').forEach(sp=>sp.classList.toggle('used',used.includes(sp.dataset.w)))}
+
+/* 01 song map */
+const PARTS=[["plays before the singing starts and sets the mood","intro"],["tells the story: same melody, new words each time","verse"],["builds tension right before the big moment","pre-chorus"],["repeats, and usually has the title and the hook","chorus"],["a new section near the end that gives contrast","bridge"],["how the song ends: a fade-out, a riff or a sudden stop","outro"]];
+const partNames=["bridge","chorus","intro","outro","pre-chorus","verse"];
+const pEl=document.getElementById('parts');
+PARTS.forEach((p,i)=>{const d=document.createElement('div');d.className='pair';const t=document.createElement('div');t.textContent=(i+1)+'. It '+p[0]+'.';d.append(t,mkSel('parts',i,partNames,p[1],'which part?'));pEl.appendChild(d)});
+
+/* 02 studio talk */
+const STUDIO=[
+ ["I came up with a guitar ","riff"," in the shower and played it over and over."],
+ ["Before going to a real studio, I sent my friend a quick ","demo"," I recorded on my phone."],
+ ["Everyone at the party sang the ","hook",", even people who didn’t know the verses."],
+ ["I’ve had ","writer’s block"," for two weeks. I can’t finish a single line."],
+ ["Their acoustic ","cover"," of an 80s song sounds better than the original."],
+ ["The ","bridge"," changes the mood, and then the last chorus comes in really loud."],
+ ["Going viral on TikTok was her big ","breakthrough","."],
+ ["Within a week, the single became a ","chart-topper"," in the U.S."]
+];
+const studioWords=["breakthrough","bridge","chart-topper","cover","demo","hook","riff","writer’s block"];
+bank('bank-studio',studioWords);
+const sEl=document.getElementById('studio');
+STUDIO.forEach((g,i)=>{const li=document.createElement('li');li.append(g[0],mkSel('studio',i,studioWords,g[1]),g[2]);sEl.appendChild(li)});syncBank('studio');
+
+/* 03 fact check */
+const FACTS=[
+ [false,"He woke up with the melody already in his head."],
+ [true,""],
+ [false,"He recorded it on a cassette recorder next to his bed, in the middle of the night."],
+ [true,""],
+ [false,"Otis Redding wrote and recorded it first. Aretha made it famous."],
+ [false,"He wrote dozens of verses, around eighty."],
+ [true,""],
+ [false,"He had no idea that Teen Spirit was a deodorant."],
+ [false,"She was seventeen."],
+ [true,""]
+];
+const fEl=document.getElementById('fixes');const fSaved=store.get('fixtext',{});
+FACTS.forEach((f,i)=>{const d=document.createElement('div');d.className='fix';
+ const n=document.createElement('span');n.className='n';n.textContent=i+1;
+ const s=mkSel('facts',i,["correct","wrong"],f[0]?"correct":"wrong",'correct?');
+ const inp=document.createElement('input');inp.id='fixtext'+i;inp.placeholder='If it’s wrong, write the correct fact';inp.value=fSaved[i]||'';inp.setAttribute('aria-label','Correction for fact '+(i+1));
+ inp.addEventListener('input',()=>{const o=store.get('fixtext',{});o[i]=inp.value;store.set('fixtext',o)});
+ const m=document.createElement('div');m.className='model';m.hidden=true;m.textContent=f[0]?'✓ This fact is correct.':'Model answer: '+f[1];
+ d.append(n,s,inp,m);fEl.appendChild(d)});
+
+/* 04 pro phrases */
+const PRO=[
+ ["Why have you been humming that all day?","Ugh, it’s so catchy. It ","got stuck in my head"," this morning."],
+ ["Do you like their new album?","Mostly, but I’m ","not sold on"," the last two songs."],
+ ["Why do you love that song so much?","It’s about moving to a new country, so it really ","resonates with"," me."],
+ ["Who is this singer? I’ve never heard of her.","Nobody had! She ","came out of nowhere"," last spring."],
+ ["Was the song popular?","Popular? It ","topped the charts"," in twelve countries."],
+ ["What do you like about the arrangement?","The way the verse slowly ","builds up to"," the chorus."],
+ ["I listened to “Hallelujah” again after our lesson.","Right? It ","hits different"," when you know the story."]
+];
+const proWords=["builds up to","came out of nowhere","got stuck in my head","hits different","not sold on","resonates with","topped the charts"];
+bank('bank-pro',proWords);
+const prEl=document.getElementById('pro');
+PRO.forEach((d,i)=>{const box=document.createElement('div');box.className='dl';
+ const a=document.createElement('p');a.innerHTML=`<span class="who">A</span>${esc(d[0])}`;
+ const b=document.createElement('p');b.innerHTML=`<span class="who">B</span>`;b.append(d[1],mkSel('pro',i,proWords,d[2]),d[3]);
+ box.append(a,b);prEl.appendChild(box)});syncBank('pro');
+
+/* 05 tenses */
+const TENSES=[
+ ["Keith Richards ","was sleeping"," when the riff came to him.",["slept","was sleeping"]],
+ ["He ","woke up",", played the riff into the recorder and went back to sleep.",["woke up","was waking up"]],
+ ["While McCartney ","was looking"," for the real words, he sang about scrambled eggs.",["looked","was looking"]],
+ ["Aretha’s version of “Respect” ","came out"," in 1967.",["came out","was coming out"]],
+ ["Cobain ","didn’t know"," that Teen Spirit was a deodorant.",["didn’t know","wasn’t knowing"]],
+ ["Olivia Rodrigo ","wrote"," her first single at seventeen.",["wrote","was writing"]],
+ ["I ","was practicing"," guitar when my sister came in and started singing along.",["practiced","was practicing"]],
+ ["The first time I heard that song, I ","was riding"," in the car with my mom.",["rode","was riding"]]
+];
+const tEl=document.getElementById('tenses');
+TENSES.forEach((g,i)=>{const li=document.createElement('li');li.append(g[0],mkSel('tenses',i,g[3],g[1]),g[2]);tEl.appendChild(li)});
+
+/* check */
+function burst(el){if(reduce)return;const r=el.getBoundingClientRect();const cols=['#F2A541','#E0577A','#A99BC4','#F4EDE4'];const ch=['♪','♫','✦','♬'];
+ for(let i=0;i<18;i++){const s=document.createElement('span');s.className='burst';s.textContent=ch[i%4];s.style.color=cols[i%4];s.style.left=(r.left+r.width/2)+'px';s.style.top=r.top+'px';document.body.appendChild(s);
+  const a=Math.random()*Math.PI*2,d=60+Math.random()*90;s.animate([{transform:'translate(0,0) scale(.6)',opacity:1},{transform:`translate(${Math.cos(a)*d}px,${Math.sin(a)*d-40}px) scale(1.2)`,opacity:0}],{duration:1100+Math.random()*500,easing:'cubic-bezier(0.22,1,0.36,1)',fill:'forwards'}).onfinish=()=>s.remove()}}
+const keyOf={parts:'parts',studio:'studio',fixes:'facts',pro:'pro',tenses:'tenses'};
+document.querySelectorAll('[data-check]').forEach(b=>b.addEventListener('click',()=>{const k=keyOf[b.dataset.check];const sels=[...document.querySelectorAll(`select[data-key="${k}"]`)];let ok=0;
+ sels.forEach(s=>{const r=s.value===s.dataset.ans;s.classList.toggle('ok',r);s.classList.toggle('no-ans',!r&&s.value!=='');if(r)ok++});
+ if(k==='facts')document.querySelectorAll('#fixes .model').forEach(m=>m.hidden=false);
+ const res=document.getElementById('r-'+b.dataset.check);res.textContent=ok===sels.length?'PERFECT TAKE ♪':ok+' / '+sels.length+' · try the others again';if(ok===sels.length)burst(b)}));
+
+/* 06 writing */
+const writeWords=["hook","riff","demo","writer’s block","cover","verse","chorus","bridge","breakthrough","chart-topper","turn into","pour into","anthem","get stuck in my head","resonate with","hit different","come out of nowhere","build up to","top the charts"];
+const stems={"hook":/\bhooks?\b/i,"riff":/\briffs?\b/i,"demo":/\bdemos?\b/i,"writer’s block":/\bwriter[’']?s block\b/i,"cover":/\bcover(s|ed)?\b/i,"verse":/\bverses?\b/i,"chorus":/\bchorus(es)?\b/i,"bridge":/\bbridges?\b/i,"breakthrough":/\bbreakthroughs?\b/i,"chart-topper":/\bchart[- ]toppers?\b/i,"turn into":/\bturn(s|ed|ing)? (it |this |that |them )?into\b/i,"pour into":/\bpour(s|ed|ing)? .{0,30}\binto\b/i,"anthem":/\banthems?\b/i,"get stuck in my head":/\b(get|gets|got|getting) stuck in\b/i,"resonate with":/\bresonat(e|es|ed|ing) with\b/i,"hit different":/\bhit(s)? different\b/i,"come out of nowhere":/\b(come|comes|came|coming) out of nowhere\b/i,"build up to":/\b(build|builds|built|building) up\b/i,"top the charts":/\btop(s|ped|ping)? the charts?\b/i};
+bank('bank-write',writeWords);
+const essay=document.getElementById('essay');essay.value=store.get('essay','');
+function updEssay(){const t=essay.value;const n=t.trim()?t.trim().split(/\s+/).length:0;document.getElementById('wc').textContent=n+(n===1?' word':' words')+(n>=80&&n<=120?' ✓':'');
+ let u=0;document.querySelectorAll('#bank-write span').forEach(sp=>{const on=stems[sp.dataset.w].test(t);sp.style.background=on?'var(--amber)':'';sp.style.color=on?'var(--on-amber)':'';if(on)u++});
+ document.querySelector('#uc b').textContent=u;store.set('essay',t)}
+essay.addEventListener('input',updEssay);updEssay();
+
+
+/* copy */
+function collect(){const L=[];const val=k=>[...document.querySelectorAll(`select[data-key="${k}"]`)].map(s=>s.value||'—');
+ L.push('BACK IN THE STUDIO · Vasilisa’s homework','');
+ L.push('TAKE 01 · Song map');val('parts').forEach((v,i)=>L.push(`${i+1}. ${v}`));L.push('');
+ L.push('TAKE 02 · Studio talk');val('studio').forEach((v,i)=>L.push(`${i+1}. ${v}`));L.push('');
+ L.push('TAKE 03 · Fact check');const fv=val('facts');fv.forEach((v,i)=>{const fx=document.getElementById('fixtext'+i).value.trim();L.push(`${i+1}. ${v}${fx?' → '+fx:''}`)});L.push('');
+ L.push('TAKE 04 · Sound like a pro');val('pro').forEach((v,i)=>L.push(`${i+1}. ${v}`));L.push('');
+ L.push('TAKE 05 · Telling the story');val('tenses').forEach((v,i)=>L.push(`${i+1}. ${v}`));L.push('');
+ L.push('TAKE 06 · Your liner notes');L.push(essay.value.trim()||'—');L.push('');
+return L.join('\n')}
+document.getElementById('copyAll').addEventListener('click',e=>{const text=collect();const msg=document.getElementById('copied'),fb=document.getElementById('fallback');
+ const fallback=()=>{fb.hidden=false;fb.value=text;fb.focus();fb.select();msg.textContent='Select all the text below and copy it.'};
+ try{navigator.clipboard.writeText(text).then(()=>{msg.textContent='COPIED ♪ Now paste it in a message to me.';fb.hidden=true;burst(e.currentTarget)}).catch(fallback)}catch(err){fallback()}});
+</script>
+
+</body>
+</html>
