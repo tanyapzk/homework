@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Book Club Homework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: same night-road thriller look as the Five Survive lesson; full-width bands, large low-vision-friendly text, every word list sits beside (or right above on a phone) the task that uses it. Single light look on purpose. */
+:root{
+  --page:#F2F3F5;
+  --night:#10151D;
+  --ink:#141A22;
+  --slate:#4B5563;
+  --laser:#E0263A;
+  --amber:#F5B700;
+  --card:#FFFFFF;
+  --rule:#D5D9E0;
+  --ok:#0F7B5F;
+  --oksoft:#D9F2EA;
+  --nosoft:#FCE3E5;
+  --display:"Anton","Impact","Arial Narrow",sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:clamp(18px,1.3vw,24px);line-height:1.45;margin:0}
+h1,h2{font-family:var(--display);font-weight:400;margin:0;letter-spacing:.01em;text-wrap:balance;line-height:1.02}
+h3{margin:0;font-size:.82em;font-weight:700;text-transform:uppercase;letter-spacing:.09em}
+p{margin:0}
+.band{padding-inline:clamp(16px,3vw,60px);padding-block:clamp(28px,4vw,52px);display:flex;flex-direction:column;gap:clamp(16px,1.8vw,26px)}
+.band + .band{border-top:6px solid var(--night)}
+.label{display:flex;align-items:center;gap:12px;color:var(--laser);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.8em}
+.label::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--laser);box-shadow:0 0 0 6px rgba(224,38,58,.18)}
+.band h2{font-size:clamp(2rem,4vw,4rem)}
+.lead{color:var(--slate);max-width:72ch}
+
+.hero{background:var(--night);color:#fff}
+.hero h1{font-size:clamp(3rem,7.5vw,7rem)}
+.hero h1 span{color:var(--amber)}
+.hero .lead{color:#C9D0DA}
+
+.split{display:grid;grid-template-columns:minmax(min(100%,300px),1fr) minmax(0,2.2fr);gap:clamp(16px,2vw,32px);align-items:start}
+.bank{background:var(--night);color:#fff;padding:18px 20px;display:flex;flex-direction:column;gap:10px;position:sticky;top:12px}
+@media (max-width:820px){.split{grid-template-columns:1fr}.bank{position:static}}
+.bank h3{color:var(--amber)}
+.bank ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px}
+.bank li{font-weight:700}
+.bank li i{display:block;font-weight:400;color:#C9D0DA;font-size:.85em}
+.bank li.used{color:var(--amber)}
+.bank li.used::marker{content:"✓ "}
+
+.qlist{display:flex;flex-direction:column;gap:14px;min-width:0}
+.q{background:var(--card);border:2px solid var(--rule);padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.qtext .n{font-family:var(--display);color:var(--laser);margin-right:10px}
+.gap{display:inline-block;min-width:5em;border-bottom:3px solid var(--night);text-align:center;font-weight:700;color:var(--laser)}
+.opts{display:flex;flex-wrap:wrap;gap:10px}
+.opt{font:inherit;font-size:.95em;text-align:left;background:var(--page);color:var(--ink);border:2px solid var(--rule);padding:8px 14px;cursor:pointer;max-width:100%}
+.opt:hover{border-color:var(--night)}
+.opt.right{background:var(--oksoft);border-color:var(--ok);font-weight:700}
+.opt.wrong{background:var(--nosoft);border-color:var(--laser);color:var(--laser);text-decoration:line-through}
+.opt:disabled{cursor:default}
+.fb{font-size:.88em;font-weight:700}
+.fb.ok{color:var(--ok)}
+.fb.no{color:var(--laser)}
+.score{align-self:flex-start;background:var(--amber);color:var(--night);font-weight:700;padding:4px 14px;font-variant-numeric:tabular-nums}
+
+textarea{font:inherit;width:100%;min-height:90px;border:2px solid var(--rule);padding:12px 14px;background:var(--page);color:var(--ink);resize:vertical}
+textarea:focus{border-color:var(--night);outline:none}
+textarea.long{min-height:260px}
+button:focus-visible,a:focus-visible,textarea:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.starter{font-weight:700}
+.meter{display:flex;flex-wrap:wrap;gap:14px;font-weight:700;color:var(--slate);font-variant-numeric:tabular-nums}
+.meter b{color:var(--laser)}
+
+.study{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:clamp(14px,1.6vw,26px)}
+.scol{display:flex;flex-direction:column;gap:10px;min-width:0}
+.scol h3{color:var(--night);border-bottom:3px solid var(--amber);padding-bottom:6px;margin-bottom:4px}
+.ph{background:var(--card);border-left:6px solid var(--night);padding:10px 14px;display:flex;flex-direction:column;gap:2px}
+.ph b{font-weight:700}
+.ph i{color:var(--slate);font-size:.88em}
+.btn{font:inherit;font-weight:700;background:var(--amber);color:var(--night);border:0;padding:14px 26px;cursor:pointer;align-self:flex-start}
+#copied{color:var(--ok);font-weight:700}
+#copyBox{min-height:220px;font-size:.85em}
+</style>
+
+<section class="band hero">
+  <p class="label">Homework</p>
+  <h1>Book club<br><span>homework</span></h1>
+  <p class="lead">Practise the phrases from our lesson: describing books and giving your opinion. It takes about 30 minutes. Your written answers are saved on this device, so you can stop and come back later.</p>
+</section>
+
+<!-- study -->
+<section class="band">
+  <p class="label">Start here</p>
+  <h2>Words to learn</h2>
+  <p class="lead">Read all the phrases and examples first. Try saying each example out loud. You'll need them in every task.</p>
+  <div class="study">
+    <div class="scol">
+      <h3>The story</h3>
+      <div class="ph"><b>It's a real page-turner.</b><i>I read it in two evenings. It's a real page-turner.</i></div>
+      <div class="ph"><b>The plot is gripping.</b><i>The plot is gripping from the very first chapter.</i></div>
+      <div class="ph"><b>It's fast-paced / slow-paced.</b><i>It's quite slow-paced at first, but then it speeds up.</i></div>
+      <div class="ph"><b>There's a plot twist.</b><i>There's a huge plot twist in the middle.</i></div>
+      <div class="ph"><b>It's a bit predictable.</b><i>I guessed the ending. It's a bit predictable.</i></div>
+    </div>
+    <div class="scol">
+      <h3>The characters</h3>
+      <div class="ph"><b>The characters feel real.</b><i>The characters feel real, like people I know.</i></div>
+      <div class="ph"><b>I can relate to…</b><i>I can relate to Red. She's going through a lot.</i></div>
+      <div class="ph"><b>I can't stand…</b><i>I can't stand characters who lie all the time.</i></div>
+      <div class="ph"><b>It's told from … point of view.</b><i>It's told from Red's point of view.</i></div>
+      <div class="ph"><b>The main character is…</b><i>The main character is an 18-year-old girl.</i></div>
+    </div>
+    <div class="scol">
+      <h3>How it makes you feel</h3>
+      <div class="ph"><b>It keeps you on the edge of your seat.</b><i>Every chapter keeps you on the edge of your seat.</i></div>
+      <div class="ph"><b>I couldn't put it down.</b><i>I couldn't put it down until 2 a.m.</i></div>
+      <div class="ph"><b>It's a bit creepy.</b><i>Reading it at night is a bit creepy.</i></div>
+      <div class="ph"><b>It didn't grab me.</b><i>The first book didn't grab me, so I stopped.</i></div>
+      <div class="ph"><b>It stayed with me.</b><i>The ending stayed with me for days.</i></div>
+    </div>
+  </div>
+  <div class="study">
+    <div class="scol">
+      <h3>Your opinion</h3>
+      <div class="ph"><b>Personally, …</b><i>Personally, I prefer thrillers to romance.</i></div>
+      <div class="ph"><b>If you ask me, …</b><i>If you ask me, the cover is the best part.</i></div>
+      <div class="ph"><b>The way I see it, …</b><i>The way I see it, a good book needs good characters.</i></div>
+      <div class="ph"><b>As far as I'm concerned, …</b><i>As far as I'm concerned, long books are worth it.</i></div>
+    </div>
+    <div class="scol">
+      <h3>Two sides</h3>
+      <div class="ph"><b>On the one hand, … On the other hand, …</b><i>On the one hand, it's exciting. On the other hand, it's very dark.</i></div>
+      <div class="ph"><b>That said, …</b><i>It's slow. That said, the ending is great.</i></div>
+      <div class="ph"><b>Then again, …</b><i>I don't like YA books. Then again, this one is different.</i></div>
+      <div class="ph"><b>Even so, …</b><i>I guessed the twist. Even so, I enjoyed it.</i></div>
+    </div>
+    <div class="scol">
+      <h3>Adding a point</h3>
+      <div class="ph"><b>What's more, …</b><i>The plot is clever. What's more, it's funny.</i></div>
+      <div class="ph"><b>On top of that, …</b><i>It's too long. On top of that, the ending is weak.</i></div>
+      <div class="ph"><b>Not only that, but…</b><i>Not only that, but the characters are great too.</i></div>
+      <div class="ph"><b>For instance, …</b><i>Some scenes are scary. For instance, the first night.</i></div>
+    </div>
+    <div class="scol">
+      <h3>Being honest</h3>
+      <div class="ph"><b>To be honest, …</b><i>To be honest, I skipped a few pages.</i></div>
+      <div class="ph"><b>I might be wrong, but…</b><i>I might be wrong, but I think Simon knows something.</i></div>
+      <div class="ph"><b>The thing is, …</b><i>The thing is, I don't trust anyone in this book.</i></div>
+      <div class="ph"><b>I'm not sure, but…</b><i>I'm not sure, but I think it's based on a true story.</i></div>
+    </div>
+    <div class="scol">
+      <h3>Guessing</h3>
+      <div class="ph"><b>My guess is that…</b><i>My guess is that the secret is about money.</i></div>
+      <div class="ph"><b>I have a feeling that…</b><i>I have a feeling that Maddy is hiding something.</i></div>
+      <div class="ph"><b>I bet…</b><i>I bet there's a big twist at the end.</i></div>
+      <div class="ph"><b>It wouldn't surprise me if…</b><i>It wouldn't surprise me if Arthur knew more.</i></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1 -->
+<section class="band">
+  <p class="label">Task 1</p>
+  <h2>Describe the book</h2>
+  <p class="lead">Choose the phrase that fits each sentence.</p>
+  <span class="score" id="s1"></span>
+  <div class="qlist" id="q1"></div>
+</section>
+
+<!-- 2 -->
+<section class="band">
+  <p class="label">Task 2</p>
+  <h2>Good sign or bad sign?</h2>
+  <p class="lead">A friend describes a book. Does it sound like she liked it, didn't like it, or could it be both?</p>
+  <span class="score" id="s2"></span>
+  <div class="qlist" id="q2"></div>
+</section>
+
+<!-- 3 -->
+<section class="band">
+  <p class="label">Task 3</p>
+  <h2>Which phrase fits?</h2>
+  <p class="lead">Read both parts. Do you need to add a point, show the other side, or give an example? Choose the best phrase.</p>
+  <div class="split">
+    <div class="bank">
+      <h3>Remember</h3>
+      <ul>
+        <li>What's more / On top of that<i>add another point</i></li>
+        <li>That said / Then again / Even so<i>show the other side</i></li>
+        <li>For instance<i>give an example</i></li>
+        <li>If you ask me / Personally<i>give your opinion</i></li>
+        <li>To be honest / The thing is<i>say something honest</i></li>
+      </ul>
+    </div>
+    <div class="qlist">
+      <span class="score" id="s3"></span>
+      <div class="qlist" id="q3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="band">
+  <p class="label">Task 4</p>
+  <h2>Finish the sentences</h2>
+  <p class="lead">Finish each sentence about <b>Five Survive</b> (or another book you're reading). Write what you really think.</p>
+  <div class="qlist">
+    <div class="q"><p class="starter">Personally, I think the main character …</p><textarea id="f1"></textarea></div>
+    <div class="q"><p class="starter">On the one hand, the story is … On the other hand, …</p><textarea id="f2"></textarea></div>
+    <div class="q"><p class="starter">The plot is gripping. What's more, …</p><textarea id="f3"></textarea></div>
+    <div class="q"><p class="starter">I might be wrong, but I have a feeling that the secret …</p><textarea id="f4"></textarea></div>
+    <div class="q"><p class="starter">Some parts are a bit creepy. For instance, …</p><textarea id="f5"></textarea></div>
+    <div class="q"><p class="starter">To be honest, I didn't expect …</p><textarea id="f6"></textarea></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="band">
+  <p class="label">Task 5</p>
+  <h2>Write a short review</h2>
+  <p class="lead">Write a review of <b>Five Survive</b> so far: 80–120 words. Use at least <b>3 phrases to describe the book</b> and <b>3 opinion phrases</b>. The lists tick themselves when you use a phrase.</p>
+  <div class="split">
+    <div class="bank" id="bank5">
+      <h3>Describe the book</h3>
+      <ul id="descList"></ul>
+      <h3>Your opinion</h3>
+      <ul id="opList"></ul>
+    </div>
+    <div class="qlist">
+      <textarea class="long" id="review" placeholder="Five Survive is a thriller by Holly Jackson. It's about…"></textarea>
+      <p class="meter"><span>Words: <b id="wc">0</b></span><span>Book phrases: <b id="dc">0</b>/3</span><span>Opinion phrases: <b id="oc">0</b>/3</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- done -->
+<section class="band">
+  <p class="label">Finished?</p>
+  <h2>Send it to me</h2>
+  <p class="lead">Tap the button to copy all your answers, then paste them into a message to me. You can also send a voice message reading your review out loud.</p>
+  <button class="btn" id="copy">Copy my answers</button>
+  <span id="copied" hidden></span>
+  <textarea id="copyBox" hidden readonly aria-label="Your answers"></textarea>
+</section>
+
+<script>
+var store={get:function(k){try{return localStorage.getItem(k);}catch(e){return null;}},set:function(k,v){try{localStorage.setItem(k,v);}catch(e){}}};
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+var results={};
+function buildQuiz(id,scoreId,items,keepOrder){
+  var box=document.getElementById(id),first={};
+  function upd(){var n=Object.keys(first).length,ok=0;for(var k in first)if(first[k])ok++;
+    document.getElementById(scoreId).textContent=ok+' / '+items.length+' correct first time'+(n<items.length?' · '+(items.length-n)+' left':'');
+    results[id]=ok+'/'+items.length;}
+  items.forEach(function(it,i){
+    var q=document.createElement('div');q.className='q';
+    var t=document.createElement('p');t.className='qtext';t.innerHTML='<span class="n">'+(i+1)+'</span>'+it.q.replace('___','<span class="gap">?</span>');
+    var o=document.createElement('div');o.className='opts';
+    var fb=document.createElement('p');fb.className='fb';
+    (keepOrder?it.o:shuffle(it.o)).forEach(function(txt){
+      var b=document.createElement('button');b.className='opt';b.textContent=txt;
+      b.addEventListener('click',function(){
+        var right=txt===it.a;
+        if(!(i in first))first[i]=right;
+        if(right){b.classList.add('right');o.querySelectorAll('.opt').forEach(function(x){x.disabled=true;});
+          var g=t.querySelector('.gap');if(g)g.textContent=txt;
+          fb.className='fb ok';fb.textContent=it.why||'Yes!';}
+        else{b.classList.add('wrong');b.disabled=true;fb.className='fb no';fb.textContent='Not quite. Try again.';}
+        upd();
+      });
+      o.append(b);
+    });
+    q.append(t,o,fb);box.append(q);
+  });
+  upd();
+}
+function mc(q,a,others,why){return {q:q,a:a,o:[a].concat(others),why:why};}
+
+buildQuiz('q1','s1',[
+  mc("I started it on Friday and finished it on Saturday morning. It's a real ___.","page-turner",["plot twist","point of view"]),
+  mc("I guessed the ending on page 50. The story is a bit ___.","predictable",["gripping","creepy"]),
+  mc("The story is ___ from Red's point of view.","told",["said","written about"]),
+  mc("Nothing happens for the first hundred pages. It's quite ___.","slow-paced",["fast-paced","on the edge of your seat"]),
+  mc("I really ___ the main character. I've felt exactly like her.","can relate to",["can't stand","couldn't put down"]),
+  mc("It was so exciting that I ___ until two in the morning.","couldn't put it down",["didn't grab me","stayed with me"]),
+  mc("Halfway through, there's a huge ___ that changes everything.","plot twist",["page-turner","point of view"]),
+  mc("I finished it a month ago, but it's ___. I still think about it.","stayed with me",["didn't grab me","a bit predictable"])
+]);
+
+buildQuiz('q2','s2',[
+  mc("“It kept me on the edge of my seat.”","liked it",["didn't like it","could be both"]),
+  mc("“To be honest, it didn't grab me.”","didn't like it",["liked it","could be both"]),
+  mc("“It's quite slow-paced.”","could be both",["liked it","didn't like it"],"Yes! Some people love slow, quiet books."),
+  mc("“The characters feel so real.”","liked it",["didn't like it","could be both"]),
+  mc("“It's a bit predictable.”","didn't like it",["liked it","could be both"]),
+  mc("“It's really creepy.”","could be both",["liked it","didn't like it"],"Yes! Creepy is great in a thriller, but not for everyone."),
+  mc("“I couldn't put it down.”","liked it",["didn't like it","could be both"]),
+  mc("“I can't stand the main character.”","didn't like it",["liked it","could be both"])
+],true);
+
+buildQuiz('q3','s3',[
+  mc("The plot is gripping. ___, the characters are funny and easy to like.","What's more",["That said","For instance"],"Yes! You're adding another good point."),
+  mc("The book is a bit long. ___, I enjoyed every chapter.","Even so",["What's more","For instance"],"Yes! You're showing the other side."),
+  mc("Some scenes are really scary. ___, the moment they hear the first shot.","For instance",["Then again","On top of that"]),
+  mc("___, the book is always better than the film.","If you ask me",["For instance","Then again"]),
+  mc("The ending was weak. ___, the last chapter felt rushed.","On top of that",["That said","Even so"],"Yes! You're adding another bad point."),
+  mc("I don't usually read books for teenagers. ___, this one is really well written.","That said",["What's more","For instance"]),
+  mc("___, I skipped a few boring pages. Don't tell anyone!","To be honest",["For instance","On top of that"]),
+  mc("I love thrillers. ___, I can't read them before bed.","Then again",["What's more","For instance"])
+]);
+
+/* saved text answers */
+var fields=['f1','f2','f3','f4','f5','f6','review'];
+fields.forEach(function(id){
+  var el=document.getElementById(id),saved=store.get('bk-'+id);
+  if(saved)el.value=saved;
+  el.addEventListener('input',function(){store.set('bk-'+id,el.value);});
+});
+
+/* review checker */
+var desc=[["page-turner"],["gripping"],["fast-paced","slow-paced"],["plot twist"],["predictable"],["feel real","feels real"],["relate to"],["can't stand"],["point of view"],["edge of my seat","edge of your seat"],["couldn't put it down","can't put it down"],["creepy"],["didn't grab me","doesn't grab me"],["stayed with me"]];
+var descLabel=["It's a real page-turner","The plot is gripping","fast-paced / slow-paced","There's a plot twist","It's a bit predictable","The characters feel real","I can relate to…","I can't stand…","told from … point of view","on the edge of my seat","I couldn't put it down","It's a bit creepy","It didn't grab me","It stayed with me"];
+var op=[["personally"],["if you ask me"],["the way i see it"],["as far as i'm concerned"],["on the one hand"],["on the other hand"],["that said"],["then again"],["even so"],["what's more"],["on top of that"],["not only that"],["for instance"],["to be honest"],["i might be wrong"],["the thing is"],["my guess is"],["i have a feeling"],["i bet"],["it wouldn't surprise me"]];
+var opLabel=["Personally","If you ask me","The way I see it","As far as I'm concerned","On the one hand","On the other hand","That said","Then again","Even so","What's more","On top of that","Not only that, but","For instance","To be honest","I might be wrong, but","The thing is","My guess is that","I have a feeling that","I bet","It wouldn't surprise me if"];
+function fill(ul,labels){labels.forEach(function(l){var li=document.createElement('li');li.textContent=l;ul.append(li);});}
+fill(document.getElementById('descList'),descLabel);fill(document.getElementById('opList'),opLabel);
+function norm(s){return s.toLowerCase().replace(/[’‘]/g,"'");}
+function check(){
+  var t=norm(document.getElementById('review').value);
+  var words=t.trim()?t.trim().split(/\s+/).length:0;
+  function mark(listId,keys){var c=0;document.querySelectorAll('#'+listId+' li').forEach(function(li,i){
+    var hit=keys[i].some(function(k){return t.indexOf(k)>-1;});li.classList.toggle('used',hit);if(hit)c++;});return c;}
+  var d=mark('descList',desc),o=mark('opList',op);
+  document.getElementById('wc').textContent=words;
+  document.getElementById('dc').textContent=d;
+  document.getElementById('oc').textContent=o;
+  results.review=words+' words, '+d+' book phrases, '+o+' opinion phrases';
+}
+document.getElementById('review').addEventListener('input',check);check();
+
+/* copy */
+document.getElementById('copy').addEventListener('click',function(){
+  var out=['Book club homework',''];
+  out.push('Task 1: '+(results.q1||'-')+' · Task 2: '+(results.q2||'-')+' · Task 3: '+(results.q3||'-')+' (correct first time)','');
+  out.push('TASK 4. Finish the sentences');
+  document.querySelectorAll('.starter').forEach(function(s,i){out.push((i+1)+'. '+s.textContent);out.push('   '+(document.getElementById('f'+(i+1)).value.trim()||'(no answer)'));});
+  out.push('','TASK 5. Review ('+results.review+')');
+  out.push(document.getElementById('review').value.trim()||'(no answer)');
+  var text=out.join('\n'),box=document.getElementById('copyBox'),msg=document.getElementById('copied');
+  function fallback(){box.hidden=false;box.value=text;box.focus();box.select();msg.hidden=false;msg.textContent='Select all the text below and copy it.';}
+  try{navigator.clipboard.writeText(text).then(function(){msg.hidden=false;msg.textContent='Copied! Now paste it into a message.';},fallback);}catch(e){fallback();}
+});
+</script>
+
+</body>
+</html>
