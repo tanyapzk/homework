@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>New York Inbox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a desktop mail client — folder rail · message list · reading pane; stacks on narrow screens */
+:root{
+  --bg:#ECEBE6; --panel:#FBFAF7; --panel-2:#F4F2EC; --ink:#16181B; --muted:#6C6861; --line:#DCD8CE;
+  --accent:#2338A8; --accent-soft:#E4E8FB; --accent-ink:#FFFFFF;
+  --ok:#25704A; --ok-soft:#E1F1E7; --no:#AE3328; --no-soft:#F8E3E0; --hl:#FFF0B8;
+  --display:"Instrument Serif","Iowan Old Style",Georgia,serif;
+  --sans:"Geist",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"Geist Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --ease:cubic-bezier(0.22,1,0.36,1);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121417; --panel:#1A1D21; --panel-2:#20242A; --ink:#ECEAE4; --muted:#9A968E; --line:#2E333A;
+  --accent:#8EA0FF; --accent-soft:#252C4F; --accent-ink:#0E1022;
+  --ok:#6FCF97; --ok-soft:#1B3326; --no:#F08A7E; --no-soft:#3A2220; --hl:#4A4220; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121417; --panel:#1A1D21; --panel-2:#20242A; --ink:#ECEAE4; --muted:#9A968E; --line:#2E333A;
+  --accent:#8EA0FF; --accent-soft:#252C4F; --accent-ink:#0E1022;
+  --ok:#6FCF97; --ok-soft:#1B3326; --no:#F08A7E; --no-soft:#3A2220; --hl:#4A4220; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.shell{height:100%;padding-inline:16px;padding-block:16px;display:flex}
+.app{flex:1;min-height:0;display:grid;grid-template-columns:210px 340px minmax(0,1fr);background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;max-width:1440px;margin:0 auto;width:100%}
+
+/* rail */
+.rail{background:var(--panel-2);border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:18px;min-width:0;overflow:auto}
+.brand{display:flex;flex-direction:column;gap:2px}
+.brand b{font-family:var(--display);font-size:30px;font-weight:400;line-height:1;letter-spacing:-.01em}
+.brand span{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.folders{display:grid;gap:2px}
+.folder{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:8px;font-weight:500;font-size:14px}
+.folder.on{background:var(--panel);box-shadow:0 0 0 1px var(--line)}
+.folder .ct{font-family:var(--mono);font-size:12px;color:var(--accent);font-variant-numeric:tabular-nums}
+.folder.dim{color:var(--muted)}
+.prog{display:grid;gap:8px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.prog-top{display:flex;justify-content:space-between;align-items:baseline;font-size:13px}
+.prog-top b{font-family:var(--mono);font-weight:500;font-variant-numeric:tabular-nums}
+.bar{height:6px;border-radius:99px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .6s var(--ease)}
+.btn{border:0;background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:9px 14px;font-weight:600;font-size:14px;transition:filter .3s var(--ease),transform .3s var(--ease)}
+.btn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 1px var(--muted)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.rail h4{margin:0;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.words{display:flex;flex-wrap:wrap;gap:5px}
+.wchip{border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:3px 7px;font-size:12.5px}
+.wchip:hover{border-color:var(--accent);color:var(--accent)}
+.rail-foot{margin-top:auto;display:grid;gap:8px}
+.copied{font-size:12.5px;color:var(--ok);min-height:1.2em}
+.reset{background:none;border:0;padding:0;font-size:12px;color:var(--muted);text-decoration:underline;justify-self:start}
+
+/* list */
+.list{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0;min-height:0}
+.list-head{padding:16px 16px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline}
+.list-head h2{margin:0;font-size:15px;font-weight:600}
+.list-head span{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.msgs{overflow:auto;flex:1}
+.msg{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:13px 16px;position:relative;transition:background .25s var(--ease)}
+.msg:hover{background:var(--panel-2)}
+.msg.sel{background:var(--accent-soft)}
+.msg .av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:600;color:#fff}
+.msg .meta{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.msg .from{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg .time{font-family:var(--mono);font-size:11.5px;color:var(--muted);flex:none}
+.msg .subj{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg .prev{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg.unread .subj{font-weight:600}
+.msg.unread::before{content:"";position:absolute;left:6px;top:24px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.msg .state{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;margin-top:4px;color:var(--muted)}
+.msg .state.done{color:var(--ok)}
+
+/* reader */
+.reader{min-width:0;min-height:0;overflow:auto;background:var(--panel)}
+.letter{max-width:760px;margin:0 auto;padding:32px 40px 64px;display:grid;gap:22px}
+.subject{font-family:var(--display);font-size:clamp(30px,3.2vw,42px);line-height:1.05;font-weight:400;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.hdr{display:flex;gap:12px;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.hdr .av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:600;color:#fff;flex:none}
+.hdr .who{display:grid;min-width:0}
+.hdr .who b{font-size:15px}
+.hdr .who span{font-size:13px;color:var(--muted)}
+.hdr .when{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.body p{margin:0 0 12px;max-width:66ch}
+.body{font-size:16px}
+.w{background:none;border:0;padding:0 1px;font:inherit;color:inherit;border-bottom:1.5px dotted var(--accent);background-image:linear-gradient(var(--accent-soft),var(--accent-soft));background-size:100% 40%;background-repeat:no-repeat;background-position:0 90%;cursor:help}
+.w:hover{color:var(--accent)}
+.hint{font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center}
+.hint i{display:inline-block;width:22px;height:0;border-bottom:1.5px dotted var(--accent)}
+
+.task{border:1px solid var(--line);border-radius:12px;background:var(--panel-2);padding:18px 20px;display:grid;gap:14px}
+.task-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.task-h h3{margin:0;font-size:15px;font-weight:600}
+.task-h .sc{font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.q{display:grid;gap:8px;padding-top:12px;border-top:1px solid var(--line)}
+.q:first-of-type{border-top:0;padding-top:0}
+.q p{margin:0;font-weight:500}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 12px;font-size:14px;text-align:left;transition:border-color .25s var(--ease),background .25s var(--ease)}
+.opt:hover{border-color:var(--accent)}
+.opt.right{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.opt.wrong{background:var(--no-soft);border-color:var(--no);color:var(--no);animation:nudge .3s var(--ease)}
+@keyframes nudge{30%{transform:translateX(-3px)}70%{transform:translateX(3px)}}
+.fb{font-size:13.5px;color:var(--muted)}
+.fb b{color:var(--ink)}
+.match{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr) 24px;gap:8px 12px;align-items:center}
+.match .term{font-weight:600}
+.match select{width:100%;font:inherit;font-size:14px;padding:7px 8px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.match select.ok{border-color:var(--ok);background:var(--ok-soft)}
+.match select.bad{border-color:var(--no);background:var(--no-soft)}
+.mk{font-family:var(--mono);font-size:13px}
+.mk.ok{color:var(--ok)} .mk.bad{color:var(--no)}
+.gap{display:inline-block;min-width:90px;border-bottom:1.5px solid var(--muted);text-align:center;font-weight:600;padding:0 4px}
+.gap.filled{border-color:var(--ok);color:var(--ok)}
+
+.voice{display:flex;gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--panel)}
+.play{width:44px;height:44px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;flex:none}
+.wave{flex:1;display:flex;gap:3px;align-items:center;height:30px;min-width:0;overflow:hidden}
+.wave i{flex:1;min-width:2px;max-width:5px;border-radius:2px;background:var(--line)}
+.voice.on .wave i{background:var(--accent);animation:bob 1s var(--ease) infinite alternate}
+@keyframes bob{to{transform:scaleY(.4)}}
+.vctl{display:flex;gap:6px;flex-wrap:wrap}
+.pill{border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:4px 10px;font-size:12.5px}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.transcript{border-left:2px solid var(--accent);padding:4px 0 4px 14px;color:var(--ink)}
+.transcript p{margin:0 0 8px}
+
+textarea{width:100%;min-height:200px;font:inherit;font-size:15px;line-height:1.6;padding:14px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--ink);resize:vertical}
+.used{display:flex;flex-wrap:wrap;gap:6px}
+.used span{font-size:12.5px;padding:3px 9px;border-radius:99px;border:1px solid var(--line);color:var(--muted);transition:all .3s var(--ease)}
+.used span.on{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.prompts{margin:0;padding-left:20px;display:grid;gap:4px}
+.wc{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.next{justify-self:start}
+.sig{color:var(--muted);font-size:14px}
+
+.writer{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,280px);gap:14px;align-items:start}
+.pbank{position:sticky;top:12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:8px}
+.pbank h4{margin:0;font-family:var(--mono);font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.vidlink{display:flex;gap:14px;align-items:center;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--panel);transition:border-color .3s var(--ease)}
+.vidlink:hover{border-color:var(--accent)}
+.vidlink .vplay{width:48px;height:48px;border-radius:12px;background:#E5322D;color:#fff;display:grid;place-items:center;font-size:18px;flex:none}
+.vidlink b{display:block;font-size:16px}
+.vidlink span span{font-size:13px;color:var(--muted)}
+@media (max-width:760px){.writer{grid-template-columns:1fr}.pbank{position:static}}
+/* popover */
+.pop{position:fixed;z-index:20;width:300px;max-width:calc(100vw - 32px);background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 14px 40px rgba(0,0,0,.16);padding:14px 16px;display:grid;gap:6px}
+.pop b{font-family:var(--display);font-size:24px;font-weight:400;line-height:1.1}
+.pop .ru{font-size:13px;color:var(--muted)}
+.pop .ex{font-size:14px;border-top:1px solid var(--line);padding-top:8px}
+.pop .ex em{font-style:normal;background:var(--hl);padding:0 2px;border-radius:2px}
+
+@media (max-width:1060px){
+  .app{grid-template-columns:300px minmax(0,1fr)}
+  .rail{grid-column:1/-1;border-right:0;border-bottom:1px solid var(--line);flex-direction:row;flex-wrap:wrap;align-items:flex-start}
+  .rail .words-wrap{display:none}
+  .rail-foot{margin-top:0}
+}
+@media (max-width:760px){
+  .shell{height:auto;display:block}
+  .app{display:block}
+  .msgs{max-height:none}
+  .list{border-right:0;border-bottom:1px solid var(--line)}
+  .letter{padding:24px 18px 48px}
+  .match{grid-template-columns:1fr 24px}
+  .match .term{grid-column:1/-1}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+<div class="app">
+  <aside class="rail">
+    <div class="brand"><b>Inbox</b><span>New York week</span></div>
+    <nav class="folders" aria-label="Folders">
+      <div class="folder on">Inbox <span class="ct" id="unreadCt"></span></div>
+      <div class="folder dim">Sent</div>
+      <div class="folder dim">Drafts</div>
+    </nav>
+    <div class="prog">
+      <div class="prog-top"><span>Tasks done</span><b id="progTxt">0 / 6</b></div>
+      <div class="bar"><i id="progBar"></i></div>
+    </div>
+    <div class="words-wrap" style="display:grid;gap:8px">
+      <h4>New words</h4>
+      <div class="words" id="railWords"></div>
+    </div>
+    <div class="rail-foot">
+      <button class="btn" id="copyBtn" type="button">Copy my answers</button>
+      <p class="copied" id="copyMsg" aria-live="polite"></p>
+      <textarea id="copyFallback" hidden readonly aria-label="Your answers"></textarea>
+      <button class="reset" id="resetBtn" type="button">Start over</button>
+    </div>
+  </aside>
+
+  <section class="list" aria-label="Messages">
+    <div class="list-head"><h2>Inbox</h2><span id="todayLbl">Mon</span></div>
+    <div class="msgs" id="msgs"></div>
+  </section>
+
+  <main class="reader" id="reader" aria-live="polite"></main>
+</div>
+</div>
+
+<div class="pop" id="pop" hidden role="dialog" aria-label="Word meaning"></div>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+
+/* ---------- glossary ---------- */
+const G={
+ implement:{w:"implement",d:"to start using a new plan, system or rule",ru:"внедрить",ex:"The city <em>implemented</em> the new toll in January 2025."},
+ inplace:{w:"put something in place",d:"to set up a rule or system so it starts working",ru:"ввести, наладить",ex:"Cameras were <em>put in place</em> at every entry point."},
+ transform:{w:"transform",d:"to change something completely",ru:"кардинально изменить",ex:"Supporters say it could <em>transform</em> Midtown."},
+ resist:{w:"resist change",d:"to try to stop a change or not accept it",ru:"сопротивляться переменам",ex:"Many drivers <em>resisted</em> the idea at first."},
+ embrace:{w:"embrace change",d:"to accept change happily",ru:"принимать перемены",ex:"Bus riders quickly <em>embraced</em> it."},
+ objections:{w:"anticipate objections",d:"to expect people to disagree and prepare for it",ru:"предвидеть возражения",ex:"Planners <em>anticipated objections</em> from New Jersey."},
+ assess:{w:"assess the impact",d:"to look carefully at the results and judge them",ru:"оценить влияние",ex:"Experts are still <em>assessing the impact</em>."},
+ accommodate:{w:"accommodate the needs of",d:"to change plans to fit what a group needs",ru:"учитывать потребности",ex:"Discounts <em>accommodate the needs of</em> low-income drivers."},
+ facilitate:{w:"facilitate",d:"to make something easier or help it happen",ru:"способствовать, облегчать",ex:"The money will <em>facilitate</em> subway repairs."},
+ efficient:{w:"efficient",d:"working well without wasting time or money",ru:"без лишних затрат времени и сил",ex:"Buses have become more <em>efficient</em>."},
+ effective:{w:"effective",d:"producing the result you want",ru:"результативный",ex:"Was the plan <em>effective</em>? Traffic fell, so yes."},
+ morale:{w:"morale",d:"how positive and confident people in a group feel",ru:"моральный дух",ex:"Faster commutes are good for <em>morale</em>."},
+ means:{w:"the means",d:"the money or resources you need to do something",ru:"средства, ресурсы",ex:"The MTA didn't have the <em>means</em> to fix old tunnels."},
+ procedure:{w:"a procedure",d:"the official, step-by-step way of doing something",ru:"процедура, порядок",ex:"There's a <em>procedure</em> for getting a discount."}
+};
+const railOrder=["implement","inplace","transform","resist","embrace","objections","assess","accommodate","facilitate","efficient","effective","morale","means","procedure"];
+const W=(k,t)=>`<button type="button" class="w" data-g="${k}">${t||G[k].w}</button>`;
+
+/* ---------- state ---------- */
+const KEY="nyc-inbox-hw";
+let S={read:{},ans:{},first:{},text:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s) S=Object.assign(S,s);}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
+const words=t=>(t||"").trim().split(/\s+/).filter(Boolean).length;
+
+/* ---------- data ---------- */
+const SLANG=[["grab a slice","buy a piece of pizza"],["the bodega","the little corner store"],["stood on line","waited in line"],["a walk-up","a building with no elevator"],["the stoop","the front steps of a building"],["uptown","north in Manhattan"],["the City","Manhattan"],["jaywalk","cross the street on red or in the wrong place"],["a schmear","cream cheese on a bagel"],["in a New York minute","very quickly"]];
+const VIDQ=[
+ {q:"What is the video mainly about?",o:["Why most of Manhattan has a grid of straight streets","How the subway was built","Why rents in Manhattan are so high"],a:0},
+ {q:"Before the grid, what were the streets in the oldest part of Manhattan like?",o:["Narrow and irregular, with no clear pattern","Wide and perfectly straight","Mostly canals"],a:0},
+ {q:"Which famous street does NOT follow the grid?",o:["Broadway","Fifth Avenue","42nd Street"],a:0},
+ {q:"What was the main idea behind a grid of straight streets and rectangular blocks?",o:["It made land easy to divide, sell and build on","It made the city look more romantic","It protected the city from floods"],a:0},
+ {q:"What big green space was NOT in the original grid plan and was added later?",o:["Central Park","Bryant Park","The High Line"],a:0}
+];
+const NEWSQ=[
+ {q:"What do drivers pay to enter Manhattan below 60th Street at peak times?",o:["$9","$15","Nothing — it's free"],a:0},
+ {q:"How did traffic change in the first year?",o:["About 11% fewer vehicles entered the zone","Traffic doubled","Nothing changed"],a:0},
+ {q:"Where does the money go?",o:["Public transit, like subway and bus repairs","New parking garages","Lower taxes for drivers"],a:0},
+ {q:"Who resisted the plan at first?",o:["Many drivers and some politicians from outside Manhattan","Only tourists","Nobody — everyone loved it"],a:0},
+ {q:"According to the article, what's the biggest open question now?",o:["Whether the city can keep the benefits as it grows","Whether people still like pizza","Whether the subway should close at night"],a:0}
+];
+const MIKE=[
+ {pre:"The subway is the most",post:"way to get around Manhattan. No traffic, no parking.",o:["efficient","effective"],a:0,fb:"<b>efficient</b> = fast, no wasted time or money."},
+ {pre:"The new toll has been surprisingly",post:": traffic really did go down.",o:["effective","efficient"],a:0,fb:"It <b>worked</b>, it got the result → effective."},
+ {pre:"Getting a discount is a long",post:". You fill out forms and wait for weeks.",o:["process","procedure"],a:0,fb:"<b>process</b> = something that takes time, step by step."},
+ {pre:"There's a strict",post:"for getting a permit to film on the street.",o:["procedure","process"],a:0,fb:"<b>procedure</b> = the official set of rules and steps."},
+ {pre:"Most people don't have the",post:"to live in Manhattan. Rents are crazy.",o:["means","ability"],a:0,fb:"<b>means</b> = money / resources."},
+ {pre:"The High Line didn't just change the area. It",post:"the whole neighborhood.",o:["transformed","changed"],a:0,fb:"<b>transform</b> = change completely."}
+];
+const ADVICE_BANK=["You should definitely…","It's totally worth -ing…","It's a must-see.","Make sure you…","If I were you, I'd…","You can't go wrong with…","Don't bother with…","I'd skip…","Whatever you do, don't…","It's kind of a tourist trap.","I was blown away by…","It totally lived up to the hype.","It was a bit of a letdown.","The highlight was…"];
+const NEXT_BANK=["We should've…","We shouldn't have…","I wish we'd…","If we'd known, we'd have…","In hindsight, …","Next time, I'm definitely going to…","Lesson learned: …","I'd totally go back for…","I'm already planning…"];
+const ADV_RX=[/should definitely/i,/worth/i,/must-see/i,/make sure/i,/if i were you/i,/can't go wrong|can’t go wrong/i,/don't bother|don’t bother/i,/skip/i,/whatever you do/i,/tourist trap/i,/blown away/i,/lived up to/i,/letdown/i,/highlight/i];
+const KATE_T=["Hey, it's Kate! Okay, so I just got off the phone with my cousin Dan. He's lived in Brooklyn for about ten years, and apparently I'm doing everything wrong.",
+ "First, he said I booked my hotel way too close to Times Square, and that the area is basically one big tourist trap. He said I should've stayed on the Lower East Side or in Brooklyn instead.",
+ "He also said I don't need to buy a subway card. You just tap your phone or your bank card at the gate now.",
+ "And he said, whatever you do, don't eat at the restaurants right next to the big attractions. They're overpriced and kind of sad.",
+ "Oh, and he's taking me to his favorite bagel place on Saturday, even though there's always a line around the block.",
+ "So now I'm curious. If you went to New York again, what would you do differently? Tell me!"];
+const KTF=[
+ {q:"Kate's cousin has lived in Brooklyn for about ten years.",o:["False","True"],a:1},
+ {q:"Dan thinks Kate's hotel is in a great location.",o:["False","True"],a:0},
+ {q:"In New York, you can pay for the subway by tapping your phone.",o:["False","True"],a:1},
+ {q:"Dan says it's a good idea to eat right next to the big attractions.",o:["False","True"],a:0},
+ {q:"Dan's favorite bagel place is usually quiet.",o:["False","True"],a:0}
+];
+const NEXT_RX=[/should(’|')?ve|should have/i,/shouldn(’|')?t have/i,/wish we/i,/if we(’|')?d known|if we had known/i,/hindsight/i,/next time/i,/lesson learned/i,/go back/i,/planning/i];
+
+/* ---------- messages ---------- */
+const M=[
+ {id:"start",from:"Homework",ini:"HW",col:"#16181B",time:"8:00 AM",subj:"Start here: New York week",prev:"Six tasks. One city.",role:"Your homework"},
+ {id:"kate",from:"Kate Morgan",ini:"KM",col:"#B5527A",time:"8:41 AM",subj:"I'M GOING TO NEW YORK!! help",prev:"Okay, I finally booked it. Five days in Manhattan…",role:"Your friend"},
+ {id:"sam",from:"Sam Rivera",ini:"SR",col:"#A86A16",time:"9:15 AM",subj:"lol my weekend",prev:"Grabbed a slice, stood on line for an hour…",role:"Your coworker, just moved from NYC"},
+ {id:"video",from:"Alex Park",ini:"AP",col:"#2338A8",time:"10:02 AM",subj:"You HAVE to watch this",prev:"Ever wondered why Manhattan looks like a grid?",role:"Your coworker"},
+ {id:"news",from:"The City Brief",ini:"CB",col:"#25704A",time:"11:30 AM",subj:"Congestion pricing turns one",prev:"Fewer cars, faster tunnels and a lot of arguing…",role:"Newsletter"},
+ {id:"mike",from:"Mike Chen",ini:"MC",col:"#7A4A9E",time:"1:12 PM",subj:"Can you check my post before I share it?",prev:"I always mix these words up…",role:"Your coworker"},
+ {id:"kate2",from:"Kate Morgan",ini:"KM",col:"#B5527A",time:"4:47 PM",subj:"Voice message: my cousin says I'm doing it all wrong 😂",prev:"🎙 Voice message · Okay, so I just got off the phone with my cousin…",role:"Your friend"}
+];
+const isDone=id=>{
+ if(id==="start") return !!S.read.start;
+ if(id==="kate") return words(S.text.kate)>=35;
+ if(id==="sam") return SLANG.every((_,i)=>S.ans["s"+i]===i);
+ if(id==="video") return VIDQ.every((q,i)=>S.ans["v"+i]===q.a);
+ if(id==="news") return NEWSQ.every((q,i)=>S.ans["n"+i]===q.a);
+ if(id==="mike") return MIKE.every((q,i)=>S.ans["m"+i]===q.a);
+ if(id==="kate2") return KTF.every((q,i)=>S.ans["k"+i]===q.a) && words(S.text.kate2)>=20;
+};
+let cur=null;
+
+function renderList(){
+ const box=$('msgs'); box.innerHTML="";
+ M.forEach(m=>{
+  const b=document.createElement('button'); b.type="button"; b.id="msg-"+m.id;
+  b.className="msg"+(S.read[m.id]?"":" unread")+(cur===m.id?" sel":"");
+  const done=isDone(m.id);
+  b.innerHTML=`<span class="av" style="background:${m.col}">${m.ini}</span><span style="min-width:0;display:grid;gap:1px"><span class="meta"><span class="from">${m.from}</span><span class="time">${m.time}</span></span><span class="subj">${m.subj}</span><span class="prev">${m.prev}</span><span class="state${done?" done":""}">${done?"✓ Done":(S.read[m.id]?"In progress":"New")}</span></span>`;
+  b.addEventListener('click',()=>open(m.id)); box.appendChild(b);
+ });
+ const tasks=M.filter(m=>m.id!=="start"); const n=tasks.filter(m=>isDone(m.id)).length;
+ $('progTxt').textContent=`${n} / ${tasks.length}`; $('progBar').style.width=(n/tasks.length*100)+"%";
+ const unread=M.filter(m=>!S.read[m.id]).length; $('unreadCt').textContent=unread||"";
+}
+function header(m){return `<h1 class="subject">${m.subj}</h1><div class="hdr"><span class="av" style="background:${m.col}">${m.ini}</span><span class="who"><b>${m.from}</b><span>${m.role} · to me</span></span><span class="when">Today, ${m.time}</span></div>`;}
+function open(id){ stopVoice(); cur=id; S.read[id]=true; save(); const m=M.find(x=>x.id===id); const r=$('reader');
+ r.innerHTML=`<article class="letter">${header(m)}<div class="body" id="body"></div></article>`; VIEWS[id]($('body')); r.scrollTop=0; renderList(); }
+const nextBtn=id=>{const i=M.findIndex(m=>m.id===id); return i<M.length-1?`<button class="btn ghost next" type="button" data-next="${M[i+1].id}">Next message →</button>`:"";};
+const wireNext=el=>el.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>open(b.dataset.next)));
+
+function writer(el,key,min,bank,rx,label,placeholder){
+ const wrap=document.createElement('section'); wrap.className="task";
+ wrap.innerHTML=`<div class="task-h"><h3>${label}</h3><span class="wc" id="wc-${key}"></span></div>
+ <div class="writer"><div><textarea id="ta-${key}" placeholder="${placeholder}"></textarea><p class="hint" style="margin-top:6px">At least ${min} words. Short is fine. Phrases you've used light up in green.</p></div>
+ <aside class="pbank"><h4>Phrases to use</h4><div class="used" id="used-${key}">${bank.map(p=>`<span>${p}</span>`).join("")}</div></aside></div>`;
+ el.appendChild(wrap);
+ const ta=$('ta-'+key); ta.value=S.text[key]||"";
+ const upd=()=>{S.text[key]=ta.value; save(); $('wc-'+key).textContent=`${words(ta.value)} words`; $('used-'+key).querySelectorAll('span').forEach((s,i)=>s.classList.toggle('on',rx[i].test(ta.value))); renderList();};
+ ta.addEventListener('input',upd); upd();
+}
+function mcq(root,data,prefix,scId){
+ data.forEach((q,i)=>{
+  const d=document.createElement('div'); d.className="q"; d.innerHTML=`<p>${i+1}. ${q.q}</p><div class="opts"></div>`;
+  const order=q.o.map((_,k)=>k); const rot=(i*2+1)%order.length; const ord=order.slice(rot).concat(order.slice(0,rot));
+  ord.forEach(k=>{const b=document.createElement('button'); b.type="button"; b.className="opt"; b.id=`${prefix}${i}o${k}`; b.textContent=q.o[k];
+   b.addEventListener('click',()=>{ if(S.ans[prefix+i]===q.a) return; if(S.first[prefix+i]===undefined) S.first[prefix+i]=(k===q.a); if(k===q.a) S.ans[prefix+i]=k; save(); paint(k); sc(); renderList(); });
+   d.querySelector('.opts').appendChild(b);});
+  const paint=c=>{d.querySelectorAll('.opt').forEach(b=>{const k=+b.id.split('o').pop(); b.classList.remove('right','wrong'); if(S.ans[prefix+i]===q.a&&k===q.a) b.classList.add('right'); else if(c===k&&k!==q.a){void b.offsetWidth; b.classList.add('wrong');}});};
+  root.appendChild(d); paint();
+ });
+ const sc=()=>{$(scId).textContent=`${data.filter((q,i)=>S.ans[prefix+i]===q.a).length} / ${data.length}`;}; sc();
+}
+
+/* ---------- voice (browser text-to-speech) ---------- */
+const VO={on:false,slow:false};
+const hasTTS=()=>{try{return "speechSynthesis" in window && typeof SpeechSynthesisUtterance!=="undefined";}catch(e){return false;}};
+function pickVoice(){ if(!hasTTS()) return null; const vs=speechSynthesis.getVoices()||[];
+ const pref=["Samantha","Google US English","Microsoft Aria","Microsoft Jenny","Microsoft Ava","Ava","Allison","Microsoft Zira"];
+ for(const p of pref){const v=vs.find(x=>x.name.includes(p)&&/en[-_]US/i.test(x.lang)); if(v) return v;}
+ return vs.find(x=>/en[-_]US/i.test(x.lang))||vs.find(x=>/^en/i.test(x.lang))||null;}
+if(hasTTS()){try{speechSynthesis.getVoices(); speechSynthesis.addEventListener('voiceschanged',()=>speechSynthesis.getVoices());}catch(e){}}
+function stopVoice(){ VO.on=false; if(hasTTS()){try{speechSynthesis.cancel();}catch(e){}}
+ const v=document.getElementById('voice'), b=document.getElementById('playBtn'); if(v) v.classList.remove('on'); if(b){b.textContent="▶"; b.setAttribute('aria-label',"Play voice message");}}
+function toggleVoice(){
+ if(!hasTTS()){const n=document.getElementById('noTts'); if(n) n.hidden=false; return;}
+ if(VO.on){stopVoice(); return;}
+ try{speechSynthesis.cancel();}catch(e){}
+ const voice=pickVoice(); let i=0; VO.on=true;
+ $('voice').classList.add('on'); $('playBtn').textContent="■"; $('playBtn').setAttribute('aria-label',"Stop voice message");
+ const next=()=>{ if(!VO.on) return; if(i>=KATE_T.length){stopVoice(); return;}
+  const u=new SpeechSynthesisUtterance(KATE_T[i++]); u.lang="en-US"; if(voice) u.voice=voice; u.rate=VO.slow?0.75:0.95;
+  u.onend=next; u.onerror=()=>stopVoice(); speechSynthesis.speak(u);};
+ next();
+}
+
+const VIEWS={
+ start(el){
+  el.innerHTML=`<p>Hi!</p>
+  <p>This week's homework is all about New York: a short video, a news story, a voice message, some real New York slang and two very short replies to a friend.</p>
+  <p>Open the messages in order. The replies only need a few sentences. Use the phrases from our lesson.</p>
+  <p class="hint"><i></i> Words with a dotted line are new. Click one to see what it means. Try it: ${W("implement")} · ${W("resist","resist change")} · ${W("assess","assess the impact")}</p>
+  <p>When you're done, click <b>Copy my answers</b> on the left and send them to Tanya. Your progress is saved in this browser.</p>
+  ${nextBtn("start")}`; wireNext(el);
+ },
+ kate(el){
+  el.innerHTML=`<p>OKAY. I finally did it. I booked five days in Manhattan for next month!! 🗽</p>
+  <p>You were just there, so you're officially my travel guide now. Where should I go? What should I eat? What's actually worth it and what's a tourist trap? Also, what surprised you the most?</p>
+  <p>Tell me everything!!</p><p class="sig">Kate xx</p>`;
+  writer(el,"kate",35,ADVICE_BANK,ADV_RX,"Reply to Kate (3–4 sentences is enough)","Hi Kate!\n\n");
+  el.insertAdjacentHTML('beforeend',nextBtn("kate")); wireNext(el);
+ },
+ sam(el){
+  el.innerHTML=`<p>lol so my first weekend back in New York was very New York. Saturday I <b>grabbed a slice</b> at 1 a.m., then went to <b>the bodega</b> for snacks and petted the cat. Sunday we <b>stood on line</b> for an hour for bagels. I got one with <b>a schmear</b>, obviously.</p>
+  <p>My new place is a fifth-floor <b>walk-up</b>, so I'm basically an athlete now. In the evenings everyone sits on <b>the stoop</b>. Monday I had to go <b>uptown</b> for a meeting, and I'd <b>jaywalk</b> anywhere to save ten seconds. Honestly, I'd move back to <b>the City</b> <b>in a New York minute</b>.</p>
+  <p class="sig">Sam</p>
+  <section class="task"><div class="task-h"><h3>What does Sam mean? Match each phrase</h3><span class="sc" id="sc"></span></div><div class="match" id="mt"></div></section>
+  ${nextBtn("sam")}`;
+  const mt=$('mt'); const order=[3,7,0,9,5,1,8,2,6,4];
+  SLANG.forEach(([term],i)=>{
+   const t=document.createElement('span'); t.className="term"; t.textContent=term;
+   const s=document.createElement('select'); s.id="ssel"+i; s.setAttribute('aria-label',"Meaning of "+term);
+   s.innerHTML=`<option value="">Choose a meaning…</option>`+order.map(k=>`<option value="${k}">${SLANG[k][1]}</option>`).join("");
+   const mk=document.createElement('span'); mk.className="mk";
+   const paint=()=>{const v=S.ans["s"+i]; s.value=v===undefined?"":v; s.classList.toggle('ok',v===i); s.classList.toggle('bad',v!==undefined&&v!==i); mk.textContent=v===undefined?"":(v===i?"✓":"✗"); mk.className="mk "+(v===undefined?"":(v===i?"ok":"bad"));};
+   s.addEventListener('change',()=>{ if(s.value===""){delete S.ans["s"+i];} else {const v=+s.value; if(S.first["s"+i]===undefined) S.first["s"+i]=(v===i); S.ans["s"+i]=v;} save(); paint(); score(); renderList(); });
+   mt.append(t,s,mk); paint();
+  });
+  const score=()=>{$('sc').textContent=`${SLANG.filter((_,i)=>S.ans["s"+i]===i).length} / ${SLANG.length}`;}; score(); wireNext(el);
+ },
+ video(el){
+  el.innerHTML=`<p>Random question: have you ever wondered why almost all of Manhattan is a perfect grid? This short video explains it, and it's actually really interesting. Watch it and tell me what you think when we talk!</p>
+  <a class="vidlink" href="https://www.youtube.com/watch?v=QaIOfgz8FVY" target="_blank" rel="noopener"><span class="vplay">▶</span><span><b>Where Manhattan's grid came from</b><span>Vox · YouTube · opens in a new tab</span></span></a>
+  <section class="task"><div class="task-h"><h3>Before you watch</h3></div><p>When you were in Manhattan, was it easy to find your way around? Why or why not? Think about it for a moment.</p></section>
+  <section class="task" id="vt"><div class="task-h"><h3>While you watch</h3><span class="sc" id="vsc"></span></div></section>`;
+  mcq($('vt'),VIDQ,"v","vsc");
+  el.insertAdjacentHTML('beforeend',nextBtn("video")); wireNext(el);
+ },
+ news(el){
+  el.innerHTML=`<p class="hint" style="font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em">The City Brief · Transportation</p>
+  <p>A year ago, New York became the first U.S. city to charge drivers to enter its busiest neighborhoods. On January 5, 2025, the city ${W("implement","implemented")} congestion pricing: most drivers now pay $9 to enter Manhattan below 60th Street at peak times. Cameras were ${W("inplace","put in place")} at every entry point to read license plates.</p>
+  <p>Not everyone was a fan. Many drivers ${W("resist","resisted")} the plan, and some politicians from New Jersey and the outer boroughs fought it in court. The city had ${W("objections","anticipated")} those objections for years, and the plan includes discounts to ${W("accommodate","accommodate the needs of")} low-income drivers.</p>
+  <p>So, did it work? Officials who ${W("assess","assessed the impact")} after one year say about 11% fewer vehicles entered the zone, and trips through some tunnels got much faster. The program raised around $550 million, money that will ${W("facilitate")} repairs to the subway and buses. Supporters say the streets feel calmer and the system is more ${W("efficient")}. Critics say it hurts people who have no choice but to drive.</p>
+  <p>The big open question now: can the city keep these benefits as it keeps growing? Some say congestion pricing could ${W("transform")} Midtown. Others say it's just one more expensive thing about living in New York.</p>
+  <p class="sig">Sources: New York State Governor's Office and news reports, January 2026.</p>
+  <section class="task" id="nt"><div class="task-h"><h3>Check your understanding</h3><span class="sc" id="nsc"></span></div></section>
+  ${nextBtn("news")}`;
+  mcq($('nt'),NEWSQ,"n","nsc"); wireNext(el);
+ },
+ mike(el){
+  el.innerHTML=`<p>Hey! I'm posting a little "New York tips" thread for our team chat. Can you check the words before I share it? I always mix these up and I don't want to look silly 😅</p>
+  <p class="sig">Mike</p>
+  <section class="task" id="t"><div class="task-h"><h3>Pick the right word</h3><span class="sc" id="sc"></span></div></section>
+  ${nextBtn("mike")}`;
+  const t=$('t');
+  MIKE.forEach((q,i)=>{
+   const d=document.createElement('div'); d.className="q";
+   d.innerHTML=`<p>${q.pre} <span class="gap">&nbsp;</span> ${q.post}</p><div class="opts"></div><p class="fb" hidden></p>`;
+   q.o.forEach((o,k)=>{const b=document.createElement('button'); b.type="button"; b.className="opt"; b.id=`m${i}o${k}`; b.textContent=o;
+    b.addEventListener('click',()=>{ if(S.ans["m"+i]===q.a) return; if(S.first["m"+i]===undefined) S.first["m"+i]=(k===q.a); if(k===q.a) S.ans["m"+i]=k; save(); paint(k); sc(); renderList(); });
+    d.querySelector('.opts').appendChild(b);});
+   const paint=c=>{const ok=S.ans["m"+i]===q.a; d.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('right','wrong'); if(ok&&k===q.a) b.classList.add('right'); else if(c===k&&k!==q.a){void b.offsetWidth; b.classList.add('wrong');}});
+    const g=d.querySelector('.gap'); g.textContent=ok?q.o[q.a]:" "; g.classList.toggle('filled',ok); const fb=d.querySelector('.fb'); fb.hidden=!ok; fb.innerHTML=q.fb;};
+   t.appendChild(d); paint();
+  });
+  const sc=()=>{$('sc').textContent=`${MIKE.filter((q,i)=>S.ans["m"+i]===q.a).length} / ${MIKE.length}`;}; sc(); wireNext(el);
+ },
+ kate2(el){
+  const bars=Array.from({length:48},(_,i)=>`<i style="height:${30+Math.round(60*Math.abs(Math.sin(i*1.7)*Math.cos(i*.45)))}%"></i>`).join("");
+  el.innerHTML=`<p>Sent you a voice message, too lazy to type 😂</p>
+  <div class="voice" id="voice"><button class="play" id="playBtn" type="button" aria-label="Play voice message">▶</button><div class="wave" aria-hidden="true">${bars}</div>
+   <div class="vctl"><button class="pill" id="slowBtn" type="button" aria-pressed="${VO.slow}">Slower</button><button class="pill" id="txtBtn" type="button" aria-pressed="false">Show text</button></div></div>
+  <p class="hint" id="noTts" hidden>Your browser can't play this message. Click <b>Show text</b> to read it instead.</p>
+  <div class="transcript" id="tr" hidden>${KATE_T.map(p=>`<p>${p}</p>`).join("")}</div>
+  <section class="task" id="kt"><div class="task-h"><h3>Listen first, don't read. True or false?</h3><span class="sc" id="ksc"></span></div></section>`;
+  mcq($('kt'),KTF,"k","ksc");
+  writer(el,"kate2",20,NEXT_BANK,NEXT_RX,"Reply to Kate (2–3 sentences)","Haha, okay, honestly…\n\n");
+  $('playBtn').addEventListener('click',toggleVoice);
+  $('slowBtn').addEventListener('click',()=>{VO.slow=!VO.slow; $('slowBtn').setAttribute('aria-pressed',VO.slow); if(VO.on){stopVoice(); toggleVoice();}});
+  $('txtBtn').addEventListener('click',()=>{const t=$('tr'); t.hidden=!t.hidden; $('txtBtn').setAttribute('aria-pressed',!t.hidden); $('txtBtn').textContent=t.hidden?"Show text":"Hide text";});
+ }
+};
+
+/* ---------- popover ---------- */
+const pop=$('pop');
+function showPop(k,a){const g=G[k]; if(!g) return; pop.innerHTML=`<b>${g.w}</b><span>${g.d}</span><span class="ru">${g.ru}</span><span class="ex">${g.ex}</span>`; pop.hidden=false;
+ const r=a.getBoundingClientRect(); const pw=pop.offsetWidth, ph=pop.offsetHeight; let x=Math.min(Math.max(16,r.left),window.innerWidth-pw-16); let y=r.bottom+8; if(y+ph>window.innerHeight-12) y=Math.max(12,r.top-ph-8); pop.style.left=x+"px"; pop.style.top=y+"px";}
+document.addEventListener('click',e=>{const w=e.target.closest('[data-g]'); if(w){e.stopPropagation(); showPop(w.dataset.g,w); return;} if(!e.target.closest('#pop')) pop.hidden=true;});
+document.addEventListener('keydown',e=>{if(e.key==="Escape") pop.hidden=true;});
+document.addEventListener('scroll',()=>{pop.hidden=true;},true);
+$('railWords').innerHTML=railOrder.map(k=>`<button type="button" class="wchip" data-g="${k}">${G[k].w}</button>`).join("");
+
+/* ---------- copy ---------- */
+function summary(){
+ const first=(p,n)=>{let c=0; for(let i=0;i<n;i++) if(S.first[p+i]) c++; return c;};
+ const L=["New York week · homework",""];
+ L.push(`Sam's NYC slang: ${first("s",SLANG.length)}/${SLANG.length} right on the first try`);
+ L.push(`Video questions: ${first("v",VIDQ.length)}/${VIDQ.length} right on the first try`);
+ L.push(`Kate's voice message (listening): ${first("k",KTF.length)}/${KTF.length} right on the first try`);
+ L.push(`News article: ${first("n",NEWSQ.length)}/${NEWSQ.length} right on the first try`);
+ L.push(`Mike's word choice: ${first("m",MIKE.length)}/${MIKE.length} right on the first try`);
+ const miss=[]; SLANG.forEach(([t],i)=>{if(S.first["s"+i]===false) miss.push(t);}); MIKE.forEach((q,i)=>{if(S.first["m"+i]===false) miss.push(q.o[q.a]);});
+ if(miss.length) L.push("Words to review: "+miss.join(", "));
+ L.push("","Reply to Kate (advice):",(S.text.kate||"").trim()||"(not written yet)");
+ L.push("","Reply to Kate (what I'd do differently):",(S.text.kate2||"").trim()||"(not written yet)");
+ return L.join("\n");
+}
+$('copyBtn').addEventListener('click',async()=>{const txt=summary(); const fb=$('copyFallback');
+ try{await navigator.clipboard.writeText(txt); $('copyMsg').textContent="Copied. Paste it into a message to Tanya."; fb.hidden=true;}
+ catch(e){fb.value=txt; fb.hidden=false; fb.style.minHeight="140px"; fb.focus(); fb.select(); $('copyMsg').textContent="Press Ctrl/Cmd + C to copy.";}});
+let armed=false;
+$('resetBtn').addEventListener('click',()=>{ if(!armed){armed=true; $('resetBtn').textContent="Click again to erase all answers"; setTimeout(()=>{armed=false; $('resetBtn').textContent="Start over";},4000); return;}
+ S={read:{},ans:{},first:{},text:{}}; save(); armed=false; $('resetBtn').textContent="Start over"; open("start");});
+$('todayLbl').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
+open(M.find(m=>!isDone(m.id))?.id||"start");
+})();
+</script>
+</body>
+</html>
