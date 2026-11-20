@@ -159,13 +159,15 @@ button:focus-visible,textarea:focus-visible{outline:3px solid var(--blue);outlin
 <section class="scene" id="end">
   <div class="scene-head"><span class="no">THAT'S A WRAP</span><span class="where">Send it to me</span></div>
   <h2>Send it to me</h2>
-  <p class="task"><b>TASK</b>Press the button to copy all your answers, then paste them into a message to me.</p>
-  <div class="row"><button class="btn" id="copy" type="button">Copy my answers</button><span id="copied" hidden>Copied! Now paste it into a message.</span></div>
+  <p class="task"><b>TASK</b>Press the button to send your answers to me. I'll check them and send you my comments.</p>
+  <div id="hw-send"></div>
+  <p class="hw-alt">Doesn't work? <button type="button" id="copy">Copy my answers</button> and paste them into our chat. <span id="copied" hidden>Copied! Now paste it into a message.</span></p>
   <textarea id="copyBox" hidden readonly aria-label="Your answers"></textarea>
 </section>
 
 </main>
 
+<script src="../../assets/hw-submit.js"></script>
 <script>
 var store={get:function(k){try{return localStorage.getItem(k);}catch(e){return null;}},set:function(k,v){try{localStorage.setItem(k,v);}catch(e){}}};
 var ICON_OK='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -174,7 +176,7 @@ function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(M
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
 function norm(s){return s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[^a-z' ]+/g,' ').replace(/\s+/g,' ').trim();}
 
-var results={};
+var results={},details={};
 function buildQuiz(id,scoreId,items){
   var box=document.getElementById(id),first={};
   function upd(){var n=Object.keys(first).length,ok=0;for(var k in first)if(first[k])ok++;
@@ -190,7 +192,7 @@ function buildQuiz(id,scoreId,items){
       var b=document.createElement('button');b.className='opt';b.type='button';b.textContent=txt;
       b.addEventListener('click',function(){
         var right=txt===it.o[0];
-        if(!(i in first))first[i]=right;
+        if(!(i in first)){first[i]=right;(details[id]=details[id]||[])[i]={q:it.q||it.o.slice().sort().join(' / '),a:txt,correct:it.o[0],ok:right};}
         if(right){b.classList.add('right');o.querySelectorAll('.opt').forEach(function(x){x.disabled=true;});
           var g=t.querySelector('.gap');if(g)g.textContent=txt;
           fb.className='fb ok';fb.textContent=it.why||'Yes!';}
@@ -272,7 +274,7 @@ var FIELDS=[];TR.forEach(function(_,i){FIELDS.push('t'+i);});['w0','w1','w2','w3
 FIELDS.forEach(function(id){var el=document.getElementById(id),v=store.get('dc-'+id);if(v)el.value=v;el.addEventListener('input',function(){store.set('dc-'+id,el.value);});});
 
 /* copy */
-document.getElementById('copy').addEventListener('click',function(){
+function answersText(){
   function val(id){return document.getElementById(id).value.trim()||'(no answer)';}
   var out=["Director's Cut homework",''];
   out.push('Scene 1: '+(results.q1||'-')+' · Scene 2: '+(results.q2||'-')+' · Scene 3: '+(results.q3||'-')+' (right first time)','');
@@ -280,10 +282,33 @@ document.getElementById('copy').addEventListener('click',function(){
   TR.forEach(function(_,i){out.push((i+1)+'. '+val('t'+i));});
   out.push('','SCENE 5. My film');
   ['The film','What I loved','It was…','The thing / The reason','I\'d recommend it if'].forEach(function(l,i){out.push((i+1)+'. '+val('w'+i));});
-  var text=out.join('\n'),box=document.getElementById('copyBox'),msg=document.getElementById('copied');
+  return out.join('\n');
+}
+document.getElementById('copy').addEventListener('click',function(){
+  var text=answersText(),box=document.getElementById('copyBox'),msg=document.getElementById('copied');
   function fallback(){box.hidden=false;box.value=text;box.focus();box.select();msg.hidden=false;msg.textContent='Select all the text below and copy it.';}
   try{navigator.clipboard.writeText(text).then(function(){msg.hidden=false;msg.textContent='Copied! Now paste it into a message.';},fallback);}catch(e){fallback();}
 });
+
+/* send to Tanya's cabinet */
+function _v(id){var e=document.getElementById(id);return e?e.value.trim():'';}
+function _sc(id){return (details[id]||[]).filter(Boolean).length?results[id]:'not done';}
+function _quiz(id,title,topic){return {title:title,topic:topic,kind:'quiz',items:(details[id]||[]).filter(Boolean)};}
+
+HWSubmit.init({student:'ksyusha',homework:'ksyusha/directors-cut',title:"Director's Cut"});
+HWSubmit.mount('hw-send',function(){
+  function trOk(it,v){v=norm(v);if(!v)return null;var startOk=v.indexOf(it.k)===0||v.indexOf(it.k.replace("it's","it is"))===0;var rest=v.slice(it.k.length);return startOk&&(it.it?/\b(that|who)\b/.test(rest):/\b(was|is)\b/.test(rest));}
+  var W=['The film','What I loved','It was…','The thing / The reason',"I'd recommend it if"];
+  var sections=[
+    _quiz('q1','Scene 1. Pick the word','Vocabulary: film adjectives'),
+    _quiz('q2','Scene 2. How did it feel?','Vocabulary: how a film made me feel'),
+    _quiz('q3','Scene 3. Spot the right one','Grammar: cleft sentences'),
+    {title:'Scene 4. Say it again',topic:'Grammar: cleft sentences (rewrite)',kind:'write',items:TR.map(function(it,i){var a=_v('t'+i);return {q:it.a+' → '+it.st,a:a,correct:it.m,ok:trOk(it,a)};})},
+    {title:'Scene 5. My film',topic:'Writing: my film (cleft sentences)',kind:'write',items:W.map(function(l,i){return {q:l,a:_v('w'+i)};})}
+  ];
+  return {scores:{'Scene 1':_sc('q1'),'Scene 2':_sc('q2'),'Scene 3':_sc('q3')},sections:sections,text:answersText(),empty:FIELDS.filter(function(id){return !_v(id);}).length};
+});
+
 </script>
 </body>
 </html>

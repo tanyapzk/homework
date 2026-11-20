@@ -245,16 +245,15 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:3px solid va
 <section class="scene" id="end">
   <div class="sn">THE END CREDITS</div>
   <h2>Send it to me</h2>
-  <p class="task"><b>TASK</b>Press the button to copy all your answers, then paste them into a message to me.</p>
-  <div class="row">
-    <button class="btn" id="copy">Copy my answers</button>
-    <span id="copied" hidden>Copied! Now paste it into a message.</span>
-  </div>
+  <p class="task"><b>TASK</b>Press the button to send your answers to me. I'll check them and send you my comments.</p>
+  <div id="hw-send"></div>
+  <p class="hw-alt">Doesn't work? <button type="button" id="copy">Copy my answers</button> and paste them into our chat. <span id="copied" hidden>Copied! Now paste it into a message.</span></p>
   <textarea id="copyBox" hidden readonly aria-label="Your answers"></textarea>
 </section>
 
 </main>
 
+<script src="../../assets/hw-submit.js"></script>
 <script>
 var store={get:function(k){try{return localStorage.getItem(k);}catch(e){return null;}},set:function(k,v){try{localStorage.setItem(k,v);}catch(e){}}};
 var ICON_OK='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -264,7 +263,7 @@ function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
 function norm(s){return s.toLowerCase().replace(/[’‘`]/g,"'").replace(/\s+/g,' ');}
 
 /* tap quizzes: first option is right */
-var results={};
+var results={},details={};
 function buildQuiz(id,scoreId,items){
   var box=document.getElementById(id),first={};
   function upd(){var n=Object.keys(first).length,ok=0;for(var k in first)if(first[k])ok++;
@@ -280,7 +279,7 @@ function buildQuiz(id,scoreId,items){
       var b=document.createElement('button');b.className='opt';b.type='button';b.textContent=txt;
       b.addEventListener('click',function(){
         var right=txt===it.o[0];
-        if(!(i in first))first[i]=right;
+        if(!(i in first)){first[i]=right;(details[id]=details[id]||[])[i]={q:it.q||it.o.slice().sort().join(' / '),a:txt,correct:it.o[0],ok:right};}
         if(right){b.classList.add('right');o.querySelectorAll('.opt').forEach(function(x){x.disabled=true;});
           var g=t.querySelector('.gap');if(g)g.textContent=it.fill||txt;
           fb.className='fb ok';fb.textContent=it.why||'Yes!';}
@@ -400,7 +399,7 @@ FIELDS.forEach(function(id){
 Array.prototype.forEach.call(chat.children,function(m){m._chk();});
 
 /* copy answers */
-document.getElementById('copy').addEventListener('click',function(){
+function answersText(){
   function val(id){return document.getElementById(id).value.trim()||'(no answer)';}
   var out=['Now Showing homework',''];
   out.push('Scene 1: '+(results.q1||'-')+' · Scene 2: '+(results.q2||'-')+' · Scene 4B: '+(results.q4||'-')+' (right first time)','');
@@ -417,11 +416,34 @@ document.getElementById('copy').addEventListener('click',function(){
   out.push('6a. “The ending is so predictable.” '+val('v5'));
   out.push('6b. “It\'s just a sad cartoon for kids.” '+val('v6'));
   out.push('7. I\'d recommend it if: '+val('v7'));
-  var text=out.join('\n'),box=document.getElementById('copyBox'),msg=document.getElementById('copied');
+  return out.join('\n');
+}
+document.getElementById('copy').addEventListener('click',function(){
+  var text=answersText(),box=document.getElementById('copyBox'),msg=document.getElementById('copied');
   function fallback(){box.hidden=false;box.value=text;box.focus();box.select();msg.hidden=false;msg.textContent='Select all the text below and copy it.';}
   try{navigator.clipboard.writeText(text).then(function(){msg.hidden=false;msg.textContent='Copied! Now paste it into a message.';},fallback);}
   catch(e){fallback();}
 });
+
+/* send to Tanya's cabinet */
+function _v(id){var e=document.getElementById(id);return e?e.value.trim():'';}
+function _sc(id){return (details[id]||[]).filter(Boolean).length?results[id]:'not done';}
+function _quiz(id,title,topic){return {title:title,topic:topic,kind:'quiz',items:(details[id]||[]).filter(Boolean)};}
+
+HWSubmit.init({student:'ksyusha',homework:'ksyusha/now-showing',title:'Now Showing'});
+HWSubmit.mount('hw-send',function(){
+  var V=[['Before watching',0],['Without spoiling',1],['Grab you / leave you cold',2],['What struck me',3],['The whole story',4],['“The ending is so predictable.”',5],['“It\'s just a sad cartoon for kids.”',6],['I\'d recommend it if',7]];
+  var sections=[
+    _quiz('q1','Scene 1. So, did you like it?','Vocabulary: film reactions'),
+    _quiz('q2','Scene 2. Write it like a film critic','Linking words (even though, having said that…)'),
+    {title:'Scene 3. Two into one',topic:'Linking words: joining sentences',kind:'write',items:JOIN.map(function(it,i){var a=_v('j'+i),n=norm(a);return {q:it.a+' (use: '+it.use+')',a:a,correct:it.m,ok:a?it.keys.some(function(k){return n.indexOf(k)>-1;}):null};})},
+    _quiz('q4','Scene 4B. Hot takes: react!','Reactions in conversation'),
+    {title:'Scene 4C. Chat with Max',topic:'Writing: reacting in a chat',kind:'write',items:CHAT.map(function(t,i){return {q:'Max: '+t,a:_v('c'+i)};})},
+    {title:'Scene 5. The Present',topic:'Writing: talking about a film',kind:'write',items:V.map(function(x){return {q:x[0],a:_v('v'+x[1])};})}
+  ];
+  return {scores:{'Scene 1':_sc('q1'),'Scene 2':_sc('q2'),'Scene 4B':_sc('q4')},sections:sections,text:answersText(),empty:FIELDS.filter(function(id){return !_v(id);}).length};
+});
+
 </script>
 </body>
 </html>
