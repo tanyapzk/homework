@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Director's Cut Homework</title>
+<meta property="og:title" content="Director's Cut: Homework">
+<meta property="og:description" content="Film words, feelings and spotlight sentences.">
+<meta property="og:image" content="https://tanyapzk.github.io/vocabulary-app/assets/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Same screenplay look as the Director's Cut lesson. Done alone on a computer: wide, big type, instant self-check, copy answers at the end. */
+:root{
+  --paper:#F6F1E7;--sheet:#FFFDF8;--ink:#1F1B18;--mut:#6B6158;--rule:#E3D9C8;
+  --red:#C8293B;--redsoft:#F8DEDF;--blue:#2F5DA8;--bluesoft:#DFE8F6;--gold:#D99A1E;--goldsoft:#FBEFD3;
+  --green:#2E8B57;--greensoft:#DCF0E3;
+  --display:"Anton",Impact,sans-serif;--type:"Courier Prime","Courier New",monospace;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 clamp(17px,1.45vw,25px)/1.45 var(--body)}
+main{max-width:1360px;margin:auto;padding:0 clamp(16px,3.5vw,56px) 14vh}
+p{margin:0}
+button{font:inherit;color:inherit}
+
+.hero{min-height:60vh;display:flex;flex-direction:column;justify-content:center;gap:.5em;padding-block:7vh 3vh}
+.slug{font:700 .9em var(--type);letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
+.hero h1{font:400 clamp(3.8rem,10vw,8.5rem)/.86 var(--display);margin:0;text-transform:uppercase}
+.hero h1 span{color:var(--red)}
+.hero .sub{font-family:var(--type);color:var(--mut);max-width:42em}
+.persik{align-self:flex-start;font-family:var(--type);background:var(--sheet);border:2px solid var(--ink);border-left:10px solid var(--gold);border-radius:6px;padding:.5em 1em;max-width:42em}
+
+.scene{padding-top:8vh}
+.scene-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:.2em 1em;border-bottom:3px solid var(--ink);padding-bottom:.25em;margin-bottom:.4em}
+.scene-head .no{font:400 1.6em var(--display);color:var(--red)}
+.scene-head .where{font:700 1em var(--type);text-transform:uppercase;letter-spacing:.04em}
+h2{font:400 clamp(2.4rem,5vw,4.2rem)/.95 var(--display);text-transform:uppercase;margin:.15em 0 .35em}
+.task{font-family:var(--type);background:var(--sheet);border:2px solid var(--ink);border-left:10px solid var(--red);border-radius:6px;padding:.55em 1em;max-width:60em;margin-bottom:1em}
+.task b{color:var(--red);margin-right:.5em}
+
+/* bank: always next to the task */
+.bank{position:sticky;top:0;z-index:2;background:var(--paper);padding:.6em 0;margin-bottom:.6em;border-bottom:2px dashed var(--rule)}
+.bank .lbl{font:700 .75em var(--type);text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin-bottom:.3em}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--goldsoft);border:2px solid var(--ink);border-radius:999px;padding:.05em .7em;font-size:.85em;font-weight:600}
+.chip i{font-weight:400;font-style:normal;color:var(--mut)}
+
+.score{display:inline-block;font:700 .85em var(--type);background:var(--sheet);border:2px solid var(--ink);border-radius:999px;padding:.1em .8em;margin-bottom:.8em}
+.qs{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr))}
+.q{background:var(--sheet);border:2px solid var(--ink);border-radius:10px;padding:.75em 1em;display:flex;flex-direction:column;gap:.55em}
+.qtext .n{font:400 1.2em var(--display);color:var(--red);margin-right:.45em}
+.gap{display:inline-block;min-width:4.5em;border-bottom:3px solid var(--gold);text-align:center;font-weight:700;color:var(--blue);padding:0 .2em}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{text-align:left;background:var(--paper);border:2px solid var(--rule);border-radius:8px;padding:.3em .8em;cursor:pointer;font-size:.92em;max-width:100%}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt.right{background:var(--greensoft);border-color:var(--green);font-weight:600}
+.opt.wrong{background:var(--redsoft);border-color:var(--red);color:var(--red);text-decoration:line-through}
+.opt:disabled{cursor:default}
+.fb{font-size:.85em;font-weight:600;min-height:1.2em}
+.fb.ok{color:var(--green)}.fb.no{color:var(--red)}
+
+/* writing */
+textarea{font:inherit;font-size:.95em;width:100%;min-height:3.6em;border:2px solid var(--rule);border-radius:8px;padding:.45em .75em;background:var(--paper);color:var(--ink);resize:vertical}
+textarea:focus{border-color:var(--ink);outline:none}
+textarea::placeholder{color:var(--mut);opacity:.85}
+button:focus-visible,textarea:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.start{font-family:var(--type);color:var(--blue);font-weight:700}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.small{background:transparent;border:2px solid var(--ink);border-radius:999px;padding:.15em .9em;cursor:pointer;font-weight:600;font-size:.85em}
+.small:hover{background:var(--goldsoft)}
+.badge{display:inline-flex;align-items:center;gap:.35em;font-size:.85em;font-weight:600}
+.badge.ok{color:var(--green)}.badge.no{color:var(--red)}
+.badge svg{flex:none}
+.model{border-left:4px solid var(--green);padding:.15em .8em;color:var(--green);font-weight:500}
+[hidden]{display:none!important}
+
+.patterns{display:flex;flex-wrap:wrap;gap:8px}
+.patterns span{font-family:var(--type);font-size:.82em;font-weight:700;background:var(--bluesoft);color:var(--blue);border-radius:6px;padding:.1em .6em}
+
+.btn{font-weight:700;background:var(--red);color:#fff;border:2px solid var(--ink);border-radius:999px;padding:.55em 1.4em;cursor:pointer;box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+#copied{color:var(--green);font-weight:600}
+#copyBox{min-height:12em;font-size:.8em}
+</style>
+</head>
+<body>
+<main>
+
+<header class="hero">
+  <p class="slug">DIRECTOR'S CUT · HOMEWORK</p>
+  <h1>One more <span>take</span></h1>
+  <p class="sub">Five short scenes: film words, how a film made you feel, and spotlight sentences. About 30 minutes. Your writing is saved on this computer, so you can stop and come back later.</p>
+  <p class="persik">Persik is the director today. He's not happy yet. He says: "One more take!"</p>
+</header>
+
+<!-- 1 -->
+<section class="scene" id="s1">
+  <div class="scene-head"><span class="no">SCENE 1</span><span class="where">What the film is like</span></div>
+  <h2>Pick the word</h2>
+  <p class="task"><b>TASK</b>Choose the word that fits each sentence.</p>
+  <div class="bank"><p class="lbl">Words</p><div class="chips">
+    <span class="chip">gripping <i>· can't stop watching</i></span><span class="chip">heartwarming <i>· warm, full of love</i></span><span class="chip">thought-provoking <i>· makes you think</i></span><span class="chip">heartbreaking <i>· very sad</i></span><span class="chip">hilarious <i>· very funny</i></span><span class="chip">cheesy <i>· too sweet, silly</i></span><span class="chip">far-fetched <i>· not realistic</i></span><span class="chip">haunting <i>· you can't forget it</i></span><span class="chip">mind-blowing <i>· shocking, amazing</i></span><span class="chip">feel-good <i>· makes you happy</i></span>
+  </div></div>
+  <span class="score" id="sc1"></span>
+  <div class="qs" id="q1"></div>
+</section>
+
+<!-- 2 -->
+<section class="scene" id="s2">
+  <div class="scene-head"><span class="no">SCENE 2</span><span class="where">What it did to me</span></div>
+  <h2>How did it feel?</h2>
+  <p class="task"><b>TASK</b>Choose the phrase that finishes each sentence.</p>
+  <div class="bank"><p class="lbl">Phrases</p><div class="chips">
+    <span class="chip">give me goosebumps</span><span class="chip">move me to tears</span><span class="chip">make my skin crawl</span><span class="chip">laugh my head off</span><span class="chip">stay with me for days</span><span class="chip">leave me speechless</span><span class="chip">find it hard to watch</span><span class="chip">a real rollercoaster</span>
+  </div></div>
+  <span class="score" id="sc2"></span>
+  <div class="qs" id="q2"></div>
+</section>
+
+<!-- 3 -->
+<section class="scene" id="s3">
+  <div class="scene-head"><span class="no">SCENE 3</span><span class="where">Spotlight sentences</span></div>
+  <h2>Spot the right one</h2>
+  <p class="task"><b>TASK</b>Only one sentence in each group is correct. Find it.</p>
+  <div class="bank"><p class="lbl">Patterns</p><div class="patterns">
+    <span>What I loved was…</span><span>It was … that / who…</span><span>The thing that … was…</span><span>The reason I … was…</span><span>All I wanted was…</span>
+  </div></div>
+  <span class="score" id="sc3"></span>
+  <div class="qs" id="q3"></div>
+</section>
+
+<!-- 4 -->
+<section class="scene" id="s4">
+  <div class="scene-head"><span class="no">SCENE 4</span><span class="where">Spotlight it</span></div>
+  <h2>Say it again</h2>
+  <p class="task"><b>TASK</b>Write each sentence again. Start with the words in blue and keep the same meaning. Press <em>Check</em> to compare with the model.</p>
+  <div class="qs" id="q4"></div>
+</section>
+
+<!-- 5 -->
+<section class="scene" id="s5">
+  <div class="scene-head"><span class="no">SCENE 5</span><span class="where">Your film</span></div>
+  <h2>Your film, spotlight version</h2>
+  <p class="task"><b>TASK</b>Think of a film or series you watched recently. Write one sentence for each line. Use at least two words or phrases from Scenes 1 and 2.</p>
+  <div class="bank"><p class="lbl">Words and phrases</p><div class="chips">
+    <span class="chip">gripping</span><span class="chip">heartwarming</span><span class="chip">thought-provoking</span><span class="chip">heartbreaking</span><span class="chip">hilarious</span><span class="chip">cheesy</span><span class="chip">far-fetched</span><span class="chip">haunting</span><span class="chip">mind-blowing</span><span class="chip">feel-good</span><span class="chip">gave me goosebumps</span><span class="chip">moved me to tears</span><span class="chip">made my skin crawl</span><span class="chip">laughed my head off</span><span class="chip">stayed with me for days</span><span class="chip">left me speechless</span><span class="chip">a real rollercoaster</span>
+  </div></div>
+  <div class="qs">
+    <div class="q"><p class="qtext"><span class="n">1</span>The film: what is it, and what is it like?</p><textarea id="w0" placeholder="I watched … It's the kind of film that…"></textarea></div>
+    <div class="q"><p class="qtext"><span class="n">2</span>The best thing about it</p><p class="start">What I loved was…</p><textarea id="w1"></textarea></div>
+    <div class="q"><p class="qtext"><span class="n">3</span>A moment or a person that made a big impression</p><p class="start">It was … that / who…</p><textarea id="w2"></textarea></div>
+    <div class="q"><p class="qtext"><span class="n">4</span>Something you didn't like, or why you chose it</p><p class="start">The thing that… was… / The reason I… was…</p><textarea id="w3"></textarea></div>
+    <div class="q"><p class="qtext"><span class="n">5</span>Who should watch it?</p><p class="start">I'd recommend it if…</p><textarea id="w4"></textarea></div>
+  </div>
+</section>
+
+<!-- END -->
+<section class="scene" id="end">
+  <div class="scene-head"><span class="no">THAT'S A WRAP</span><span class="where">Send it to me</span></div>
+  <h2>Send it to me</h2>
+  <p class="task"><b>TASK</b>Press the button to copy all your answers, then paste them into a message to me.</p>
+  <div class="row"><button class="btn" id="copy" type="button">Copy my answers</button><span id="copied" hidden>Copied! Now paste it into a message.</span></div>
+  <textarea id="copyBox" hidden readonly aria-label="Your answers"></textarea>
+</section>
+
+</main>
+
+<script>
+var store={get:function(k){try{return localStorage.getItem(k);}catch(e){return null;}},set:function(k,v){try{localStorage.setItem(k,v);}catch(e){}}};
+var ICON_OK='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+var ICON_NO='<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M12 7.5v5.5M12 16.5v.1" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg>';
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function norm(s){return s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[^a-z' ]+/g,' ').replace(/\s+/g,' ').trim();}
+
+var results={};
+function buildQuiz(id,scoreId,items){
+  var box=document.getElementById(id),first={};
+  function upd(){var n=Object.keys(first).length,ok=0;for(var k in first)if(first[k])ok++;
+    document.getElementById(scoreId).textContent=ok+' / '+items.length+' right first time'+(n<items.length?' · '+(items.length-n)+' left':'');
+    results[id]=ok+'/'+items.length;}
+  items.forEach(function(it,i){
+    var q=document.createElement('div');q.className='q';
+    var t=document.createElement('p');t.className='qtext';
+    t.innerHTML='<span class="n">'+(i+1)+'</span>'+(it.q?esc(it.q).replace('___','<span class="gap">?</span>'):'Which one is correct?');
+    var o=document.createElement('div');o.className='opts';
+    var fb=document.createElement('p');fb.className='fb';
+    shuffle(it.o).forEach(function(txt){
+      var b=document.createElement('button');b.className='opt';b.type='button';b.textContent=txt;
+      b.addEventListener('click',function(){
+        var right=txt===it.o[0];
+        if(!(i in first))first[i]=right;
+        if(right){b.classList.add('right');o.querySelectorAll('.opt').forEach(function(x){x.disabled=true;});
+          var g=t.querySelector('.gap');if(g)g.textContent=txt;
+          fb.className='fb ok';fb.textContent=it.why||'Yes!';}
+        else{b.classList.add('wrong');b.disabled=true;fb.className='fb no';fb.textContent=it.hint||'Not quite. Try again.';}
+        upd();
+      });
+      o.append(b);
+    });
+    q.append(t,o,fb);box.append(q);
+  });
+  upd();
+}
+
+buildQuiz('q1','sc1',[
+  {q:"I couldn't stop watching. The last hour was so ___.",o:["gripping","cheesy","feel-good"]},
+  {q:"A dog walks home across three countries? It's a bit ___, but kids love it.",o:["far-fetched","haunting","heartbreaking"]},
+  {q:"The stand-up show was ___. I was crying with laughter.",o:["hilarious","thought-provoking","haunting"]},
+  {q:"It's a ___ story about a lonely old man who makes friends with the kids next door.",o:["heartwarming","far-fetched","mind-blowing"]},
+  {q:"The song at the end is so ___ that I still hear it at night.",o:["haunting","hilarious","cheesy"]},
+  {q:"The love story is really ___: roses, rain and a kiss at the airport.",o:["cheesy","gripping","thought-provoking"]},
+  {q:"After the film we talked for hours about freedom and technology. It's very ___.",o:["thought-provoking","feel-good","cheesy"]},
+  {q:"When the city started folding in half, my jaw dropped. The effects were ___.",o:["mind-blowing","heartwarming","far-fetched"]},
+  {q:"The scene where the mother says goodbye to her son is absolutely ___.",o:["heartbreaking","hilarious","feel-good"]},
+  {q:"Had a hard week? Watch a ___ comedy with some pizza.",o:["feel-good","haunting","heartbreaking"]}
+]);
+
+buildQuiz('q2','sc2',[
+  {q:"The spiders in the basement scene were disgusting. They ___.",o:["made my skin crawl","moved me to tears","left me speechless"]},
+  {q:"When the choir started singing, it ___.",o:["gave me goosebumps","made my skin crawl","was a real rollercoaster"]},
+  {q:"I ___ when the dog stole the wedding cake.",o:["laughed my head off","found it hard to watch","stayed with me for days"]},
+  {q:"The credits started and I couldn't say a word. The ending ___.",o:["left me speechless","made my skin crawl","laughed my head off"]},
+  {q:"The war scenes were so realistic that I ___.",o:["found them hard to watch","laughed my head off","gave me goosebumps"]},
+  {q:"Funny, then scary, then sad, then happy again: the film was ___.",o:["a real rollercoaster","hard to watch","left me speechless"]},
+  {q:"I'm still thinking about it a week later. It ___.",o:["stayed with me for days","made my skin crawl","gave me goosebumps"]},
+  {q:"The letter from his dad ___. I needed a whole box of tissues.",o:["moved me to tears","laughed my head off","made my skin crawl"]}
+]);
+
+buildQuiz('q3','sc3',[
+  {o:["What I liked was the soundtrack.","What I liked it was the soundtrack.","What I liked is was the soundtrack."],why:"Yes! No extra “it” after “What I liked”."},
+  {o:["It was the dog that made me laugh.","It was the dog what made me laugh.","It was the dog made me laugh that."],why:"Yes! It was … that…, not “what”."},
+  {o:["The reason I watched it was the cast.","The reason I watched it, it was the cast.","The reason I watched was it the cast."]},
+  {o:["All I wanted was a happy ending.","All what I wanted was a happy ending.","All I wanted it was a happy ending."],why:"Yes! “All I wanted”, not “all what”."},
+  {o:["It's Emma Stone who steals the show.","It's Emma Stone which steals the show.","Is Emma Stone who steals the show."],why:"Yes! For people we use “who” (or “that”), and we need “It's”."},
+  {o:["What surprised me was how short it felt.","What surprised me it was how short it felt.","That surprised me was how short it felt."]}
+]);
+
+/* Scene 4: transform */
+var TR=[
+  {a:"The special effects impressed me most.",st:"What impressed me most…",k:"what impressed me",m:"What impressed me most was the special effects."},
+  {a:"Her smile in the last scene made me cry.",st:"It was…",k:"it was",it:1,m:"It was her smile in the last scene that made me cry."},
+  {a:"The slow start annoyed me.",st:"The thing that…",k:"the thing that",m:"The thing that annoyed me was the slow start."},
+  {a:"I chose this film because of the trailer.",st:"The reason I…",k:"the reason i",m:"The reason I chose this film was the trailer."},
+  {a:"I only needed a good laugh.",st:"All I…",k:"all i",m:"All I needed was a good laugh."},
+  {a:"Tom Hanks plays the main character, not Brad Pitt.",st:"It's…",k:"it's",it:1,m:"It's Tom Hanks who plays the main character, not Brad Pitt."}
+];
+var q4=document.getElementById('q4');
+TR.forEach(function(it,i){
+  var q=document.createElement('div');q.className='q';
+  q.innerHTML='<p class="qtext"><span class="n">'+(i+1)+'</span>'+esc(it.a)+'</p><p class="start">'+esc(it.st)+'</p>'+
+    '<textarea id="t'+i+'" aria-label="Your sentence '+(i+1)+'"></textarea>'+
+    '<div class="row"><button class="small" type="button">Check</button><span class="badge" hidden></span></div><p class="model" hidden>'+esc(it.m)+'</p>';
+  q4.append(q);
+  var ta=q.querySelector('textarea'),bd=q.querySelector('.badge'),md=q.querySelector('.model');
+  q.querySelector('button').addEventListener('click',function(){
+    var v=norm(ta.value);
+    bd.hidden=false;
+    if(!v){bd.className='badge no';bd.innerHTML=ICON_NO+'Write your sentence first.';return;}
+    var startOk=v.indexOf(it.k)===0||v.indexOf(it.k.replace("it's","it is"))===0;
+    var rest=v.slice(it.k.length);var hasBe=it.it?/\b(that|who)\b/.test(rest):/\b(was|is)\b/.test(rest);
+    if(startOk&&hasBe){bd.className='badge ok';bd.innerHTML=ICON_OK+'Good start! Now compare:';}
+    else if(!startOk){bd.className='badge no';bd.innerHTML=ICON_NO+'Start with “'+esc(it.st.replace(/…$/,''))+'”. Here is a model:';}
+    else{bd.className='badge no';bd.innerHTML=ICON_NO+(it.it?'Don\'t forget “that” or “who”. Here is a model:':'Don\'t forget “was” or “is”. Here is a model:');}
+    md.hidden=false;
+  });
+});
+
+/* save writing */
+var FIELDS=[];TR.forEach(function(_,i){FIELDS.push('t'+i);});['w0','w1','w2','w3','w4'].forEach(function(x){FIELDS.push(x);});
+FIELDS.forEach(function(id){var el=document.getElementById(id),v=store.get('dc-'+id);if(v)el.value=v;el.addEventListener('input',function(){store.set('dc-'+id,el.value);});});
+
+/* copy */
+document.getElementById('copy').addEventListener('click',function(){
+  function val(id){return document.getElementById(id).value.trim()||'(no answer)';}
+  var out=["Director's Cut homework",''];
+  out.push('Scene 1: '+(results.q1||'-')+' · Scene 2: '+(results.q2||'-')+' · Scene 3: '+(results.q3||'-')+' (right first time)','');
+  out.push('SCENE 4. Say it again');
+  TR.forEach(function(_,i){out.push((i+1)+'. '+val('t'+i));});
+  out.push('','SCENE 5. My film');
+  ['The film','What I loved','It was…','The thing / The reason','I\'d recommend it if'].forEach(function(l,i){out.push((i+1)+'. '+val('w'+i));});
+  var text=out.join('\n'),box=document.getElementById('copyBox'),msg=document.getElementById('copied');
+  function fallback(){box.hidden=false;box.value=text;box.focus();box.select();msg.hidden=false;msg.textContent='Select all the text below and copy it.';}
+  try{navigator.clipboard.writeText(text).then(function(){msg.hidden=false;msg.textContent='Copied! Now paste it into a message.';},fallback);}catch(e){fallback();}
+});
+</script>
+</body>
+</html>
