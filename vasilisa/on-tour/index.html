@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>On Tour · Homework</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4EFE6; --card:#FFFDF9; --ink:#1B1A22; --muted:#625F6B; --line:#E2DACB;
+  --in:#2D55E8; --on:#E0512A; --at:#0E8F63; --gold:#F2B705;
+  --ok:#0E8F63; --no:#C2352B;
+  --f-head:"Anton",Impact,"Arial Narrow",sans-serif;
+  --f-body:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"Space Mono",ui-monospace,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;padding:0 14px calc(60px + env(safe-area-inset-bottom));--c:var(--ink)}
+.wrap{max-width:620px;margin:0 auto}
+h1,h2,h3{margin:0;font-weight:400}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+textarea{font:inherit}
+:focus-visible{outline:3px solid var(--in);outline-offset:2px;border-radius:8px}
+.cin{--c:var(--in)} .con{--c:var(--on)} .cat{--c:var(--at)} .cink{--c:var(--ink)} .cgold{--c:#B98900}
+.w-in{color:var(--in)} .w-on{color:var(--on)} .w-at{color:var(--at)}
+b.in,b.on,b.at{font-weight:800} b.in{color:var(--in)} b.on{color:var(--on)} b.at{color:var(--at)}
+
+/* hero */
+.hero{margin-top:14px;background:var(--ink);color:var(--bg);border-radius:20px;padding:18px 20px 16px}
+.hero .k{font-family:var(--f-mono);font-size:12px;letter-spacing:.2em;color:var(--gold)}
+.hero h1{font-family:var(--f-head);font-size:52px;line-height:.95;text-transform:uppercase}
+.hero h1 span{color:var(--gold)}
+.hero p{margin-top:10px;font-size:16px;color:color-mix(in srgb,var(--bg) 85%,var(--ink))}
+.mini{display:flex;gap:6px;margin-top:14px}
+.mini div{flex:1;border-radius:10px;padding:8px 6px;text-align:center;font-family:var(--f-mono);font-size:12px;line-height:1.3}
+.mini b{display:block;font-family:var(--f-head);font-weight:400;font-size:26px;line-height:1}
+.mini .i{background:var(--in)} .mini .o{background:var(--on)} .mini .a{background:var(--at)}
+.nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.nav a{color:var(--bg);text-decoration:none;font-size:13px;font-weight:700;border:1.5px solid color-mix(in srgb,var(--bg) 35%,transparent);border-radius:999px;padding:5px 11px}
+.nav a.p{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+
+/* part divider */
+.part{margin-top:30px;display:flex;align-items:center;gap:12px}
+.part b{font-family:var(--f-head);font-weight:400;font-size:34px;text-transform:uppercase;line-height:1}
+.part span{color:var(--muted);font-size:14px;line-height:1.35}
+
+/* block header */
+.block{margin-top:26px;display:flex;align-items:center;gap:12px}
+.block .n{width:42px;height:42px;border-radius:12px;background:var(--c);color:#fff;font-family:var(--f-head);font-size:24px;display:grid;place-items:center;flex:none}
+.block h2{font-family:var(--f-head);font-size:30px;line-height:1;text-transform:uppercase}
+.block p{color:var(--muted);font-size:14px}
+
+/* rule card */
+.rule{margin-top:12px;background:var(--c);color:#fff;border-radius:18px;padding:16px 16px 14px}
+.rule .t{font-family:var(--f-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;opacity:.9}
+.rule .big{font-size:20px;font-weight:700;margin-top:4px;line-height:1.35}
+.rule .ex{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.rule .ex span{background:#fff;color:var(--c);border-radius:999px;padding:4px 11px;font-weight:700;font-size:15px}
+.rule .but{margin-top:12px;background:#fff;color:var(--ink);border-radius:12px;padding:10px 12px;font-size:15px;line-height:1.45}
+.rule .but b.big2{font-weight:800}
+
+/* task */
+.task{margin-top:12px;background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:16px 14px 16px;box-shadow:4px 4px 0 var(--c)}
+.task .tag{display:inline-block;font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--c);color:#fff;padding:2px 8px;border-radius:5px}
+.task h3{font-size:20px;font-weight:800;margin-top:8px;line-height:1.2}
+.task .sub{color:var(--muted);font-size:15px;margin-top:4px}
+
+/* quiz */
+.qz .q{padding:12px 0;border-top:1px solid var(--line)}
+.qz .q:first-child{border-top:0;padding-top:8px}
+.qz .q p{font-weight:600;font-size:17px;line-height:1.4}
+.qz .q p .gap{display:inline-block;min-width:40px;border-bottom:2.5px solid var(--ink);text-align:center;font-weight:800}
+.qz .q.done p .gap{border-color:var(--ok);color:var(--ok)}
+.qz .q p small{color:var(--muted);font-weight:500}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
+.op{border:2px solid var(--ink);background:#fff;border-radius:12px;padding:8px 14px;font-weight:700;font-size:16px;min-width:56px;min-height:44px}
+.op.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.op.no{background:color-mix(in srgb,var(--no) 12%,white);border-color:var(--no);color:var(--no);text-decoration:line-through}
+.qz .q .fix{margin-top:6px;color:var(--ok);font-weight:700;font-size:15px;display:none}
+.qz .q.done .fix{display:block}
+.qz .score{margin-top:10px;font-family:var(--f-mono);font-weight:700;color:var(--c)}
+.qz.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.qz.cards .q{border:2px solid var(--line);border-radius:14px;padding:12px 10px;text-align:center;background:#fff}
+.qz.cards .q:first-child{padding-top:12px}
+.qz.cards .q p{font-size:20px;font-weight:800}
+.qz.cards .q.done{border-color:var(--ok)}
+.qz.cards .opts{justify-content:center}
+.qz.cards .op{padding:6px 10px;font-size:15px}
+.qz.cards .score{grid-column:1/-1}
+
+/* day bar */
+.daybar{margin-top:12px}
+.daybar .bar{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;border-radius:12px;overflow:hidden;border:2px solid var(--ink)}
+.daybar .bar div{padding:10px 4px;text-align:center;font-size:13px;font-weight:700;line-height:1.25}
+.daybar .bar div b{display:block;font-family:var(--f-head);font-weight:400;font-size:22px}
+.daybar .bar .m{background:color-mix(in srgb,var(--in) 14%,white);color:var(--in)}
+.daybar .bar .a{background:color-mix(in srgb,var(--in) 22%,white);color:var(--in)}
+.daybar .bar .e{background:color-mix(in srgb,var(--in) 32%,white);color:var(--in)}
+.daybar .bar .n{background:var(--ink);color:#4FD3A0}
+.daybar .pins{display:flex;justify-content:space-between;margin-top:8px;font-size:14px;font-weight:700}
+.daybar .pins span{border:2px solid var(--at);color:var(--at);border-radius:999px;padding:2px 10px;background:#fff}
+
+/* schedule */
+.sched{margin-top:12px;border:2px solid var(--ink);border-radius:14px;overflow:hidden}
+.sched div{display:grid;grid-template-columns:118px 1fr;border-top:1px solid var(--line);font-size:15px}
+.sched div:first-child{border-top:0}
+.sched div b{background:color-mix(in srgb,var(--c) 10%,white);padding:8px 10px;font-family:var(--f-mono);font-size:13px;color:var(--c)}
+.sched div span{padding:8px 10px;font-weight:600}
+
+/* matching */
+.mt{position:relative;display:grid;grid-template-columns:minmax(0,.8fr) 30px minmax(0,1.3fr);margin-top:12px}
+.mt svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.mt svg.lines path{fill:none;stroke:var(--c);stroke-width:3;stroke-linecap:round}
+.mt svg.lines path.tmp{stroke-dasharray:6 6;opacity:.6}
+.mt svg.lines path.ok{stroke:var(--ok)} .mt svg.lines path.no{stroke:var(--no)}
+.mt .col{display:flex;flex-direction:column;gap:9px}
+.mi{border:2px solid var(--line);background:#fff;border-radius:12px;padding:8px 10px;font-size:15px;font-weight:600;user-select:none;-webkit-user-select:none;touch-action:none;min-height:48px;display:flex;align-items:center;line-height:1.25}
+.mi.l{font-family:var(--f-mono);font-weight:700;font-size:16px}
+.mi.used{border-color:var(--c)} .mi.sel{background:color-mix(in srgb,var(--c) 14%,white);border-color:var(--c)}
+.btn{border:2px solid var(--ink);background:var(--c);color:#fff;border-radius:999px;padding:10px 18px;font-weight:700;font-size:16px;display:inline-flex;align-items:center;gap:8px}
+.btn.ghost{background:#fff;color:var(--ink)}
+.btn svg{width:18px;height:18px}
+.ctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.ctl .score{font-family:var(--f-mono);font-weight:700;color:var(--c)}
+
+/* ordinals */
+.ords{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.ords span{background:#fff;color:var(--ink);border-radius:10px;padding:5px 8px;font-size:14px;text-align:center;line-height:1.25}
+.ords span b{display:block;font-family:var(--f-mono);color:var(--c)}
+
+/* listen */
+.play{border:2px solid var(--ink);background:var(--c);color:#fff;width:46px;height:46px;border-radius:50%;display:inline-grid;place-items:center;flex:none}
+.play svg{width:18px;height:18px}
+.play.on{background:var(--ink)}
+.lq{display:flex;gap:12px;align-items:flex-start}
+
+/* holidays */
+.hol{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ht{border:2px solid var(--ink);background:#fff;border-radius:14px;padding:10px;text-align:left;min-height:96px;display:flex;flex-direction:column;justify-content:space-between}
+.ht .d{font-family:var(--f-mono);font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em}
+.ht .nm{font-weight:800;font-size:17px;line-height:1.2}
+.ht .say{font-weight:800;font-size:16px;margin-top:6px;visibility:hidden}
+.ht.open .say{visibility:visible}
+.ht.one .say{color:var(--on)} .ht.one.open{border-color:var(--on);background:color-mix(in srgb,var(--on) 8%,white)}
+.ht.wide{grid-column:1/-1;min-height:0}
+.ht.wide .say{color:var(--at)} .ht.wide.open{border-color:var(--at);background:color-mix(in srgb,var(--at) 8%,white)}
+.ht .tap{font-size:12px;color:var(--muted)}
+.ht.open .tap{display:none}
+.note{margin-top:12px;background:color-mix(in srgb,var(--gold) 24%,white);border-radius:12px;padding:10px 12px;font-size:15px}
+
+/* chat */
+.chat{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.chat .q{border:0!important;padding:0!important;max-width:92%;background:color-mix(in srgb,var(--c) 9%,white);border-radius:16px 16px 16px 4px;padding:10px 12px!important}
+.chat .q.me{align-self:flex-end;background:#fff;border:2px solid var(--ink)!important;border-radius:16px 16px 4px 16px}
+.chat .q .who{display:block;font-size:12px;font-weight:800;color:var(--c)}
+.chat .op{padding:5px 12px;min-height:38px;min-width:46px}
+
+/* writing */
+.wq{margin-top:14px}
+.wq label{display:block;font-weight:700}
+.wq label small{display:block;font-weight:500;color:var(--muted);font-size:14px}
+.wq textarea{width:100%;margin-top:8px;border:2px solid var(--line);border-radius:14px;padding:12px;font-size:16px;line-height:1.45;background:#fff;resize:vertical;min-height:80px;color:var(--ink)}
+.wq textarea:focus{outline:none;border-color:var(--c)}
+.chk{margin-top:6px;font-size:14px;font-weight:700;min-height:1.3em}
+.chk.ok{color:var(--ok)} .chk.no{color:var(--muted)}
+.used{display:flex;gap:6px;margin-top:8px}
+.used span{border:2px solid var(--line);border-radius:999px;padding:3px 12px;font-weight:800;font-size:14px;color:var(--muted);background:#fff}
+.used span.on.i{background:var(--in);border-color:var(--in);color:#fff}
+.used span.on.o{background:var(--on);border-color:var(--on);color:#fff}
+.used span.on.a{background:var(--at);border-color:var(--at);color:#fff}
+
+/* send */
+.send{margin-top:30px;background:var(--ink);color:var(--bg);border-radius:20px;padding:22px 18px}
+.send h2{font-family:var(--f-head);font-size:34px;text-transform:uppercase;line-height:1}
+.send p{color:color-mix(in srgb,var(--bg) 82%,var(--ink));font-size:15px;margin-top:6px}
+.send .btn{background:var(--gold);color:var(--ink);border-color:var(--gold);font-size:17px;padding:12px 22px}
+.send .hw-msg.ok{color:#4FD3A0!important} .send .hw-msg.no{color:#FF8B66!important}
+.send .alt{margin-top:12px;font-size:14px}
+.send .alt button{background:none;border:0;color:var(--bg);text-decoration:underline;padding:0;font-size:14px}
+.send textarea{width:100%;margin-top:8px;border-radius:10px;padding:8px;font-size:13px;min-height:120px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>In · On · <span>At</span></h1>
+</header>
+
+<!-- =================== PART 1 =================== -->
+<div class="part" id="part1"><b>Part 1</b><span>In, parts of the day, on, dates</span></div>
+
+<!-- ---------- 1 IN ---------- -->
+<div class="block cin" id="b1"><span class="n">1</span><div><h2>In: big time</h2><p>Years, decades, centuries, seasons, months</p></div></div>
+<div class="rule cin">
+  <div class="t">The rule</div>
+  <p class="big">IN + a big piece of time</p>
+  <div class="ex"><span>in 2008</span><span>in the 1990s</span><span>in the 21st century</span><span>in the summer</span><span>in July</span></div>
+</div>
+<section class="task cin">
+  <span class="tag">1A · In or not?</span>
+  <h3>Can we say “in” with it?</h3>
+  <p class="sub">Is it a big piece of time? Tap your answer.</p>
+  <div class="qz cards" id="q1a"></div>
+</section>
+<section class="task cin">
+  <span class="tag">1B · Finish it</span>
+  <h3>Which time fits after “in”?</h3>
+  <div class="qz" id="q1b"></div>
+</section>
+
+<!-- ---------- 2 PARTS OF THE DAY ---------- -->
+<div class="block cink" id="b2"><span class="n">2</span><div><h2>Parts of the day</h2><p>Morning, afternoon, evening, night, noon</p></div></div>
+<div class="rule cink">
+  <div class="t">The rule</div>
+  <p class="big"><b class="in" style="color:#8FA6FF">in</b> the morning · <b class="in" style="color:#8FA6FF">in</b> the afternoon · <b class="in" style="color:#8FA6FF">in</b> the evening</p>
+  <div class="but">BUT: <b class="at">at night</b> · <b class="at">at noon</b> (12 p.m.) · <b class="at">at midnight</b> (12 a.m.)</div>
+  <div class="daybar">
+    <div class="bar"><div class="m"><b>in</b>the morning</div><div class="a"><b>in</b>the afternoon</div><div class="e"><b>in</b>the evening</div><div class="n"><b>at</b>night</div></div>
+    <div class="pins"><span>at noon · 12 p.m.</span><span>at midnight · 12 a.m.</span></div>
+  </div>
+</div>
+<section class="task cink">
+  <span class="tag">2A · In or at?</span>
+  <h3>Your day</h3>
+  <p class="sub">Choose in or at.</p>
+  <div class="qz" id="q2a"></div>
+</section>
+
+<!-- ---------- 3 ON ---------- -->
+<div class="block con" id="b3"><span class="n">3</span><div><h2>On: one day</h2><p>Days, dates, special days</p></div></div>
+<div class="rule con">
+  <div class="t">The rule</div>
+  <p class="big">ON + one day</p>
+  <div class="ex"><span>on Monday</span><span>on Fridays</span><span>on March 6</span><span>on my birthday</span></div>
+  <div class="but"><b>Day + part of the day = ON</b><br>on Monday morning · on Friday night · on Sunday afternoon<br><span style="color:var(--muted)">in the morning → but → </span><b class="on">on</b> Monday morning</div>
+</div>
+<section class="task con">
+  <span class="tag">3A · In or on?</span>
+  <h3>Is there a day?</h3>
+  <p class="sub">If there is a day, use on.</p>
+  <div class="qz" id="q3a"></div>
+</section>
+<section class="task con">
+  <span class="tag">3B · Her week</span>
+  <h3>Mia’s week</h3>
+  <p class="sub">Look at Mia’s week. Choose the right answer.</p>
+  <div class="sched con">
+    <div><b>TUE · afternoon</b><span>band practice</span></div>
+    <div><b>WED · evening</b><span>guitar lesson</span></div>
+    <div><b>FRI · night</b><span>movie night</span></div>
+    <div><b>SAT · morning</b><span>sleep late</span></div>
+    <div><b>SUNDAY</b><span>family dinner</span></div>
+  </div>
+  <div class="qz" id="q3b"></div>
+</section>
+<section class="task con">
+  <span class="tag">3C · Your week</span>
+  <h3>Write about your week</h3>
+  <div class="wq"><label for="w3">Write two sentences with on.<small>Example: I have band practice on Tuesday afternoons.</small></label><textarea id="w3" rows="3"></textarea><p class="chk" data-for="w3"></p></div>
+</section>
+
+<!-- ---------- 4 DATES ---------- -->
+<div class="block cgold" id="b4"><span class="n">4</span><div><h2>Dates</h2><p>How to write them and how to say them</p></div></div>
+<div class="rule cgold">
+  <div class="t">Write it</div>
+  <p class="big">March 6, 2027<br><span style="font-size:16px;font-weight:600">Short, in the U.S.: <b>3/6/2027</b> — the month comes first!</span></p>
+  <div class="but"><b>Say it:</b> “March sixth” or “the sixth of March”<br><b>Years:</b> 1969 = nineteen sixty-nine · 2008 = two thousand eight · 2027 = twenty twenty-seven</div>
+  <div class="ords">
+    <span><b>1st</b>first</span><span><b>2nd</b>second</span><span><b>3rd</b>third</span>
+    <span><b>4th</b>fourth</span><span><b>5th</b>fifth</span><span><b>12th</b>twelfth</span>
+    <span><b>20th</b>twentieth</span><span><b>21st</b>twenty-first</span><span><b>31st</b>thirty-first</span>
+  </div>
+</div>
+<section class="task cgold">
+  <span class="tag">4A · Connect</span>
+  <h3>Written and spoken</h3>
+  <p class="sub">Tap the left side, then the right side. Then check.</p>
+  <div id="m4"></div>
+</section>
+<section class="task cgold">
+  <span class="tag">4B · U.S. dates</span>
+  <h3>What date is it?</h3>
+  <p class="sub">Remember: in the U.S., the month comes first.</p>
+  <div class="qz" id="q4b"></div>
+</section>
+<section class="task cgold">
+  <span class="tag">4C · Listen</span>
+  <h3>Which date do you hear?</h3>
+  <p class="sub">Tap play. Listen and choose.</p>
+  <div class="qz" id="q4c"></div>
+</section>
+<section class="task cgold">
+  <span class="tag">4D · Write</span>
+  <h3>Your dates</h3>
+  <div class="wq"><label for="d1">When is your birthday?<small>Write it like this: March 6</small></label><textarea id="d1" rows="1"></textarea></div>
+  <div class="wq"><label for="d2">When is Halloween?</label><textarea id="d2" rows="1"></textarea><p class="chk" data-for="d2"></p></div>
+  <div class="wq"><label for="d3">When is Independence Day in the U.S.?</label><textarea id="d3" rows="1"></textarea><p class="chk" data-for="d3"></p></div>
+</section>
+
+<!-- =================== PART 2 =================== -->
+<div class="part" id="part2"><b>Part 2</b><span>At, holidays, no word, all together</span></div>
+
+<!-- ---------- 5 AT ---------- -->
+<div class="block cat" id="b5"><span class="n">5</span><div><h2>At: exact time</h2><p>Clock times, noon, midnight, meals</p></div></div>
+<div class="rule cat">
+  <div class="t">The rule</div>
+  <p class="big">AT + an exact time</p>
+  <div class="ex"><span>at 7:30</span><span>at noon</span><span>at midnight</span><span>at lunch</span><span>at dinner</span><span>at night</span></div>
+</div>
+<section class="task cat">
+  <span class="tag">5A · At or not?</span>
+  <h3>Can we say “at” with it?</h3>
+  <p class="sub">Is it an exact time or a meal?</p>
+  <div class="qz cards" id="q5a"></div>
+</section>
+<section class="task cat">
+  <span class="tag">5B · Show day</span>
+  <h3>The band’s big day</h3>
+  <div class="sched cat">
+    <div><b>12:00 P.M.</b><span>soundcheck</span></div>
+    <div><b>1:00 P.M.</b><span>lunch with the band</span></div>
+    <div><b>7:00 P.M.</b><span>doors open</span></div>
+    <div><b>8:30 P.M.</b><span>the show starts</span></div>
+    <div><b>12:00 A.M.</b><span>the bus leaves</span></div>
+  </div>
+  <div class="qz" id="q5b"></div>
+</section>
+
+<!-- ---------- 6 HOLIDAYS ---------- -->
+<div class="block con" id="b6"><span class="n">6</span><div><h2>Holidays</h2><p>One day or the holiday time?</p></div></div>
+<div class="rule con">
+  <div class="t">The rule</div>
+  <p class="big">A holiday is one day → ON</p>
+  <div class="ex"><span>on Halloween</span><span>on Thanksgiving</span><span>on Christmas Day</span><span>on Christmas Eve</span><span>on New Year’s Eve</span><span>on July 4th</span></div>
+  <div class="but"><b class="at">at Christmas</b> = the whole holiday time, many days around Christmas.<br><span style="color:var(--muted)">Halloween is one night: October 31. So we say <b class="on">on Halloween</b>.</span></div>
+</div>
+<section class="task con">
+  <span class="tag">6A · Calendar</span>
+  <h3>Tap each holiday</h3>
+  <p class="sub">Is it one day or the whole holiday time? Tap to see.</p>
+  <div class="hol" id="hol"></div>
+</section>
+<section class="task con">
+  <span class="tag">6B · Choose</span>
+  <h3>Holidays at home</h3>
+  <p class="sub">One day → on. The whole holiday time → at.</p>
+  <div class="qz" id="q6b"></div>
+</section>
+
+<!-- ---------- 7 NO WORD ---------- -->
+<div class="block cink" id="b7"><span class="n">7</span><div><h2>No word</h2><p>next, last, this, every, tomorrow</p></div></div>
+<div class="rule cink">
+  <div class="t">The rule</div>
+  <p class="big">No in, on or at before: next · last · this · every · today · tomorrow · yesterday</p>
+  <div class="ex"><span>next Friday</span><span>last summer</span><span>this weekend</span><span>every morning</span></div>
+</div>
+<section class="task cink">
+  <span class="tag">7A · Choose</span>
+  <h3>In, on, at — or nothing?</h3>
+  <p class="sub">“—” means no word.</p>
+  <div class="qz" id="q7a"></div>
+</section>
+
+<!-- ---------- 8 MIX ---------- -->
+<div class="block cin" id="b8"><span class="n">8</span><div><h2>All together</h2><p>Use everything</p></div></div>
+<section class="task cin">
+  <span class="tag">8A · Chat</span>
+  <h3>Saturday with Mia</h3>
+  <p class="sub">Choose in, on, at or — for each message.</p>
+  <div class="qz chat" id="q8a"></div>
+</section>
+<section class="task con">
+  <span class="tag">8B · Fix it</span>
+  <h3>Right or wrong?</h3>
+  <p class="sub">If it is wrong, you will see the right sentence. Read it aloud.</p>
+  <div class="qz" id="q8b"></div>
+</section>
+
+<!-- ---------- 9 YOUR TURN ---------- -->
+<div class="block cat" id="b9"><span class="n">9</span><div><h2>Your turn</h2><p>Short answers are OK!</p></div></div>
+<section class="task cat">
+  <span class="tag">9A · About you</span>
+  <h3>Answer the questions</h3>
+  <div class="wq"><label for="a1">What do you usually do on the weekend?</label><textarea id="a1" rows="2"></textarea></div>
+  <div class="wq"><label for="a2">What do you do in the evening after school?</label><textarea id="a2" rows="2"></textarea></div>
+  <div class="wq"><label for="a3">What time do you go to bed? What time do you get up on school days?</label><textarea id="a3" rows="2"></textarea></div>
+</section>
+<section class="task con">
+  <span class="tag">9B · My holiday</span>
+  <h3>How does your family celebrate?</h3>
+  <p class="sub">Choose Halloween, Thanksgiving, Christmas or New Year’s Eve. Write 3–4 sentences: when it is and what your family does. Try to use in, on and at.</p>
+  <div class="wq"><textarea id="a4" rows="5" placeholder="Thanksgiving is in November. On Thanksgiving Day, we…"></textarea></div>
+  <div class="used" id="used"><span class="i">in</span><span class="o">on</span><span class="a">at</span></div>
+</section>
+
+<section class="send">
+  <h2>All done?</h2>
+  <p>Tap the button and your answers go straight to me.</p>
+  <div id="hw-send" style="margin-top:12px"></div>
+  <div class="alt">No internet? <button type="button" id="copy">Copy my answers</button> and paste them into our chat.<textarea id="copyBox" hidden readonly></textarea></div>
+</section>
+
+</div>
+
+<script src="../../assets/hw-submit.js"></script>
+<script>
+var $=function(s,r){return (r||document).querySelector(s)};
+var $$=function(s,r){return [].slice.call((r||document).querySelectorAll(s))};
+var store={get:function(k){try{return localStorage.getItem('vot-'+k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem('vot-'+k,v)}catch(e){}}};
+function plain(h){var d=document.createElement('div');d.innerHTML=h;return d.textContent.replace(/\s+/g,' ').trim()}
+var PLAY='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>';
+var PAUSE='<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
+var CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
+/* ---------- results for sending ---------- */
+var QUIZ={}; /* id -> {title, topic, items:[{q,a,correct,ok}], n} */
+
+/* ---------- generic quiz ----------
+   items: [question(html with ___), answer, options(optional), extra(optional: fix text or who/me for chat)] */
+function quiz(id,title,topic,items,opts,mode){
+  var el=document.getElementById(id),rec=[],sc=0;
+  QUIZ[id]={title:title,topic:topic,items:rec,n:items.length,score:function(){return sc}};
+  el.innerHTML=items.map(function(it,n){
+    var o=it[2]||opts, q=it[0].indexOf('___')>-1?it[0].replace('___','<span class="gap">&nbsp;</span>'):it[0];
+    var who=mode=='chat'?(it[3]=='me'?'':'<span class="who">'+it[3]+'</span>'):'';
+    var lead=mode=='cards'?'':(mode=='chat'?'':(n+1)+'. ');
+    var fix=mode=='rw'?'<p class="fix">'+it[3]+'</p>':'';
+    var pre=it[4]||'';
+    return '<div class="q'+(mode=='chat'&&it[3]=='me'?' me':'')+'">'+who+pre+'<p>'+lead+q+'</p><div class="opts">'+o.map(function(x){return '<button class="op" type="button">'+x+'</button>'}).join('')+'</div>'+fix+'</div>'}).join('')+'<p class="score"></p>';
+  var s=$('.score',el);
+  el.addEventListener('click',function(e){var b=e.target.closest('.op');if(!b)return;var q=b.closest('.q'),i=$$('.q',el).indexOf(q);
+    if(q.classList.contains('done'))return;
+    var it=items[i],right=b.textContent==it[1];
+    if(!rec[i])rec[i]={q:plain(it[0])||('Listening '+(i+1)),a:b.textContent,correct:it[1],ok:right};
+    if(right){b.classList.add('ok');q.classList.add('done');var g=$('.gap',q);if(g)g.textContent=it[1]=='—'?'':it[1];if(rec[i].ok)sc++;s.textContent='Right first time: '+sc+' / '+items.length}
+    else b.classList.add('no');
+  });
+}
+
+/* ---------- 1 IN ---------- */
+quiz('q1a','1A. In or not?','IN: big time',[["July","in"],["1999","in"],["Monday","not in"],["the winter","in"],["the 1980s","in"],["my birthday","not in"],["the 21st century","in"],["8 p.m.","not in"]],["in","not in"],'cards');
+quiz('q1b','1B. Which time fits after in?','IN: big time',[
+ ["I was born in ___.","2008",["2008","Friday","lunch"]],
+ ["We have summer break in ___.","June",["June 5","June","the weekend"]],
+ ["Rock music was really popular in ___.","the 1970s",["Saturday","noon","the 1970s"]],
+ ["It snows a lot in ___.","the winter",["the winter","Monday","7:30"]],
+ ["I want to visit New York in ___.","the spring",["Sunday","the spring","tomorrow"]]
+]);
+
+/* ---------- 2 PARTS OF THE DAY ---------- */
+quiz('q2a','2A. In or at? Parts of the day','Parts of the day: in the morning / at night / at noon',[
+ ["I go to school ___ the morning.","in"],["I do my homework ___ the evening.","in"],["I can’t sleep ___ night before a show.","at"],["We eat lunch ___ noon.","at"],
+ ["Band practice is ___ the afternoon.","in"],["The party ended ___ midnight.","at"],["I write songs late ___ night.","at"],["My mom drinks coffee ___ the morning.","in"]
+],["in","at"]);
+
+/* ---------- 3 ON ---------- */
+quiz('q3a','3A. In or on? Is there a day?','ON: day + part of the day',[
+ ["I’m always tired ___ the morning.","in"],["I’m always tired ___ Monday morning.","on"],["We watch movies ___ the evening.","in"],["We watch movies ___ Friday evening.","on"],
+ ["Let’s meet ___ Saturday afternoon.","on"],["I have a test ___ the afternoon.","in"]
+],["in","on","at"]);
+quiz('q3b','3B. Mia’s week','ON: days',[
+ ["When is band practice?","on Tuesday afternoon",["in Tuesday afternoon","on Tuesday afternoon","at Tuesday afternoon"]],
+ ["When is the guitar lesson?","on Wednesday evening",["on Wednesday evening","in Wednesday evening","at Wednesday evening"]],
+ ["When is movie night?","on Friday night",["at Friday night","in Friday night","on Friday night"]],
+ ["When does Mia sleep late?","on Saturday morning",["in Saturday morning","on Saturday morning","at Saturday morning"]],
+ ["When is family dinner?","on Sunday",["at Sunday","in Sunday","on Sunday"]]
+]);
+
+/* ---------- 4 DATES ---------- */
+(function(){var P=[["3/6","March sixth"],["6/3","June third"],["12th","twelfth"],["1969","nineteen sixty-nine"],["2008","two thousand eight"],["2027","twenty twenty-seven"]],ord=[3,5,0,2,4,1];
+ var el=$('#m4'),links={},sel=null,drag=null;QUIZ.m4={title:'4A. Written and spoken dates',topic:'Dates: writing and saying',items:[],n:P.length,score:function(){return null}};
+ el.innerHTML='<div class="mt"><svg class="lines"></svg><div class="col">'+P.map(function(p,i){return '<div class="mi l" data-i="'+i+'">'+p[0]+'</div>'}).join('')+'</div><div></div><div class="col">'+ord.map(function(i){return '<div class="mi r" data-i="'+i+'">'+P[i][1]+'</div>'}).join('')+'</div></div><div class="ctl"><button class="btn" type="button" id="mck">'+CHECK+'Check</button><button class="btn ghost" type="button" id="mrs">Reset</button><span class="score" id="msc"></span></div>';
+ var box=$('.mt',el),svg=$('svg',box),checked=0;
+ function pos(n,left){var c=box.getBoundingClientRect(),r=n.getBoundingClientRect();return [(left?r.right:r.left)-c.left,r.top+r.height/2-c.top]}
+ function path(a,b,cls){var mx=(a[0]+b[0])/2;return '<path class="'+(cls||'')+'" d="M'+a[0]+','+a[1]+' C'+mx+','+a[1]+' '+mx+','+b[1]+' '+b[0]+','+b[1]+'"/>'}
+ function draw(res){var s='';for(var l in links){s+=path(pos($('.l[data-i="'+l+'"]',box),1),pos($('.r[data-i="'+links[l]+'"]',box),0),res?(links[l]==l?'ok':'no'):'')}
+  if(drag&&drag.moved){var c=box.getBoundingClientRect();s+=path(pos($('.l[data-i="'+drag.i+'"]',box),1),[drag.x-c.left,drag.y-c.top],'tmp')}
+  svg.innerHTML=s;$$('.mi',box).forEach(function(n){var l=n.classList.contains('l'),i=n.dataset.i,used=l?(i in links):Object.keys(links).some(function(k){return links[k]==i});n.classList.toggle('used',used);n.classList.toggle('sel',l&&sel==i)})}
+ function link(l,r){for(var k in links)if(links[k]==r)delete links[k];links[l]=r;$('#msc').textContent='';draw()}
+ box.addEventListener('pointerdown',function(e){var n=e.target.closest('.mi');if(!n)return;e.preventDefault();var i=n.dataset.i;
+  if(n.classList.contains('l')){drag={i:i,x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,moved:false};sel=i;draw()}
+  else if(sel!=null){link(sel,i);sel=null;draw()}});
+ document.addEventListener('pointermove',function(e){if(!drag)return;drag.x=e.clientX;drag.y=e.clientY;if(!drag.moved&&Math.abs(e.clientX-drag.sx)+Math.abs(e.clientY-drag.sy)>8){drag.moved=true;delete links[drag.i]}draw()});
+ document.addEventListener('pointerup',function(e){if(!drag)return;var d=drag;drag=null;var t=document.elementFromPoint(e.clientX,e.clientY),r=t&&t.closest&&t.closest('.mi.r');if(d.moved){if(r&&box.contains(r))link(d.i,r.dataset.i);sel=null}draw()});
+ document.addEventListener('pointercancel',function(){drag=null;draw()});
+ $('#mck').onclick=function(){var ok=0;for(var l in links)if(links[l]==l)ok++;draw(true);$('#msc').textContent=ok+' / '+P.length;
+  if(!checked){checked=1;QUIZ.m4.items=P.map(function(p,i){return {q:p[0],a:(i in links)?P[links[i]][1]:'',correct:p[1],ok:links[i]==i}});QUIZ.m4.score=function(){return QUIZ.m4.items.filter(function(x){return x.ok}).length}}};
+ $('#mrs').onclick=function(){links={};sel=null;$('#msc').textContent='';draw()};
+ window.addEventListener('resize',function(){draw()});draw();
+})();
+quiz('q4b','4B. U.S. short dates','Dates: month first in the U.S.',[
+ ["7/4 is…","July 4",["April 7","July 4"]],["11/1 is…","November 1",["November 1","January 11"]],["10/31 is…","October 31",["October 31","March 10"]],["2/5 is…","February 5",["May 2","February 5"]]
+]);
+quiz('q4c','4C. Which date do you hear?','Dates: listening',[
+ ["","March 6, 2027",["March 16, 2027","May 6, 2027","March 6, 2027"],0,'<div class="lq"><button class="play" type="button" data-a="date-1" aria-label="Listen">'+PLAY+'</button></div>'],
+ ["","July 4, 1776",["July 4, 1776","July 14, 1776","June 4, 1776"],0,'<div class="lq"><button class="play" type="button" data-a="date-2" aria-label="Listen">'+PLAY+'</button></div>'],
+ ["","October 31",["October 13","October 31","October 30"],0,'<div class="lq"><button class="play" type="button" data-a="date-3" aria-label="Listen">'+PLAY+'</button></div>'],
+ ["","December 25, 2008",["December 15, 2008","December 25, 2018","December 25, 2008"],0,'<div class="lq"><button class="play" type="button" data-a="date-4" aria-label="Listen">'+PLAY+'</button></div>'],
+ ["","February 12, 1969",["February 12, 1969","February 20, 1969","February 12, 1996"],0,'<div class="lq"><button class="play" type="button" data-a="date-5" aria-label="Listen">'+PLAY+'</button></div>'],
+ ["","September 22",["September 12","September 20","September 22"],0,'<div class="lq"><button class="play" type="button" data-a="date-6" aria-label="Listen">'+PLAY+'</button></div>']
+]);
+
+/* audio */
+var cur=null,curBtn=null;
+function stopA(){if(cur){cur.pause();cur=null}if(curBtn){curBtn.classList.remove('on');curBtn.innerHTML=PLAY;curBtn=null}}
+document.addEventListener('click',function(e){var b=e.target.closest('.play');if(!b)return;e.stopPropagation();if(curBtn===b){stopA();return}stopA();curBtn=b;b.classList.add('on');b.innerHTML=PAUSE;cur=new Audio('audio/'+b.dataset.a+'.mp3');cur.onended=stopA;cur.play().catch(stopA)},true);
+
+/* ---------- 5 AT ---------- */
+quiz('q5a','5A. At or not?','AT: exact time',[["7:30","at"],["noon","at"],["Tuesday","not at"],["lunch","at"],["the summer","not at"],["midnight","at"],["dinner","at"],["July","not at"]],["at","not at"],'cards');
+quiz('q5b','5B. The band’s big day','AT: clock times, noon, midnight, meals',[
+ ["When is the soundcheck?","at noon",["in noon","at noon","on noon"]],
+ ["When does the band eat together?","at lunch",["at lunch","in lunch","on lunch"]],
+ ["When do the doors open?","at 7 p.m.",["on 7 p.m.","in 7 p.m.","at 7 p.m."]],
+ ["When does the show start?","at 8:30",["at 8:30","on 8:30","in 8:30"]],
+ ["When does the bus leave?","at midnight",["in midnight","on midnight","at midnight"]]
+]);
+
+/* ---------- 6 HOLIDAYS ---------- */
+(function(){var H=[["OCT 31","Halloween","on Halloween"],["4TH THU OF NOV","Thanksgiving","on Thanksgiving"],["DEC 24","Christmas Eve","on Christmas Eve"],["DEC 25","Christmas Day","on Christmas Day"],["DEC 31","New Year’s Eve","on New Year’s Eve"],["JULY 4","Independence Day","on July 4th"]];
+ var el=$('#hol');
+ el.innerHTML=H.map(function(h){return '<button type="button" class="ht one"><span class="d">'+h[0]+' · ONE DAY</span><span class="nm">'+h[1]+'</span><span class="tap">tap</span><span class="say">'+h[2]+'</span></button>'}).join('')+
+  '<button type="button" class="ht wide"><span class="d">DEC 20 – JAN 2 · MANY DAYS</span><span class="nm">The Christmas holidays</span><span class="tap">tap</span><span class="say">at Christmas</span></button>';
+ el.addEventListener('click',function(e){var t=e.target.closest('.ht');if(t)t.classList.toggle('open')});
+})();
+quiz('q6b','6B. Holidays at home','Holidays: on (one day) / at Christmas (holiday time)',[
+ ["We go trick-or-treating ___ Halloween.","on"],
+ ["We eat turkey ___ Thanksgiving.","on"],
+ ["We open presents ___ Christmas morning.","on"],
+ ["My cousins stay with us for a week ___ Christmas. <small>(the whole holiday time)</small>","at"],
+ ["Everyone watches fireworks ___ New Year’s Eve.","on"],
+ ["We have a barbecue ___ July 4th.","on"],
+ ["Our town looks so pretty ___ Christmas. <small>(the whole holiday time)</small>","at"],
+ ["I got a new guitar ___ my birthday.","on"]
+],["in","on","at"]);
+
+/* ---------- 7 NO WORD ---------- */
+quiz('q7a','7A. In, on, at or nothing?','No preposition: next, last, this, every, tomorrow',[
+ ["I saw them live ___ last summer.","—"],["We have a test ___ next Friday.","—"],["I practice guitar ___ every evening.","—"],
+ ["Their new album comes out ___ Friday.","on"],["What are you doing ___ this weekend?","—"],["Let’s meet ___ tomorrow after school.","—"]
+],["in","on","at","—"]);
+
+/* ---------- 8 MIX ---------- */
+quiz('q8a','8A. Chat with Mia','Mixed practice',[
+ ["Are you free ___ Saturday?","on",0,"Mia"],
+ ["Yes, but only ___ the afternoon.","in",0,"me"],
+ ["Cool! The concert starts ___ 7:30.","at",0,"Mia"],
+ ["Perfect. I have band practice ___ the morning.","in",0,"me"],
+ ["My mom can pick you up ___ 6.","at",0,"Mia"],
+ ["Great! I’ll text you ___ tomorrow.","—",0,"me"],
+ ["And don’t forget, my party is ___ December 13!","on",0,"Mia"],
+ ["I know! We’ll get home late, maybe ___ midnight!","at",0,"me"]
+],["in","on","at","—"],'chat');
+quiz('q8b','8B. Right or wrong?','Mixed practice: find the mistake',[
+ ["See you in Monday!","Wrong",0,"See you on Monday!"],
+ ["My birthday is in April.","Right",0,"Right!"],
+ ["We have practice at Friday afternoon.","Wrong",0,"We have practice on Friday afternoon."],
+ ["I usually read at night.","Right",0,"Right!"],
+ ["The show starts on 8 p.m.","Wrong",0,"The show starts at 8 p.m."],
+ ["We went trick-or-treating at Halloween.","Wrong",0,"We went trick-or-treating on Halloween."],
+ ["I’ll call you next week.","Right",0,"Right! No word before next week."],
+ ["I was born on 2008.","Wrong",0,"I was born in 2008."]
+],["Right","Wrong"],'rw');
+
+/* ---------- writing: save + checks ---------- */
+var FIELDS=['w3','d1','d2','d3','a1','a2','a3','a4'];
+var RX={d2:/(oct(ober)?\.?\s*31(st)?|31(st)?\s*(of\s*)?oct(ober)?|10\s*\/\s*31)/i,d3:/(jul(y)?\.?\s*4(th)?\b|4(th)?\s*(of\s*)?jul(y)?|7\s*\/\s*4\b|fourth\s+of\s+july|july\s+fourth)/i};
+function check(id){var ta=document.getElementById(id),p=$('.chk[data-for="'+id+'"]');if(!p)return;var v=ta.value.trim();
+ if(id=='w3'){var n=(v.match(/\bon\s+\w+/gi)||[]).length;p.className='chk '+(n>=2?'ok':'no');p.textContent=v?(n>=2?'Nice — two sentences with on!':'Use on two times.'):'';return}
+ if(!v){p.textContent='';return}var ok=RX[id].test(v);p.className='chk '+(ok?'ok':'no');p.textContent=ok?'Right!':'Hmm, check the date again.'}
+function usedPreps(){var v=' '+document.getElementById('a4').value.toLowerCase()+' ';[['i',/\bin\b/],['o',/\bon\b/],['a',/\bat\b/]].forEach(function(x){$('#used .'+x[0]).classList.toggle('on',x[1].test(v))})}
+FIELDS.forEach(function(id){var ta=document.getElementById(id),v=store.get(id);if(v)ta.value=v;check(id);
+ ta.addEventListener('input',function(){store.set(id,ta.value);check(id);if(id=='a4')usedPreps()})});
+usedPreps();
+
+/* ---------- payload ---------- */
+var QIDS=['q1a','q1b','q2a','q3a','q3b','m4','q4b','q4c','q5a','q5b','q6b','q7a','q8a','q8b'];
+function val(id){return document.getElementById(id).value.trim()}
+function scoreStr(id){var Q=QUIZ[id],done=(Q.items||[]).filter(Boolean).length;if(!done)return 'not done';var s=Q.score();return (s==null?'?':s)+' / '+Q.n}
+var WRITE=[['3C. Your week (two sentences with on)','ON: days','w3'],['4D. When is your birthday?','Dates: writing','d1'],['4D. When is Halloween?','Dates: writing','d2'],['4D. When is Independence Day?','Dates: writing','d3'],
+ ['9A. What do you usually do on the weekend?','Writing: about me','a1'],['9A. What do you do in the evening after school?','Writing: about me','a2'],['9A. What time do you go to bed / get up?','Writing: about me','a3'],['9B. My holiday','Writing: holidays','a4']];
+function answersText(){
+ var L=['On Tour homework',''];
+ QIDS.forEach(function(id){var Q=QUIZ[id];var wrong=(Q.items||[]).filter(function(x){return x&&!x.ok}).map(function(x){return '"'+x.q+'" → '+x.a+' (right: '+x.correct+')'});
+  L.push(Q.title+': '+scoreStr(id)+(wrong.length?'\n   mistakes: '+wrong.join('; '):''))});
+ L.push('');WRITE.forEach(function(w){L.push(w[0]);L.push(val(w[2])||'(no answer)');L.push('')});
+ return L.join('\n');
+}
+HWSubmit.init({student:'vasilisa',homework:'vasilisa/on-tour',title:'On Tour: in, on, at'});
+HWSubmit.mount('hw-send',function(){
+ var sections=QIDS.map(function(id){var Q=QUIZ[id];return {title:Q.title,topic:Q.topic,kind:'quiz',items:(Q.items||[]).filter(Boolean)}});
+ sections.push({title:'Writing',topic:'Free writing: in, on, at and dates',kind:'write',items:WRITE.map(function(w){var it={q:w[0],a:val(w[2])};if(RX[w[2]]&&it.a)it.ok=RX[w[2]].test(it.a);return it})});
+ var scores={};QIDS.forEach(function(id){scores[QUIZ[id].title.split('.')[0]]=scoreStr(id)});
+ return {scores:scores,sections:sections,text:answersText(),empty:FIELDS.filter(function(id){return !val(id)}).length};
+});
+
+/* copy fallback */
+document.getElementById('copy').addEventListener('click',function(){var t=answersText(),box=document.getElementById('copyBox');
+ function fb(){box.hidden=false;box.value=t;box.focus();box.select()}
+ try{navigator.clipboard.writeText(t).then(function(){document.getElementById('copy').textContent='Copied!'},fb)}catch(e){fb()}});
+</script>
+</body>
+</html>
