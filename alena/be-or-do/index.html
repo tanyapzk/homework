@@ -67,6 +67,21 @@ table.ex .dot{display:block;width:10px;height:10px;border-radius:50%;margin-top:
 .never{margin-top:16px;border-radius:16px;padding:14px 18px;background:color-mix(in srgb,var(--no) 8%,white);font-weight:600}
 .never s{color:var(--no);text-decoration-thickness:2px;margin:0 6px}
 
+/* reminders */
+.rem .inst .clues{display:inline-flex;flex-wrap:wrap;gap:6px;margin-left:8px;vertical-align:middle}
+.rem .inst .clues span{font-size:15px;font-weight:700;padding:2px 10px;border-radius:99px;background:var(--soft);color:var(--ink)}
+table.rt{width:100%;border-collapse:separate;border-spacing:0;font-size:20px}
+table.rt th{text-align:left;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 14px}
+table.rt tr:first-child th:nth-child(2){color:var(--do)} table.rt tr:first-child th:nth-child(3){color:var(--be)}
+table.rt td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top;line-height:1.55}
+table.rt td:nth-child(3){background:color-mix(in srgb,var(--be) 5%,white)}
+table.rt td:nth-child(2){background:color-mix(in srgb,var(--do) 5%,white)}
+table.rt th.rl{border-top:1px solid var(--line);width:170px;font-size:15px;letter-spacing:.04em;padding:14px 14px 12px 0;vertical-align:top;white-space:nowrap}
+table.rt th.rl i{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-style:normal;font-size:18px;margin-right:8px;vertical-align:middle}
+.rem .note{margin-top:14px;font-size:17px;color:var(--muted);font-weight:500}
+.rem .note b{color:var(--ink)} .rem .note b.be{color:var(--be)} .rem .note s{color:var(--no)}
+@media (max-width:700px){table.rt{font-size:17px} table.rt th.rl{width:auto;white-space:normal}}
+
 /* sort */
 .sort{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .si{border-radius:16px;background:var(--soft);padding:12px 16px;display:flex;align-items:center;gap:12px;justify-content:space-between}
@@ -155,45 +170,31 @@ table.ex .dot{display:block;width:10px;height:10px;border-radius:50%;margin-top:
   <div>
     <div class="k">Homework · Present Simple &amp; Past Simple</div>
     <h1><span class="be">Be</span> or <span class="do">Do?</span></h1>
-    <p>When do we use <b class="be">am / is / are / was / were</b>, and when do we need <b class="do">do / does / did</b>?</p>
+    <p>Practice negatives and questions with <b class="do">verbs</b> and with <b class="be">to be</b>.</p>
   </div>
 </header>
 
 <nav class="bar"><div class="row" id="bar"></div></nav>
 
-<!-- RULE -->
-<section id="rule">
-  <div class="sh"><span class="no-">Start here</span><h2>Two families</h2></div>
-  <p class="inst">Read this first. Come back here if you get stuck.</p>
-  <div class="fam">
-    <div class="fbox f-be">
-      <h3>The BE family</h3>
-      <div class="w">now: am / is / are · past: was / were</div>
-      <ul>
-        <li><b>Negative:</b> add <b>not</b> after it. is → <b>isn’t</b>, was → <b>wasn’t</b></li>
-        <li><b>Question:</b> put it <b>first</b>. She is → <b>Is</b> she…?</li>
-        <li><b>Short answer:</b> Yes, she <b>is</b>. / No, it <b>wasn’t</b>.</li>
-      </ul>
-    </div>
-    <div class="fbox f-do">
-      <h3>The DO family (all other verbs)</h3>
-      <div class="w">now: do / does · past: did</div>
-      <ul>
-        <li><b>Negative:</b> <b>don’t / doesn’t / didn’t</b> + verb. She <b>doesn’t</b> work.</li>
-        <li><b>Question:</b> <b>Do / Does / Did</b> + who + verb? <b>Did</b> you go?</li>
-        <li>After do / does / did the verb is simple: <b>work</b>, <b>go</b> (not works, went)</li>
-      </ul>
-    </div>
-  </div>
-  <div class="step"><span class="q">Step 1: find the verb.</span> Is it am / is / are / was / were? <span class="p" style="background:var(--be)">Yes → BE</span> <span class="p" style="background:var(--do)">No → DO</span></div>
-  <table class="ex">
-    <tr><th></th><th>Positive</th><th>Negative</th><th>Question</th></tr>
-    <tr><td><i class="dot" style="background:var(--be)"></i></td><td>She <b class="be">is</b> at home.</td><td>She <b class="be">isn’t</b> at home.</td><td><b class="be">Is</b> she at home?</td></tr>
-    <tr><td><i class="dot" style="background:var(--do)"></i></td><td>She <b class="do">works</b> at home.</td><td>She <b class="do">doesn’t work</b> at home.</td><td><b class="do">Does</b> she <b class="do">work</b> at home?</td></tr>
-    <tr><td><i class="dot" style="background:var(--be)"></i></td><td>They <b class="be">were</b> tired.</td><td>They <b class="be">weren’t</b> tired.</td><td><b class="be">Were</b> they tired?</td></tr>
-    <tr><td><i class="dot" style="background:var(--do)"></i></td><td>They <b class="do">went</b> to Novi Sad.</td><td>They <b class="do">didn’t go</b> to Novi Sad.</td><td><b class="do">Did</b> they <b class="do">go</b> to Novi Sad?</td></tr>
+<!-- REMINDERS -->
+<section id="rule" class="rem">
+  <div class="sh"><span class="no-">Reminder 1</span><h2>Present Simple</h2></div>
+  <p class="inst"><b>When?</b> Habits, routines and facts. <span class="clues"><span>usually</span><span>every day</span><span>often</span><span>never</span></span></p>
+  <table class="rt">
+    <tr><th></th><th>Most verbs</th><th>to be</th></tr>
+    <tr><th class="rl"><i>+</i>Positive</th><td>I <b class="do">work</b> from home.<br>She <b class="do">works</b> at a school.</td><td>I<b class="be">’m</b> at home.<br>She <b class="be">is</b> a teacher. They <b class="be">are</b> busy.</td></tr><tr><th class="rl"><i>−</i>Negative</th><td>I <b class="do">don’t work</b> on Sundays.<br>She <b class="do">doesn’t work</b> on Sundays.</td><td>I<b class="be">’m not</b> tired.<br>She <b class="be">isn’t</b> at home. They <b class="be">aren’t</b> busy.</td></tr><tr><th class="rl"><i>?</i>Question</th><td><b class="do">Do</b> you <b class="do">work</b> on Sundays?<br>Where <b class="do">does</b> she <b class="do">work</b>?</td><td><b class="be">Are</b> you tired?<br>Where <b class="be">is</b> she?</td></tr><tr><th class="rl"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Short answer</th><td>Yes, I <b class="do">do</b>. / No, she <b class="do">doesn’t</b>.</td><td>Yes, I <b class="be">am</b>. / No, she <b class="be">isn’t</b>.</td></tr>
   </table>
-  <div class="never">Never BE and DO together: <s>Do you be…?</s> <s>She doesn’t is…</s> <s>Are you live…?</s> <s>Did you were…?</s></div>
+  <p class="note">he / she / it: work<b>s</b>, but <b>doesn’t work</b> (no -s after doesn’t) · With to be there is no do / does: <b class="be">Are</b> you…? (not <s>Do you be…?</s>)</p>
+</section>
+
+<section id="rule2" class="rem">
+  <div class="sh"><span class="no-">Reminder 2</span><h2>Past Simple</h2></div>
+  <p class="inst"><b>When?</b> Finished actions in the past. <span class="clues"><span>yesterday</span><span>last week</span><span>two days ago</span><span>in 2023</span></span></p>
+  <table class="rt">
+    <tr><th></th><th>Most verbs</th><th>to be</th></tr>
+    <tr><th class="rl"><i>+</i>Positive</th><td>I <b class="do">worked</b> yesterday.<br>We <b class="do">went</b> to Novi Sad.</td><td>I <b class="be">was</b> tired.<br>They <b class="be">were</b> at the market.</td></tr><tr><th class="rl"><i>−</i>Negative</th><td>I <b class="do">didn’t work</b> yesterday.<br>We <b class="do">didn’t go</b> to Novi Sad.</td><td>I <b class="be">wasn’t</b> tired.<br>They <b class="be">weren’t</b> at the market.</td></tr><tr><th class="rl"><i>?</i>Question</th><td><b class="do">Did</b> you <b class="do">work</b> yesterday?<br>Where <b class="do">did</b> you <b class="do">go</b>?</td><td><b class="be">Was</b> she tired?<br>Where <b class="be">were</b> you?</td></tr><tr><th class="rl"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Short answer</th><td>Yes, I <b class="do">did</b>. / No, we <b class="do">didn’t</b>.</td><td>Yes, she <b class="be">was</b>. / No, they <b class="be">weren’t</b>.</td></tr>
+  </table>
+  <p class="note">I / he / she / it <b class="be">was</b> · you / we / they <b class="be">were</b> · After didn’t / did the verb is simple: didn’t <b>go</b> (not <s>didn’t went</s>) · With to be there is no did: <b class="be">Were</b> you…? (not <s>Did you were…?</s>)</p>
 </section>
 
 <div id="parts"></div>
@@ -215,7 +216,7 @@ const $ = s => document.querySelector(s);
 const el = (t, c, h) => { const e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; };
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const bump = e => { e.classList.remove('shake'); void e.offsetWidth; e.classList.add('shake'); };
-const FAM = { b: ['BE', 'var(--be)'], d: ['DO', 'var(--do)'] };
+const FAM = { b: ['to be', 'var(--be)'], d: ['another verb', 'var(--do)'] };
 
 /* answer checking: contractions = full forms, punctuation and case ignored */
 const CONTR = [["isn't","is not"],["aren't","are not"],["wasn't","was not"],["weren't","were not"],["don't","do not"],["doesn't","does not"],["didn't","did not"],["i'm","i am"],["you're","you are"],["we're","we are"],["they're","they are"],["she's","she is"],["he's","he is"],["it's","it is"],["'m","am"],
@@ -233,13 +234,13 @@ const PARTS = [
    inst:'<b>Is the verb <span class="be">to be</span> or <span class="do">another verb</span>?</b> The verb is underlined after you answer.',
    items:[["She [is] a teacher.","b"],["She [teaches] children.","d"],["I[’m] tired today.","b"],["We [have] a small flat.","d"],["The café [was] full.","b"],["We [went] to the market.","d"],["They[’re] from Novi Sad.","b"],["He [likes] ćevapi.","d"],["It [was] cold yesterday.","b"],["I [bought] new shoes.","d"],["The shops [are] closed on Sunday.","b"],["My cat [sleeps] all day.","d"]] },
  { id:'p2', type:'choose', title:'Now: say “no”', topic:'Present Simple negative: to be vs do',
-   inst:'<b>Choose the right words.</b> First find the verb: BE or DO?',
+   inst:'<b>Choose the right words.</b> First find the verb: is it to be or another verb?',
    items:[["I ___ hungry.",["am not","don’t","isn’t"],"b"],["She ___ at work today.",["isn’t","doesn’t","aren’t"],"b"],["She ___ on Saturdays.",["doesn’t work","isn’t work","doesn’t works"],"d"],["We ___ from Belgrade.",["aren’t","don’t","isn’t"],"b"],["They ___ Serbian at home.",["don’t speak","aren’t speak","don’t speaks"],"d"],["The bus ___ expensive.",["isn’t","doesn’t","aren’t"],"b"],["My neighbor ___ a car.",["doesn’t have","isn’t have","doesn’t has"],"d"],["I ___ coffee in the evening.",["don’t drink","am not drink","doesn’t drink"],"d"],["The shops ___ open at night.",["aren’t","don’t","isn’t"],"b"],["He ___ busy now.",["isn’t","doesn’t","don’t"],"b"]] },
  { id:'p3', type:'choose', title:'Now: ask a question', topic:'Present Simple questions: to be vs do',
-   inst:'<b>Choose the first word.</b> BE goes first. With other verbs we need Do / Does.',
+   inst:'<b>Choose the first word.</b> To be goes first. With other verbs we need Do / Does.',
    items:[["___ you tired?",["Are","Do","Is"],"b"],["___ you live near the center?",["Do","Are","Does"],"d"],["___ she a teacher?",["Is","Does","Are"],"b"],["___ she work at a school?",["Does","Is","Do"],"d"],["___ the bus stop near your house?",["Is","Does","Are"],"b"],["___ your friends speak English?",["Do","Are","Does"],"d"],["___ your friends at home?",["Are","Do","Is"],"b"],["Where ___ you work?",["do","are","does"],"d"],["Where ___ the post office?",["is","does","do"],"b"],["What time ___ the shop close?",["does","is","do"],"d"]] },
  { id:'p4', type:'choose', title:'Past: “no” and questions', topic:'Past Simple negative & questions: was/were vs did',
-   inst:'<b>Choose the right words.</b> Past BE = was / were. Past DO = did.',
+   inst:'<b>Choose the right words.</b> To be: was / were. Other verbs: did.',
    items:[["I ___ at home yesterday.",["wasn’t","didn’t","weren’t"],"b"],["I ___ TV yesterday.",["didn’t watch","wasn’t watch","didn’t watched"],"d"],["They ___ happy with the hotel.",["weren’t","didn’t","wasn’t"],"b"],["We ___ a taxi.",["didn’t take","weren’t take","didn’t took"],"d"],["___ you tired after the trip?",["Were","Did","Was"],"b"],["___ you go out last night?",["Did","Were","Was"],"d"],["___ the film good?",["Was","Did","Were"],"b"],["___ she call you?",["Did","Was","Does"],"d"],["Where ___ you yesterday?",["were","did","was"],"b"],["Where ___ you buy this bag?",["did","were","was"],"d"]] },
  { id:'p5', type:'type', title:'Make it negative', topic:'Negatives: to be vs do (writing)',
    inst:'<b>Write the sentence with “not”.</b> Short forms (isn’t) and long forms (is not) are both OK.',
@@ -248,7 +249,7 @@ const PARTS = [
    inst:'<b>Write the question.</b>',
    items:[["She is a doctor.",["Is she a doctor?"],"b"],["You like Serbian food.",["Do you like Serbian food?"],"d"],["The tickets were cheap.",["Were the tickets cheap?"],"b"],["He went to work.",["Did he go to work?"],"d"],["Your sister lives in Novi Sad.",["Does your sister live in Novi Sad?"],"d"],["You are ready.",["Are you ready?"],"b"]] },
  { id:'p7', type:'choose', title:'Short answers', topic:'Short answers: to be vs do',
-   inst:'<b>Choose the right answer.</b> Answer with the same family as the question.',
+   inst:'<b>Choose the right answer.</b> Look at the first word of the question.',
    items:[["Are you tired? — ___",["Yes, I am.","Yes, I do.","Yes, I’m."],"b"],["Do you like coffee? — ___",["Yes, I do.","Yes, I am.","Yes, I like."],"d"],["Is your flat big? — ___",["No, it isn’t.","No, it doesn’t.","No, it not."],"b"],["Does she speak Serbian? — ___",["No, she doesn’t.","No, she isn’t.","No, she don’t."],"d"],["Were you at home? — ___",["Yes, I was.","Yes, I did.","Yes, I were."],"b"],["Did you see my email? — ___",["No, I didn’t.","No, I wasn’t.","No, I don’t."],"d"],["Was it expensive? — ___",["No, it wasn’t.","No, it didn’t.","No, it weren’t."],"b"],["Did they enjoy the trip? — ___",["Yes, they did.","Yes, they were.","Yes, they enjoyed."],"d"]] },
  { id:'p8', type:'pick', title:'Which one is correct?', topic:'Mixing be and do (common mistakes)',
    inst:'<b>Only one sentence is correct.</b> Choose it.',
@@ -288,7 +289,7 @@ PARTS.forEach((P, pi) => {
     body.className = 'body ch';
     P.items.forEach(([t, opts, f], i) => {
       const right = opts[0];
-      const r = el('div', 'ci', `<div class="t">${t.replace('___', `<span class="gap">${right}</span>`)}</div><div class="opts">${shuffle(opts).map(o => `<button>${o}</button>`).join('')}</div><div class="fb">${FAM[f][0]} family</div>`);
+      const r = el('div', 'ci', `<div class="t">${t.replace('___', `<span class="gap">${right}</span>`)}</div><div class="opts">${shuffle(opts).map(o => `<button>${o}</button>`).join('')}</div><div class="fb">${FAM[f][0]}</div>`);
       r.style.setProperty('--c', FAM[f][1]);
       r.querySelectorAll('.opts button').forEach(b => b.onclick = () => {
         const ok = b.textContent === right;
@@ -371,7 +372,7 @@ function score(P) { const d = done(P); $('#sc-' + P.id).textContent = d ? `Right
 
 /* progress bar */
 function updBar() {
-  $('#bar').innerHTML = `<a href="#rule">Rules</a>` + PARTS.map((P, i) => `<a href="#${P.id}" class="${done(P) >= total(P) ? 'done' : ''}">Part ${i + 1}</a>`).join('') + `<a href="#finish">Send</a>`;
+  $('#bar').innerHTML = `<a href="#rule">Present</a><a href="#rule2">Past</a>` + PARTS.map((P, i) => `<a href="#${P.id}" class="${done(P) >= total(P) ? 'done' : ''}">Part ${i + 1}</a>`).join('') + `<a href="#finish">Send</a>`;
 }
 updBar();
 
