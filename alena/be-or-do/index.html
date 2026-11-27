@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Be or Do?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F4EF; --card:#FFFFFF; --ink:#202436; --muted:#6A6F85; --line:#E6E0D7; --soft:#F1ECE4;
+  --be:#6A4CE8; --do:#E8742A; --ok:#22955A; --no:#D23B3B;
+  --f:"Lexend",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:19px;line-height:1.5;padding:0 20px 80px}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--be);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1080px;margin:0 auto}
+[hidden]{display:none!important}
+.be{color:var(--be)} .do{color:var(--do)}
+b.be,b.do{font-weight:800}
+
+/* header */
+.top{padding:48px 0 18px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.top .k{font-weight:700;font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.top h1{font-size:clamp(48px,7vw,84px);font-weight:800;line-height:1;letter-spacing:-.03em;margin-top:8px}
+.top h1 .be,.top h1 .do{display:inline-block}
+.top p{font-size:21px;color:var(--muted);margin-top:10px;max-width:560px}
+
+/* sticky progress */
+.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);padding:10px 0;margin:0 -4px}
+.bar .row{display:flex;gap:6px;flex-wrap:wrap}
+.bar a{font-size:14px;font-weight:700;text-decoration:none;color:var(--muted);padding:5px 11px;border-radius:99px;background:var(--card);box-shadow:inset 0 0 0 1.5px var(--line)}
+.bar a.done{background:var(--ok);color:#fff;box-shadow:none}
+
+/* sections */
+section{margin-top:28px;background:var(--card);border-radius:26px;padding:28px 32px 30px;box-shadow:0 16px 44px -32px rgba(32,36,54,.4);scroll-margin-top:64px}
+.sh{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px}
+.no-{font-weight:800;font-size:14px;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:#fff;padding:5px 12px;border-radius:99px}
+section h2{font-size:30px;font-weight:800;letter-spacing:-.02em}
+.inst{color:var(--muted);font-size:19px;margin-bottom:18px}
+.inst b{color:var(--ink)}
+.score{margin-top:16px;font-weight:700;color:var(--muted);font-size:17px}
+
+/* rules */
+.fam{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:6px}
+.fbox{border-radius:20px;padding:20px 22px;background:color-mix(in srgb,var(--c) 8%,white);border:2px solid color-mix(in srgb,var(--c) 30%,white)}
+.fbox h3{font-size:24px;font-weight:800;color:var(--c)}
+.fbox .w{font-size:19px;font-weight:700;margin:4px 0 12px}
+.fbox ul{margin:0;padding-left:20px}
+.fbox li{margin:4px 0}
+.fbox li b{color:var(--c)}
+.f-be{--c:var(--be)} .f-do{--c:var(--do)}
+.step{margin-top:16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-weight:700;font-size:19px;background:var(--soft);border-radius:16px;padding:14px 18px}
+.step .q{font-weight:800}
+.step span.p{padding:3px 12px;border-radius:99px;color:#fff;font-size:16px}
+table.ex{width:100%;border-collapse:separate;border-spacing:0;margin-top:16px;font-size:18px}
+table.ex th{text-align:left;font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 12px}
+table.ex td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+table.ex tr td:first-child{width:12px;padding-right:0}
+table.ex .dot{display:block;width:10px;height:10px;border-radius:50%;margin-top:9px}
+.never{margin-top:16px;border-radius:16px;padding:14px 18px;background:color-mix(in srgb,var(--no) 8%,white);font-weight:600}
+.never s{color:var(--no);text-decoration-thickness:2px;margin:0 6px}
+
+/* sort */
+.sort{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.si{border-radius:16px;background:var(--soft);padding:12px 16px;display:flex;align-items:center;gap:12px;justify-content:space-between}
+.si .t{font-size:20px;font-weight:600}
+.si .t u{text-decoration:none}
+.si.ok .t u{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:5px}
+.si.ok.b .t u{text-decoration-color:var(--be);color:var(--be)}
+.si.ok.d .t u{text-decoration-color:var(--do);color:var(--do)}
+.si .bt{display:flex;gap:6px;flex:none}
+.si .bt button{font-size:15px;font-weight:700;padding:6px 12px;border-radius:10px;background:#fff;box-shadow:inset 0 0 0 2px var(--c);color:var(--c)}
+.si .bt button.no{opacity:.35;text-decoration:line-through}
+.si.ok .bt button{display:none}
+.si .tag{display:none;font-size:14px;font-weight:800;color:#fff;padding:4px 10px;border-radius:99px;background:var(--c);flex:none}
+.si.ok .tag{display:inline-block}
+
+/* choose */
+.ch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ci{border-radius:16px;background:var(--soft);padding:12px 16px}
+.ci .t{font-size:20px;font-weight:600}
+.ci .t .gap{display:inline-block;min-width:70px;border-bottom:3px solid var(--line);text-align:center;color:transparent}
+.ci.ok .t .gap{color:var(--c);border-bottom-color:var(--c);font-weight:800;padding:0 4px}
+.ci .opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ci .opts button{font-size:17px;font-weight:700;padding:5px 13px;border-radius:10px;background:#fff;box-shadow:0 2px 8px -5px rgba(32,36,54,.4)}
+.ci .opts button.no{color:var(--no);text-decoration:line-through;background:color-mix(in srgb,var(--no) 8%,white);box-shadow:none}
+.ci.ok .opts{display:none}
+.ci .fb{display:none;font-size:14px;font-weight:800;margin-top:6px;color:var(--c)}
+.ci.ok .fb{display:block}
+.ci.one{grid-column:auto}
+.pick .ci .t{font-size:18px;color:var(--muted)}
+.pick .ci .opts{flex-direction:column;align-items:stretch}
+.pick .ci .opts button{text-align:left;font-size:19px}
+.pick .ci .ans{display:none;font-size:20px;font-weight:700;color:var(--ok);margin-top:6px}
+.pick .ci.ok .ans{display:block}
+
+/* type */
+.ty{display:flex;flex-direction:column;gap:12px}
+.ti{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr) auto;gap:12px;align-items:center;background:var(--soft);border-radius:16px;padding:10px 14px}
+.ti .p{font-size:20px;font-weight:600}
+.ti input{font:inherit;font-size:19px;padding:9px 12px;border-radius:12px;border:2px solid var(--line);background:#fff;width:100%;color:var(--ink)}
+.ti input:focus{outline:none;border-color:var(--be)}
+.ti.ok input{border-color:var(--ok);color:var(--ok);font-weight:700;background:color-mix(in srgb,var(--ok) 7%,white)}
+.ti.no input{border-color:var(--no)}
+.ti .btns{display:flex;gap:6px}
+.sbtn{font-size:15px;font-weight:700;padding:9px 14px;border-radius:12px;background:var(--ink);color:#fff}
+.sbtn.l{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+.ti .hint{grid-column:2/-1;font-size:16px;color:var(--muted);font-weight:600;margin-top:-4px}
+.ti .hint b{color:var(--ok)}
+
+/* dialogue */
+.dlg{display:flex;flex-direction:column;gap:10px;font-size:21px;line-height:2}
+.dl{display:flex;gap:14px;align-items:baseline}
+.dl .who{flex:none;width:72px;font-weight:800;font-size:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.dl.m .who{color:var(--do)} .dl.a .who{color:var(--be)}
+.g{font:inherit;font-size:19px;font-weight:700;width:6.2em;padding:0 8px;border:0;border-bottom:3px solid var(--line);background:var(--soft);border-radius:8px 8px 0 0;color:var(--ink)}
+.g:focus{outline:none;border-bottom-color:var(--be)}
+.g.ok{border-bottom-color:var(--ok);color:var(--ok);background:color-mix(in srgb,var(--ok) 9%,white)}
+.g.no{border-bottom-color:var(--no);background:color-mix(in srgb,var(--no) 8%,white)}
+.ctl{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+
+/* finish */
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:18px;padding:12px 22px;border-radius:99px;background:var(--be);color:#fff}
+.btn.l{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px var(--line)}
+#copyBox{width:100%;min-height:120px;margin-top:12px;font:inherit;font-size:15px;border-radius:14px;border:2px solid var(--line);padding:12px}
+.shake{animation:sh .35s}
+@keyframes sh{25%{transform:translateX(-5px)}50%{transform:translateX(5px)}75%{transform:translateX(-2px)}}
+
+@media (max-width:820px){
+  .fam,.sort,.ch{grid-template-columns:1fr}
+  .ti{grid-template-columns:1fr}
+  .ti .hint{grid-column:1}
+  section{padding:22px 18px}
+  table.ex{font-size:16px}
+}
+@media (max-width:560px){
+  body{font-size:17px;padding:0 14px 60px}
+  .si{flex-direction:column;align-items:flex-start}
+  .dl{flex-direction:column;gap:0}
+  table.ex th:nth-child(3),table.ex td:nth-child(3){display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <div class="k">Homework · Present Simple &amp; Past Simple</div>
+    <h1><span class="be">Be</span> or <span class="do">Do?</span></h1>
+    <p>When do we use <b class="be">am / is / are / was / were</b>, and when do we need <b class="do">do / does / did</b>?</p>
+  </div>
+</header>
+
+<nav class="bar"><div class="row" id="bar"></div></nav>
+
+<!-- RULE -->
+<section id="rule">
+  <div class="sh"><span class="no-">Start here</span><h2>Two families</h2></div>
+  <p class="inst">Read this first. Come back here if you get stuck.</p>
+  <div class="fam">
+    <div class="fbox f-be">
+      <h3>The BE family</h3>
+      <div class="w">now: am / is / are · past: was / were</div>
+      <ul>
+        <li><b>Negative:</b> add <b>not</b> after it. is → <b>isn’t</b>, was → <b>wasn’t</b></li>
+        <li><b>Question:</b> put it <b>first</b>. She is → <b>Is</b> she…?</li>
+        <li><b>Short answer:</b> Yes, she <b>is</b>. / No, it <b>wasn’t</b>.</li>
+      </ul>
+    </div>
+    <div class="fbox f-do">
+      <h3>The DO family (all other verbs)</h3>
+      <div class="w">now: do / does · past: did</div>
+      <ul>
+        <li><b>Negative:</b> <b>don’t / doesn’t / didn’t</b> + verb. She <b>doesn’t</b> work.</li>
+        <li><b>Question:</b> <b>Do / Does / Did</b> + who + verb? <b>Did</b> you go?</li>
+        <li>After do / does / did the verb is simple: <b>work</b>, <b>go</b> (not works, went)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="step"><span class="q">Step 1: find the verb.</span> Is it am / is / are / was / were? <span class="p" style="background:var(--be)">Yes → BE</span> <span class="p" style="background:var(--do)">No → DO</span></div>
+  <table class="ex">
+    <tr><th></th><th>Positive</th><th>Negative</th><th>Question</th></tr>
+    <tr><td><i class="dot" style="background:var(--be)"></i></td><td>She <b class="be">is</b> at home.</td><td>She <b class="be">isn’t</b> at home.</td><td><b class="be">Is</b> she at home?</td></tr>
+    <tr><td><i class="dot" style="background:var(--do)"></i></td><td>She <b class="do">works</b> at home.</td><td>She <b class="do">doesn’t work</b> at home.</td><td><b class="do">Does</b> she <b class="do">work</b> at home?</td></tr>
+    <tr><td><i class="dot" style="background:var(--be)"></i></td><td>They <b class="be">were</b> tired.</td><td>They <b class="be">weren’t</b> tired.</td><td><b class="be">Were</b> they tired?</td></tr>
+    <tr><td><i class="dot" style="background:var(--do)"></i></td><td>They <b class="do">went</b> to Novi Sad.</td><td>They <b class="do">didn’t go</b> to Novi Sad.</td><td><b class="do">Did</b> they <b class="do">go</b> to Novi Sad?</td></tr>
+  </table>
+  <div class="never">Never BE and DO together: <s>Do you be…?</s> <s>She doesn’t is…</s> <s>Are you live…?</s> <s>Did you were…?</s></div>
+</section>
+
+<div id="parts"></div>
+
+<!-- FINISH -->
+<section id="finish">
+  <div class="sh"><span class="no-">Finish</span><h2>Send your homework</h2></div>
+  <p class="inst">When you finish, send it to me. You can come back and change your answers.</p>
+  <div id="hw-send"></div>
+  <p class="hw-alt">Didn’t work? <button type="button" id="copyBtn">Copy my answers</button> and paste them into our chat.</p>
+  <textarea id="copyBox" hidden readonly></textarea>
+</section>
+
+</div>
+
+<script src="../../assets/hw-submit.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const el = (t, c, h) => { const e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; };
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const bump = e => { e.classList.remove('shake'); void e.offsetWidth; e.classList.add('shake'); };
+const FAM = { b: ['BE', 'var(--be)'], d: ['DO', 'var(--do)'] };
+
+/* answer checking: contractions = full forms, punctuation and case ignored */
+const CONTR = [["isn't","is not"],["aren't","are not"],["wasn't","was not"],["weren't","were not"],["don't","do not"],["doesn't","does not"],["didn't","did not"],["i'm","i am"],["you're","you are"],["we're","we are"],["they're","they are"],["she's","she is"],["he's","he is"],["it's","it is"],["'m","am"],
+  ["isnt","is not"],["arent","are not"],["wasnt","was not"],["werent","were not"],["dont","do not"],["doesnt","does not"],["didnt","did not"],["im","i am"]];
+function norm(s) {
+  s = ' ' + s.toLowerCase().replace(/[’‘`]/g, "'").replace(/[.?!,]/g, ' ').replace(/\s+/g, ' ').trim() + ' ';
+  CONTR.forEach(([a, b]) => { s = s.split(' ' + a + ' ').join(' ' + b + ' ').split(a + ' ').join(' ' + b + ' '); });
+  return s.replace(/\s+/g, ' ').trim();
+}
+const same = (v, list) => list.some(x => norm(x) === norm(v));
+
+/* ================= PARTS ================= */
+const PARTS = [
+ { id:'p1', type:'sort', title:'Find the verb', topic:'to be vs other verbs',
+   inst:'<b>Is the verb <span class="be">to be</span> or <span class="do">another verb</span>?</b> The verb is underlined after you answer.',
+   items:[["She [is] a teacher.","b"],["She [teaches] children.","d"],["I[’m] tired today.","b"],["We [have] a small flat.","d"],["The café [was] full.","b"],["We [went] to the market.","d"],["They[’re] from Novi Sad.","b"],["He [likes] ćevapi.","d"],["It [was] cold yesterday.","b"],["I [bought] new shoes.","d"],["The shops [are] closed on Sunday.","b"],["My cat [sleeps] all day.","d"]] },
+ { id:'p2', type:'choose', title:'Now: say “no”', topic:'Present Simple negative: to be vs do',
+   inst:'<b>Choose the right words.</b> First find the verb: BE or DO?',
+   items:[["I ___ hungry.",["am not","don’t","isn’t"],"b"],["She ___ at work today.",["isn’t","doesn’t","aren’t"],"b"],["She ___ on Saturdays.",["doesn’t work","isn’t work","doesn’t works"],"d"],["We ___ from Belgrade.",["aren’t","don’t","isn’t"],"b"],["They ___ Serbian at home.",["don’t speak","aren’t speak","don’t speaks"],"d"],["The bus ___ expensive.",["isn’t","doesn’t","aren’t"],"b"],["My neighbor ___ a car.",["doesn’t have","isn’t have","doesn’t has"],"d"],["I ___ coffee in the evening.",["don’t drink","am not drink","doesn’t drink"],"d"],["The shops ___ open at night.",["aren’t","don’t","isn’t"],"b"],["He ___ busy now.",["isn’t","doesn’t","don’t"],"b"]] },
+ { id:'p3', type:'choose', title:'Now: ask a question', topic:'Present Simple questions: to be vs do',
+   inst:'<b>Choose the first word.</b> BE goes first. With other verbs we need Do / Does.',
+   items:[["___ you tired?",["Are","Do","Is"],"b"],["___ you live near the center?",["Do","Are","Does"],"d"],["___ she a teacher?",["Is","Does","Are"],"b"],["___ she work at a school?",["Does","Is","Do"],"d"],["___ the bus stop near your house?",["Is","Does","Are"],"b"],["___ your friends speak English?",["Do","Are","Does"],"d"],["___ your friends at home?",["Are","Do","Is"],"b"],["Where ___ you work?",["do","are","does"],"d"],["Where ___ the post office?",["is","does","do"],"b"],["What time ___ the shop close?",["does","is","do"],"d"]] },
+ { id:'p4', type:'choose', title:'Past: “no” and questions', topic:'Past Simple negative & questions: was/were vs did',
+   inst:'<b>Choose the right words.</b> Past BE = was / were. Past DO = did.',
+   items:[["I ___ at home yesterday.",["wasn’t","didn’t","weren’t"],"b"],["I ___ TV yesterday.",["didn’t watch","wasn’t watch","didn’t watched"],"d"],["They ___ happy with the hotel.",["weren’t","didn’t","wasn’t"],"b"],["We ___ a taxi.",["didn’t take","weren’t take","didn’t took"],"d"],["___ you tired after the trip?",["Were","Did","Was"],"b"],["___ you go out last night?",["Did","Were","Was"],"d"],["___ the film good?",["Was","Did","Were"],"b"],["___ she call you?",["Did","Was","Does"],"d"],["Where ___ you yesterday?",["were","did","was"],"b"],["Where ___ you buy this bag?",["did","were","was"],"d"]] },
+ { id:'p5', type:'type', title:'Make it negative', topic:'Negatives: to be vs do (writing)',
+   inst:'<b>Write the sentence with “not”.</b> Short forms (isn’t) and long forms (is not) are both OK.',
+   items:[["She is busy today.",["She isn't busy today.","She's not busy today."],"b"],["He works on Sundays.",["He doesn't work on Sundays."],"d"],["They were at the party.",["They weren't at the party."],"b"],["We visited the museum.",["We didn't visit the museum."],"d"],["I am from Belgrade.",["I'm not from Belgrade."],"b"],["The flat has a balcony.",["The flat doesn't have a balcony."],"d"]] },
+ { id:'p6', type:'type', title:'Make a question', topic:'Questions: to be vs do (writing)',
+   inst:'<b>Write the question.</b>',
+   items:[["She is a doctor.",["Is she a doctor?"],"b"],["You like Serbian food.",["Do you like Serbian food?"],"d"],["The tickets were cheap.",["Were the tickets cheap?"],"b"],["He went to work.",["Did he go to work?"],"d"],["Your sister lives in Novi Sad.",["Does your sister live in Novi Sad?"],"d"],["You are ready.",["Are you ready?"],"b"]] },
+ { id:'p7', type:'choose', title:'Short answers', topic:'Short answers: to be vs do',
+   inst:'<b>Choose the right answer.</b> Answer with the same family as the question.',
+   items:[["Are you tired? — ___",["Yes, I am.","Yes, I do.","Yes, I’m."],"b"],["Do you like coffee? — ___",["Yes, I do.","Yes, I am.","Yes, I like."],"d"],["Is your flat big? — ___",["No, it isn’t.","No, it doesn’t.","No, it not."],"b"],["Does she speak Serbian? — ___",["No, she doesn’t.","No, she isn’t.","No, she don’t."],"d"],["Were you at home? — ___",["Yes, I was.","Yes, I did.","Yes, I were."],"b"],["Did you see my email? — ___",["No, I didn’t.","No, I wasn’t.","No, I don’t."],"d"],["Was it expensive? — ___",["No, it wasn’t.","No, it didn’t.","No, it weren’t."],"b"],["Did they enjoy the trip? — ___",["Yes, they did.","Yes, they were.","Yes, they enjoyed."],"d"]] },
+ { id:'p8', type:'pick', title:'Which one is correct?', topic:'Mixing be and do (common mistakes)',
+   inst:'<b>Only one sentence is correct.</b> Choose it.',
+   items:[[["Are you at home?","Do you at home?","Do you be at home?"],"b"],[["She isn’t hungry.","She doesn’t hungry.","She doesn’t is hungry."],"b"],[["Do you live here?","Are you live here?","You do live here?"],"d"],[["He doesn’t work today.","He isn’t work today.","He doesn’t works today."],"d"],[["Were you at work yesterday?","Did you at work yesterday?","Did you were at work yesterday?"],"b"],[["I didn’t go to the party.","I wasn’t go to the party.","I didn’t went to the party."],"d"],[["Is she your sister?","Does she your sister?","Does she is your sister?"],"b"],[["Where did you buy it?","Where were you buy it?","Where did you bought it?"],"d"]] },
+ { id:'p9', type:'dialog', title:'A chat on the stairs', topic:'to be vs do in a dialogue',
+   inst:'<b>Anna meets her neighbor Milan. Write one or two words in each gap.</b> Press Check at the end.',
+   lines:[["m","Hi, Anna! {Are} you busy?"],["a","No, I {am not|'m not|m not} busy today. Why?"],["m","{Do} you like Serbian music?"],["a","Yes, I {do}! I love it."],["m","My son {is} a guitarist in a band. They {were} in the park last Saturday."],["a","Oh, really? {Did} you go?"],["m","No, I {didn't|did not}. I {was} at work. But they play again tonight."],["a","{Is} the concert free?"],["m","Yes, it {is}. And it {doesn't|does not} start late: at seven."]] }
+];
+
+/* ================= STATE for sending ================= */
+const D = {};      // details: part id -> [ {q,a,correct,ok} ] (first try)
+const LAST = {};   // last answer per item (for copy)
+function first(pid, i, q, a, correct, ok) { (D[pid] ||= []); if (!D[pid][i]) D[pid][i] = { q, a, correct, ok }; LAST[pid + i] = a; updBar(); }
+
+/* ================= RENDER ================= */
+const parts = $('#parts');
+PARTS.forEach((P, pi) => {
+  const s = el('section'); s.id = P.id;
+  s.innerHTML = `<div class="sh"><span class="no-">Part ${pi + 1}</span><h2>${P.title}</h2></div><p class="inst">${P.inst}</p><div class="body"></div><div class="score" id="sc-${P.id}"></div>`;
+  const body = s.querySelector('.body');
+
+  if (P.type === 'sort') {
+    body.className = 'body sort';
+    P.items.forEach(([t, f], i) => {
+      const plain = t.replace(/[\[\]]/g, '');
+      const r = el('div', 'si ' + f, `<span class="t">${t.replace(/\[([^\]]+)\]/, '<u>$1</u>')}</span><span class="bt"><button style="--c:var(--be)" data-f="b">to be</button><button style="--c:var(--do)" data-f="d">another verb</button></span><span class="tag" style="--c:${FAM[f][1]}">${f === 'b' ? 'to be' : 'another verb'}</span>`);
+      r.querySelectorAll('.bt button').forEach(b => b.onclick = () => {
+        const ok = b.dataset.f === f;
+        first(P.id, i, plain, b.textContent, f === 'b' ? 'to be' : 'another verb', ok);
+        if (ok) { r.classList.add('ok'); score(P); } else { b.classList.add('no'); bump(r); }
+      });
+      body.append(r);
+    });
+  }
+
+  if (P.type === 'choose') {
+    body.className = 'body ch';
+    P.items.forEach(([t, opts, f], i) => {
+      const right = opts[0];
+      const r = el('div', 'ci', `<div class="t">${t.replace('___', `<span class="gap">${right}</span>`)}</div><div class="opts">${shuffle(opts).map(o => `<button>${o}</button>`).join('')}</div><div class="fb">${FAM[f][0]} family</div>`);
+      r.style.setProperty('--c', FAM[f][1]);
+      r.querySelectorAll('.opts button').forEach(b => b.onclick = () => {
+        const ok = b.textContent === right;
+        first(P.id, i, t, b.textContent, right, ok);
+        if (ok) { r.classList.add('ok'); score(P); } else { b.classList.add('no'); bump(b); }
+      });
+      body.append(r);
+    });
+  }
+
+  if (P.type === 'pick') {
+    body.className = 'body ch pick';
+    P.items.forEach(([opts, f], i) => {
+      const right = opts[0];
+      const r = el('div', 'ci', `<div class="t">Sentence ${i + 1}</div><div class="opts">${shuffle(opts).map(o => `<button>${o}</button>`).join('')}</div><div class="ans">${right}</div>`);
+      r.querySelectorAll('.opts button').forEach(b => b.onclick = () => {
+        const ok = b.textContent === right;
+        first(P.id, i, opts.join(' / '), b.textContent, right, ok);
+        if (ok) { r.classList.add('ok'); score(P); } else { b.classList.add('no'); bump(b); }
+      });
+      body.append(r);
+    });
+  }
+
+  if (P.type === 'type') {
+    body.className = 'body ty';
+    P.items.forEach(([p, acc, f], i) => {
+      const r = el('div', 'ti', `<div class="p">${p}</div><input autocomplete="off" spellcheck="false" aria-label="${p}"><div class="btns"><button class="sbtn">Check</button></div><div class="hint" hidden></div>`);
+      const inp = r.querySelector('input'), hint = r.querySelector('.hint'), btns = r.querySelector('.btns');
+      let tries = 0;
+      const check = () => {
+        const v = inp.value.trim(); if (!v) return;
+        const ok = same(v, acc); tries++;
+        first(P.id, i, p, v, acc[0], ok); LAST[P.id + i] = v;
+        r.classList.toggle('ok', ok); r.classList.toggle('no', !ok);
+        if (ok) { hint.hidden = true; inp.readOnly = true; btns.innerHTML = ''; score(P); }
+        else {
+          hint.hidden = false;
+          hint.innerHTML = tries < 2 ? `Not quite. Is the verb <b class="${f === 'b' ? 'be' : 'do'}" style="color:${FAM[f][1]}">${f === 'b' ? 'to be' : 'another verb'}</b>? Try again.` : `Answer: <b>${acc[0]}</b>`;
+          bump(inp);
+        }
+      };
+      r.querySelector('.sbtn').onclick = check;
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+      inp.addEventListener('input', () => r.classList.remove('no'));
+      body.append(r);
+    });
+  }
+
+  if (P.type === 'dialog') {
+    body.className = 'body dlg';
+    let gi = 0; P.gaps = [];
+    P.lines.forEach(([w, t]) => {
+      const html = t.replace(/\{([^}]+)\}/g, (m, inner) => { const acc = inner.split('|'); P.gaps.push({ acc, line: t }); return `<input class="g" data-g="${gi++}" autocomplete="off" spellcheck="false" aria-label="gap ${gi}">`; });
+      body.append(el('div', 'dl ' + w, `<span class="who">${w === 'm' ? 'Milan' : 'Anna'}</span><span>${html}</span>`));
+    });
+    const ctl = el('div', 'ctl', `<button class="sbtn">Check</button><button class="sbtn l">Show answers</button>`);
+    s.querySelector('.score').before(ctl);
+    const [chk, show] = ctl.querySelectorAll('button');
+    const inputs = () => [...body.querySelectorAll('.g')];
+    chk.onclick = () => {
+      inputs().forEach(inp => {
+        const g = P.gaps[inp.dataset.g], v = inp.value.trim(); if (!v) { inp.classList.remove('ok', 'no'); return; }
+        const ok = same(v, g.acc);
+        first(P.id, +inp.dataset.g, g.line.replace(/\{([^}]+)\}/g, '___'), v, g.acc[0], ok); LAST[P.id + inp.dataset.g] = v;
+        inp.classList.toggle('ok', ok); inp.classList.toggle('no', !ok);
+      });
+      score(P);
+    };
+    show.onclick = () => { inputs().forEach(inp => { const g = P.gaps[inp.dataset.g]; if (!inp.classList.contains('ok')) { if (!inp.value.trim()) first(P.id, +inp.dataset.g, g.line.replace(/\{([^}]+)\}/g, '___'), '(shown)', g.acc[0], false); inp.value = g.acc[0]; inp.classList.add('ok'); inp.classList.remove('no'); } }); score(P); };
+    body.addEventListener('input', e => e.target.classList.remove('no'));
+  }
+  parts.append(s);
+});
+
+const total = P => P.type === 'dialog' ? P.gaps.length : P.items.length;
+const right1 = P => (D[P.id] || []).filter(x => x && x.ok).length;
+const done = P => (D[P.id] || []).filter(Boolean).length;
+function score(P) { const d = done(P); $('#sc-' + P.id).textContent = d ? `Right the first time: ${right1(P)} / ${total(P)}` : ''; updBar(); }
+
+/* progress bar */
+function updBar() {
+  $('#bar').innerHTML = `<a href="#rule">Rules</a>` + PARTS.map((P, i) => `<a href="#${P.id}" class="${done(P) >= total(P) ? 'done' : ''}">Part ${i + 1}</a>`).join('') + `<a href="#finish">Send</a>`;
+}
+updBar();
+
+/* ================= SEND / COPY ================= */
+function answersText() {
+  return 'Be or Do? (homework)\n' + PARTS.map((P, pi) => {
+    const lines = [];
+    for (let i = 0; i < total(P); i++) {
+      const d = (D[P.id] || [])[i];
+      lines.push(`${i + 1}. ${d ? d.q.replace(/\[|\]/g, '') + ' -> ' + (LAST[P.id + i] || d.a) + (d.ok ? '' : '  (first try: ' + d.a + ')') : '—'}`);
+    }
+    return `\nPart ${pi + 1}. ${P.title} — ${done(P) ? right1(P) + '/' + total(P) : 'not done'}\n` + lines.join('\n');
+  }).join('\n');
+}
+$('#copyBtn').onclick = () => {
+  const box = $('#copyBox'); box.value = answersText(); box.hidden = false; box.select();
+  try { navigator.clipboard.writeText(box.value); } catch (e) { document.execCommand && document.execCommand('copy'); }
+};
+HWSubmit.init({ student: 'alena', homework: 'alena/be-or-do', title: 'Be or Do?' });
+HWSubmit.mount('hw-send', () => {
+  const scores = {}, sections = [];
+  PARTS.forEach((P, i) => {
+    scores['Part ' + (i + 1)] = done(P) ? `${right1(P)}/${total(P)}` : 'not done';
+    sections.push({ title: `Part ${i + 1}. ${P.title}`, topic: P.topic, skill: 'grammar', kind: 'quiz', items: (D[P.id] || []).filter(Boolean).map(x => ({ q: x.q.replace(/\[|\]/g, ''), a: x.a, correct: x.correct, ok: x.ok })) });
+  });
+  const empty = PARTS.reduce((n, P) => n + (total(P) - done(P)), 0);
+  return { scores, sections, text: answersText(), empty };
+});
+</script>
+</body>
+</html>
