@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Schedule Talk</title>
+<meta name="description" content="Homework after Conflict Management Lesson 2: soft phrases, schedule conversations and six techniques to prevent conflicts.">
+<meta property="og:title" content="The Schedule Talk · Homework">
+<meta property="og:description" content="Soft phrases, schedule conversations and six techniques to prevent conflicts.">
+<meta property="og:image" content="https://tanyapzk.github.io/vocabulary-app/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+:root{
+  --bg:#f7f5f0;--card:#fff;--line:#e2dfd7;--ink:#222220;--mute:#5c5c57;
+  --tau:#94806f;--ter:#b86248;--oli:#6b7a58;--tint:#eeece6;
+  --oli-soft:#e7eadf;--ter-soft:#f6e6df;--tau-soft:#efe9e3;
+  --serif:"Playfair Display",Georgia,serif;--sans:"Plus Jakarta Sans",system-ui,-apple-system,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#1f1e1c;--card:#2a2926;--line:#3d3b37;--ink:#f3f0ea;--mute:#b9b5ac;--tint:#34322e;
+  --tau:#b8a492;--ter:#d98a70;--oli:#9aab84;--oli-soft:#2f3529;--ter-soft:#3a2a24;--tau-soft:#332e29;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1f1e1c;--card:#2a2926;--line:#3d3b37;--ink:#f3f0ea;--mute:#b9b5ac;--tint:#34322e;
+  --tau:#b8a492;--ter:#d98a70;--oli:#9aab84;--oli-soft:#2f3529;--ter-soft:#3a2a24;--tau-soft:#332e29;color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:18px;line-height:1.5;-webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
+h1,h2,h3,p{margin:0}
+h1,h2{font-family:var(--serif);font-weight:600;line-height:1.08;text-wrap:balance}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--tau);outline-offset:2px}
+.wrap{max-width:780px;margin:0 auto;padding:0 max(16px,env(safe-area-inset-left,0px)) 80px max(16px,env(safe-area-inset-right,0px))}
+.tag{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--tau);font-weight:700}
+.ic{width:1em;height:1em;vertical-align:-.14em;flex:none}
+
+.top{position:sticky;top:0;z-index:5;background:var(--bg);padding:calc(10px + env(safe-area-inset-top,0px)) 0 10px;border-bottom:1px solid var(--line)}
+.top-row{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:14px;color:var(--mute)}
+.ttl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.count{font-variant-numeric:tabular-nums;white-space:nowrap}
+.restart{white-space:nowrap;background:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--mute)}
+.restart.warn{border-color:var(--ter);color:var(--ter)}
+.bar{height:5px;background:var(--tint);border-radius:3px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--oli);transition:width .4s}
+
+.hero{padding:40px 0 28px;display:grid;gap:14px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(44px,10vw,76px)}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--tau)}
+.hero p{color:var(--mute);max-width:58ch}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:6px}
+.steps a{display:grid;gap:2px;text-decoration:none;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px;font-size:15px;line-height:1.25}
+.steps a b{font-family:var(--serif);font-size:22px;color:var(--tau);font-weight:600}
+.steps a.done{border-color:var(--oli);background:var(--oli-soft)}
+
+.part{margin-top:52px;display:grid;gap:14px;scroll-margin-top:80px}
+.part > h2{font-size:clamp(30px,6vw,40px)}
+.sub{margin-top:26px;display:grid;gap:12px}
+.sub h3{font-family:var(--serif);font-weight:600;font-size:clamp(23px,4.6vw,30px);line-height:1.15}
+.lead{color:var(--mute)}
+
+/* study cards */
+.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tool{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.tool b{color:var(--tau)}
+.tool .why{font-size:15px;color:var(--mute)}
+.tool ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:16px}
+.mini{display:flex;flex-wrap:wrap;gap:6px;background:var(--tau-soft);border-radius:14px;padding:10px 12px;font-size:14px}
+.mini b{width:100%;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--tau)}
+.mini span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+
+/* phrase sheet */
+.sheet{display:grid;gap:10px}
+.grp{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 16px;display:grid;gap:6px}
+.grp b{color:var(--tau)}
+.grp ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:16.5px}
+
+/* task card + stepper */
+.task{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:16px 18px;display:grid;gap:12px}
+.num{font-size:14px;color:var(--mute);font-variant-numeric:tabular-nums}
+.sharp{display:flex;gap:10px;align-items:flex-start;background:var(--ter-soft);border-radius:14px;padding:12px 14px}
+.sharp svg{flex:none;width:22px;height:22px;color:var(--ter);margin-top:3px}
+.sharp p{font-size:19px;font-weight:600}
+.bubble{display:grid;gap:3px;background:var(--tau-soft);border-radius:16px 16px 16px 4px;padding:12px 14px;max-width:92%}
+.bubble .who{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--tau);font-weight:700}
+.opts{display:grid;gap:8px}
+.o{background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:10px 14px;font-size:17px;line-height:1.4;text-align:left;display:grid;gap:4px;transition:background .2s,border-color .2s}
+.o:hover{border-color:var(--tau)}
+.o .lb{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}
+.o.right{border-color:var(--oli);background:var(--oli-soft)}
+.o.right .lb{color:var(--oli)}
+.o.wrong{border-color:var(--ter);background:var(--ter-soft)}
+.o.wrong .lb{color:var(--ter)}
+.o.shown:not(.right):not(.wrong){opacity:.85}
+.o.shown .lb{color:var(--mute)}
+.note{display:flex;gap:8px;align-items:flex-start;background:var(--oli-soft);border-radius:12px;padding:10px 12px;font-size:16px}
+.note svg{flex:none;width:20px;height:20px;margin-top:2px;color:var(--oli)}
+
+/* label rows */
+.lbl{background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:10px 12px;display:grid;gap:8px}
+.lbl p{font-size:16.5px}
+.lbl.done{border-color:var(--oli)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:3px 12px;font-size:14.5px;font-weight:600}
+.chip.ok{background:var(--oli);border-color:var(--oli);color:#fff}
+.chip.no{background:var(--ter-soft);border-color:var(--ter);color:var(--ter)}
+
+.nav{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nav button{background:none;border:1.5px solid var(--line);border-radius:999px;padding:6px 16px;font-size:15px}
+.nav button.go{background:var(--tau);border-color:var(--tau);color:#fff}
+.nav button:disabled{opacity:.35;cursor:default}
+.dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.dots i.d{background:var(--oli)}
+.dots i.c{outline:2px solid var(--tau);outline-offset:2px}
+
+/* order */
+.order{display:grid;gap:8px}
+.slot{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--bg);border:2px dashed var(--line);border-radius:14px;padding:9px 12px;min-height:48px}
+.slot .st{font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--tau);background:var(--tau-soft);border-radius:999px;padding:2px 9px;margin-top:2px;white-space:nowrap}
+.slot.filled{border-style:solid;border-color:var(--oli);background:var(--oli-soft)}
+.pool{display:grid;gap:8px}
+.pl{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:9px 12px;text-align:left;font-size:16.5px;transition:border-color .2s,background .2s}
+.pl.shake{border-color:var(--ter);background:var(--ter-soft)}
+.emp{font-size:15.5px;color:var(--mute);font-style:italic;padding-left:4px}
+
+/* gaps */
+.dlg{display:grid;gap:8px}
+.ln{font-size:17px}
+.ln .who{font-weight:700;color:var(--tau);margin-right:6px}
+.gap{display:inline-block;min-width:7.5em;background:var(--bg);border:2px dashed var(--tau);border-radius:10px;padding:0 10px;margin:2px 0;font:inherit;font-size:16px;color:var(--mute);text-align:left}
+.gap.sel{background:var(--tau-soft);border-style:solid}
+.gap.fill{border-style:solid;border-color:var(--oli);background:var(--oli-soft);color:var(--ink);font-weight:600;cursor:default}
+.gap.shake{border-color:var(--ter);background:var(--ter-soft)}
+.bank{display:flex;flex-wrap:wrap;gap:6px;background:var(--tau-soft);border-radius:14px;padding:10px;position:sticky;top:64px;z-index:2}
+.bank b{width:100%;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--tau)}
+.bk{background:var(--card);border:2px solid var(--line);border-radius:999px;padding:3px 12px;font-size:15px}
+.bk.used{opacity:.35;cursor:default}
+.bk.shake{border-color:var(--ter);background:var(--ter-soft)}
+
+/* techniques */
+.tq{background:var(--card);border:2px solid var(--line);border-radius:18px;overflow:hidden}
+.tq > button{width:100%;background:none;border:0;padding:14px 16px;display:flex;gap:12px;align-items:center;text-align:left}
+.tq .n{font-family:var(--serif);font-size:28px;color:var(--tau);line-height:1;flex:none;width:1.1em}
+.tq .h{display:grid;gap:2px;flex:1}
+.tq .h b{font-size:18px}
+.tq .h small{font-size:15px;color:var(--mute)}
+.tq .arr{flex:none;width:20px;height:20px;color:var(--tau);transition:transform .25s}
+.tq.open{border-color:var(--tau)}
+.tq.open .arr{transform:rotate(180deg)}
+.tq .body{padding:0 16px 16px;display:grid;gap:10px}
+.kv{display:grid;gap:2px}
+.kv .k{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--oli)}
+.kv ul{margin:0;padding-left:18px}
+.ex{background:var(--tau-soft);border-radius:14px;padding:10px 12px;display:grid;gap:4px;font-size:16.5px}
+.ex .e{color:var(--mute)}
+.ex .d{font-weight:600}
+.careful{display:flex;gap:8px;align-items:flex-start;background:var(--ter-soft);border-radius:12px;padding:9px 12px;font-size:15.5px}
+.careful svg{flex:none;width:18px;height:18px;color:var(--ter);margin-top:3px}
+
+/* scheme */
+.scheme{display:grid;gap:8px}
+.sq{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;text-align:left;width:100%}
+.sq .ans{grid-column:1/-1;display:flex;gap:8px;align-items:center;color:var(--oli);font-weight:700}
+.sq .tap{font-size:13px;color:var(--tau);font-weight:600;white-space:nowrap}
+.sq.open{border-color:var(--oli)}
+
+/* final */
+textarea{width:100%;min-height:150px;resize:vertical;font:inherit;font-size:17px;color:var(--ink);background:var(--bg);border:2px dashed var(--line);border-radius:14px;padding:10px 12px}
+.check{display:grid;gap:6px}
+.ck{display:flex;gap:10px;align-items:center;background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:7px 12px;text-align:left;font-size:16px}
+.ck .box{width:20px;height:20px;border:2px solid var(--line);border-radius:6px;flex:none;display:grid;place-items:center;color:#fff}
+.ck .box svg{width:14px;height:14px;display:none}
+.ck.on{border-color:var(--oli)}
+.ck.on .box{background:var(--oli);border-color:var(--oli)}
+.ck.on .box svg{display:block}
+.hint{font-size:14.5px;color:var(--mute)}
+
+.finish{margin-top:56px;background:var(--card);border:2px solid var(--tau);border-radius:20px;padding:20px;display:grid;gap:12px}
+.finish h2{font-size:32px}
+.score{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.score div{background:var(--tau-soft);border-radius:14px;padding:10px 6px;text-align:center;font-size:13.5px;color:var(--mute)}
+.score b{display:block;font-family:var(--serif);font-size:26px;color:var(--ink)}
+.btn{background:var(--oli);color:#fff;border:0;border-radius:999px;padding:12px 22px;font-size:17px;font-weight:600;justify-self:start}
+.link{background:none;border:0;padding:0;color:var(--mute);text-decoration:underline;font-size:14.5px;justify-self:start}
+.auto{display:flex;gap:10px;align-items:flex-start;background:var(--oli-soft);border-radius:14px;padding:12px 14px;font-size:16px}
+.auto svg{flex:none;width:20px;height:20px;color:var(--oli);margin-top:2px}
+
+@media (max-width:560px){
+  body{font-size:17px}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tools{grid-template-columns:1fr}
+  .task{padding:14px}
+  .o{font-size:16px}
+  .score{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bank{top:58px}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-ok" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 13.5h6L10 21l8-10.5h-6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 4l9 16H3zM12 10v4M12 17v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="wrap">
+  <div class="top">
+    <div class="top-row"><span class="ttl">The Schedule Talk</span><span class="count" id="count">0 / 0</span><button class="restart" id="restart" type="button">Start again</button></div>
+    <div class="bar"><i id="pb"></i></div>
+  </div>
+
+  <header class="hero">
+    <span class="tag">After Lesson 2 · The Resolution Playbook</span>
+    <h1>The Schedule <em>Talk</em></h1>
+    <p>Kind but firm. How to talk about shifts, re-tagging, deliveries and closed periods, so your team feels heard and the store still works. At the end, send your homework to me.</p>
+    <nav class="steps" id="steps">
+      <a href="#p1"><b>1</b>Softening toolbox</a>
+      <a href="#p2"><b>2</b>Talking about the schedule</a>
+      <a href="#p3"><b>3</b>Six techniques</a>
+      <a href="#p4"><b>4</b>Your reply</a>
+    </nav>
+  </header>
+
+  <!-- PART 1 -->
+  <section class="part" id="p1">
+    <span class="tag">Part 1</span>
+    <h2>Your softening toolbox</h2>
+    <div class="sub">
+      <h3>1.1 Read: six tools from our lesson</h3>
+      <div class="tools">
+        <div class="tool"><b>A soft start</b><span class="why">Prepares the person for bad news.</span><ul><li>I’m afraid the schedule is already done.</li><li>Unfortunately, we need you on Saturday.</li><li>I see your point, but…</li></ul></div>
+        <div class="tool"><b>A request, not an order</b><span class="why">The same task, but the person feels respected.</span><ul><li>Could you take the delivery on Thursday?</li><li>Would you mind coming in at 6?</li><li>I was wondering if you could close tonight.</li></ul></div>
+        <div class="tool"><b>Small softening words</b><span class="why">Make a hard message less heavy.</span><ul><li>It might be a bit difficult this week.</li><li>The closing wasn’t quite finished.</li><li>I think we need one more person.</li></ul></div>
+        <div class="tool"><b>Instead of “no”</b><span class="why">A closed door makes people fight. Leave a small window open.</span><ul><li>That might be difficult.</li><li>I’m not sure that will work.</li><li>Let me see what I can do.</li></ul></div>
+        <div class="tool"><b>“We”, not “you”</b><span class="why">The problem belongs to the team, not to one person.</span><ul><li>We need two people for the night re-tagging.</li><li>Let’s check the tills together.</li><li>It looks like the tags weren’t changed.</li></ul></div>
+        <div class="tool"><b>Thanks first, then the request</b><span class="why">People accept feedback better after a real thank-you.</span><ul><li>Thank you for staying late. One small thing: …</li><li>I really appreciate your help, and next time could we…?</li></ul></div>
+      </div>
+    </div>
+    <div class="sub">
+      <h3>1.2 Make it softer: which answer is best?</h3>
+      <p class="lead">Each phrase is too sharp. Choose the answer that is kind but firm. Be careful: too sweet is also wrong.</p>
+      <div class="task" data-part="soft"></div>
+    </div>
+  </section>
+
+  <!-- PART 2 -->
+  <section class="part" id="p2">
+    <span class="tag">Part 2</span>
+    <h2>Talking about the schedule</h2>
+    <div class="sub">
+      <h3>2.1 Read: phrases for schedule conversations</h3>
+      <div class="sheet">
+        <div class="grp"><b>Listen and understand</b><ul><li>I hear you. I know the early starts are hard.</li><li>Tell me more. Which day is the problem?</li></ul></div>
+        <div class="grp"><b>Explain why</b><ul><li>The schedule depends on deliveries, re-tagging and footfall, so the hours change every week.</li><li>We need two people for every closing, so…</li></ul></div>
+        <div class="grp"><b>Remind them what you agreed, kindly</b><ul><li>As we agreed when you joined, the hours are flexible and can change from week to week.</li><li>I know it’s not ideal, but the store has to be open, and that’s my responsibility.</li></ul></div>
+        <div class="grp"><b>Closed periods</b><ul><li>I’m afraid we can’t approve holidays in December. It’s a closed period for the whole team, not just for you.</li><li>Let’s book your holiday for January now, so you get the dates you want.</li></ul></div>
+        <div class="grp"><b>Find a compromise and close the talk</b><ul><li>I can’t change…, but what I can do is…</li><li>Let’s try it this week, and we’ll look at next week’s schedule together on Friday.</li><li>Thank you for telling me. Thank you for understanding.</li></ul></div>
+      </div>
+    </div>
+    <div class="sub">
+      <h3>2.2 Too soft, too hard or just right?</h3>
+      <p class="lead">A sales assistant complains. Label each answer.</p>
+      <div class="task" data-part="label"></div>
+    </div>
+    <div class="sub">
+      <h3>2.3 Build the conversation</h3>
+      <p class="lead">Tap Dominika’s lines in the right order: listen, empathise, ask, answer, close.</p>
+      <div class="task" id="orderTask">
+        <div class="bubble"><span class="who">Petra</span>“I’m on the night re-tagging on Thursday and then opening on Friday at 7. That’s crazy! I finish at 1 am!”</div>
+        <div class="order" id="slots"></div>
+        <p class="tag">Tap the next line</p>
+        <div class="pool" id="pool"></div>
+      </div>
+    </div>
+    <div class="sub">
+      <h3>2.4 Fill the gaps</h3>
+      <p class="lead">Tap a gap, then tap a phrase. One phrase is extra.</p>
+      <div class="task">
+        <div class="bank" id="bank"><b>Phrases</b></div>
+        <div class="dlg" id="dlg"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PART 3 -->
+  <section class="part" id="p3">
+    <span class="tag">Part 3</span>
+    <h2>Six techniques to prevent a conflict</h2>
+    <p class="lead">These come from step 4, “Give a reasoned answer”. Open each technique and read it carefully. We’ll practise them in our next lesson.</p>
+    <div class="sub">
+      <h3>3.1 Read: the six techniques</h3>
+      <div class="sheet" id="techs"></div>
+    </div>
+    <div class="sub">
+      <h3>3.2 Which technique? A quick guide</h3>
+      <p class="lead">Read the question first and guess. Then tap to check.</p>
+      <div class="scheme" id="scheme"></div>
+    </div>
+  </section>
+
+  <!-- PART 4 -->
+  <section class="part" id="p4">
+    <span class="tag">Part 4</span>
+    <h2>Your reply</h2>
+    <p class="lead">You get this message from a sales assistant. Write your answer: 4 to 6 sentences.</p>
+    <div class="bubble"><span class="who">Lucia · 21:47</span>“Hi Dominika, I just saw next week’s schedule. I have the night re-tagging on Thursday and then opening on Friday at 7?! And I asked for the 20th off weeks ago, and I’m working that day. This is the third time!!”</div>
+    <textarea id="final" placeholder="Hi Lucia, …" aria-label="Your reply"></textarea>
+    <p class="tag">Did you use these? Tick them.</p>
+    <div class="check" id="check"></div>
+  </section>
+
+  <!-- FINISH -->
+  <section class="finish" id="finish">
+    <span class="tag">Finish</span>
+    <h2>Send me your homework</h2>
+    <div class="score">
+      <div><b id="s1">0/8</b>Softer</div>
+      <div><b id="s2">0/18</b>Labels</div>
+      <div><b id="s3">0/5</b>Conversation</div>
+      <div><b id="s4">0/6</b>Gaps</div>
+    </div>
+    <p class="hint">The score counts first tries only.</p>
+    <p class="hint" id="missing"></p>
+    <div class="auto"><svg><use href="#i-ok"/></svg><span>Tap <b>Send my homework</b> and your answers go to me automatically. You don’t need to copy anything or send screenshots.</span></div>
+    <div id="hw-send"></div>
+  </section>
+</div>
+
+<script src="../../assets/hw-submit.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const KEY='dominika-schedule-talk-v1';
+const CHECK='<svg class="ic"><use href="#i-ok"/></svg>';
+
+/* ---------- DATA ---------- */
+const LABEL={sweet:'Too sweet',sharp:'Too sharp',right:'Kind but firm'};
+const SOFT=[
+ {s:"You’re working on Saturday.",o:[
+   ["Of course, darling, you never have to work on Saturdays if you don’t want to!","sweet"],
+   ["I’m afraid I need you on Saturday this week. Would Sunday off work for you instead?","right"],
+   ["You’re working on Saturday, I’m afraid. That’s it.","sharp"]],
+  w:"A soft start, a clear message and an option. “I’m afraid… That’s it.” is still an order."},
+ {s:"No holidays in December.",o:[
+   ["Sorry, maybe you could ask again later? I’ll try to find something…","sweet"],
+   ["December is closed. Please don’t ask again.","sharp"],
+   ["Unfortunately, December is a closed period for the whole team. Could we look at January together?","right"]],
+  w:"A reason (closed for everyone) and a next step. “Maybe ask later” gives false hope."},
+ {s:"Come in at 6 for the re-tagging.",o:[
+   ["Could you come in at 6? It’s not my idea, I hate it too.","sharp"],
+   ["Would you mind coming in at 6 on Tuesday for the re-tagging? We need everything ready before we open.","right"],
+   ["Oh, I’m so sorry, I feel terrible asking… you can say no, of course!","sweet"]],
+  w:"A polite request with a reason. Blaming head office or saying “you can say no” makes the task feel optional."},
+ {s:"Stop complaining about the schedule.",o:[
+   ["You’re absolutely right, the schedule is terrible. I’ll change it just for you.","sweet"],
+   ["I can see the schedule isn’t easy for you. Let’s talk about it after your shift.","right"],
+   ["I hear you, but everybody has problems with the schedule.","sharp"]],
+  w:"You show you understand and choose a good time to talk. “I hear you, but everybody…” sounds polite, but it ignores the person."},
+ {s:"You can’t swap shifts with Anna.",o:[
+   ["I’m not sure that will work, because Anna is already on the delivery. Could you ask Petra instead?","right"],
+   ["Swap with anyone you like, I don’t mind at all.","sweet"],
+   ["No swaps. Rules are rules.","sharp"]],
+  w:"“I’m not sure that will work” + a reason + another option. Saying yes to everything means you lose control of the schedule."},
+ {s:"Your closing was a mess yesterday.",o:[
+   ["Yesterday’s closing was a bit of a mess, to be honest.","sharp"],
+   ["Don’t worry at all about yesterday, it really doesn’t matter!","sweet"],
+   ["Thank you for closing yesterday. One small thing: it looks like the tills weren’t counted. Could we check them together tonight?","right"]],
+  w:"Thanks first, “it looks like” instead of “you”, and a plan. Softening words can’t hide blame, and ignoring the problem doesn’t fix it."},
+ {s:"You have to stay until 10 tonight.",o:[
+   ["Would it be possible for you to stay until 10 tonight? The delivery is late, and I’d really appreciate your help.","right"],
+   ["Unfortunately, you have to stay until 10.","sharp"],
+   ["Maybe stay until 10, if it’s not too much? Only if you really want to.","sweet"]],
+  w:"A request, a reason and a thank-you. “Only if you really want to” sounds unsure: the store still needs the person."},
+ {s:"I don’t care about your plans.",o:[
+   ["Your plans are your problem, I’m afraid.","sharp"],
+   ["I understand you have plans. Let’s see what we can do: could you start an hour later instead?","right"],
+   ["Your plans are more important, of course. Just go!","sweet"]],
+  w:"You respect the plans and still find a solution for the store."}];
+
+const LBLS=["Too soft","Too hard","Just right"];
+const LAB=[
+ {c:"Why am I always on the night re-tagging?",a:[
+   ["You’re right, I’m so sorry. You’ll never do it again, I promise.",0],
+   ["Someone has to do it. That’s your job.",1],
+   ["I hear you. Let’s check the last month together. If it’s not fair, we’ll share it out differently next time.",2]]},
+ {c:"I can’t work mornings. I take my son to school.",a:[
+   ["I understand, that’s important. I can’t promise no mornings at all, but I can try to give you starts after 9 on school days. Does that help?",2],
+   ["No problem, you’ll never work mornings again!",0],
+   ["That’s not my problem. You signed a contract.",1]]},
+ {c:"Why can’t I take my holiday in December?",a:[
+   ["Because I said so.",1],
+   ["I’m afraid December is a closed period for the whole team. It’s our busiest month. Let’s book your holiday for January now, so you get the dates you want.",2],
+   ["Hmm, maybe I can make an exception just for you.",0]]},
+ {c:"You put me on the delivery again! It’s so heavy.",a:[
+   ["Oh no, I’m so sorry, I’ll do all the deliveries myself from now on.",0],
+   ["I know deliveries are tiring. Thank you for doing them. Next week I’ll put you on the morning re-tagging instead, so it’s fair.",2],
+   ["Everybody does deliveries. Stop complaining.",1]]},
+ {c:"I only found out about my Saturday shift yesterday!",a:[
+   ["The schedule was on the wall. Read it.",1],
+   ["You’re right, just don’t come. It’s fine.",0],
+   ["You’re right, that was too late, and I’m sorry. From now on, I’ll send the schedule every Thursday. For this Saturday, can you come, or should we find a swap?",2]]},
+ {c:"Other stores have fixed shifts. Why don’t we?",a:[
+   ["I understand fixed shifts are easier to plan. Our hours follow deliveries and re-tagging, so they change every week. What I can do is tell you your days off two weeks in advance.",2],
+   ["Then go and work in another store.",1],
+   ["You’re right, I’ll ask head office to change everything.",0]]}];
+
+const ORDER=[
+ ["Listen","OK, tell me more. What’s the problem with Thursday and Friday?"],
+ ["Empathise","You’re right, that’s really hard. I’m sorry I didn’t see it."],
+ ["Ask","Which would be easier for you: a later start on Friday, or the re-tagging on another day?"],
+ ["Answer","I can’t move the re-tagging, but you can start at 11 on Friday. Anna will open instead."],
+ ["Close","Thank you for telling me. Let’s check next week’s schedule together, so it doesn’t happen again."]];
+const POOL_ORDER=[3,0,4,2,1];
+
+const GAPS={bank:["I’m afraid","I completely understand.","What I can do is","Would it be possible","which works better for you","Thank you for understanding.","Because I said so."],
+ lines:[
+  ["Lucia","Hi Dominika, can I take a week off from the 20th of December?"],
+  ["Dominika","{0} December is a closed period, so we can’t approve holidays."],
+  ["Lucia","But I really need a break!"],
+  ["Dominika","{1} It’s been a hectic autumn. {2} give you a full week in January."],
+  ["Lucia","Hmm, which week?"],
+  ["Dominika","{3} for you to take the second week? Or the third: {4}?"],
+  ["Lucia","The second, please."],
+  ["Dominika","Great. {5}"]]};
+
+const TECH=[
+ {n:"Solve it together",s:"You and the other person are a team against the problem.",
+  when:"The person wants a solution, and you need their help to find it.",
+  how:["Let’s look at this together.","How can we make this work for both of us?","Let’s find a plan that works for you and for the store."],
+  e:"The new schedule doesn’t work for me.",d:"Let’s sit down and look at it together. Which days are the hardest for you?",
+  care:"“Together” must be real: listen to their ideas, don’t just say the word."},
+ {n:"Explain your limits",s:"Say honestly what you can’t decide, and then what you CAN do.",
+  when:"They ask for something that only head office or the rules can change.",
+  how:["This is outside my authority, but what I can do is…","I can’t change…, but I can…","That decision comes from head office. On my side, I can…"],
+  e:"Can I have the 24th of December off?",d:"I can’t change the closed period; it comes from head office. What I can do is give you a long weekend in January.",
+  care:"Always add what you CAN do. “I can’t” alone is a trigger."},
+ {n:"Offer two options",s:"Give two clear choices. The person feels in control again.",
+  when:"You can’t give exactly what they want, but you can give something.",
+  how:["We can… or… Which works better for you?","Would you prefer… or…?"],
+  e:"I don’t want the night re-tagging on Thursday.",d:"You can do the re-tagging on Thursday and start late on Friday, or do it next Tuesday. Which works better for you?",
+  care:"Only offer options you can really give."},
+ {n:"Ask for their advice",s:"Ask what would help. People calm down when you ask their opinion, and they accept a solution they chose.",
+  when:"You don’t know what the person really wants, or they keep complaining.",
+  how:["What would make this easier for you?","If you were me, how would you plan it?","What would be a fair solution for you?"],
+  e:"Your schedule is always unfair!",d:"OK, help me. If you planned next week, what would you change?",
+  care:"Listen to the answer. Don’t ask if you have already decided."},
+ {n:"Turn a limit into a benefit",s:"Show how the rule also helps them.",
+  when:"They complain about a rule.",
+  how:["That’s why…","The good thing is…","This rule actually protects you, because…"],
+  e:"Why do I only find out my shifts on Thursday?",d:"We wait until Thursday because the deliveries are confirmed then. The good thing is that you won’t come in for a delivery that doesn’t arrive.",
+  care:"Be honest. Don’t pretend that a bad thing is wonderful."},
+ {n:"Move it to the past",s:"Agree it was a problem, and show that it is already fixed.",
+  when:"They complain about something that happened before.",
+  how:["You’re right, that happened before. Since then, we’ve…","That was a problem last month. Now…"],
+  e:"Last month I did three closings in a row!",d:"You’re right, that wasn’t fair. Since then, we check how many closings each person has every week.",
+  care:"Only say it’s fixed if it really is."}];
+
+const SCHEME=[
+ ["They complain about something that happened before.",5],
+ ["They are angry about a rule.",4],
+ ["They ask for something you can’t decide.",1],
+ ["You can’t give exactly what they want.",2],
+ ["You don’t know what they really want.",3],
+ ["You both want a solution and need each other.",0]];
+
+const CHECKS=["I listened and showed I understand","I used at least two softening tools","I used one of the six techniques","I was firm about what I can’t change","I gave a next step"];
+
+/* ---------- STATE ---------- */
+let st={soft:{},label:{},order:[],orderFirst:{},gaps:{},gapFirst:{},final:"",checks:[],pos:{soft:0,label:0}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.pos)st=Object.assign(st,s)}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+const TOTAL=SOFT.length+LAB.length+1+1+1;
+
+/* ---------- 1.2 MAKE IT SOFTER ---------- */
+function renderSoft(){
+  const box=document.querySelector('.task[data-part="soft"]'),k=st.pos.soft,it=SOFT[k],r=st.soft[k]||{tried:[],first:null,solved:false};
+  let h=`<span class="num">${k+1} of ${SOFT.length}</span><div class="sharp"><svg><use href="#i-bolt"/></svg><p>“${it.s}”</p></div><div class="opts">`;
+  it.o.forEach(([t,ty],i)=>{
+    let c='o',lb='';
+    if(r.solved){c+=ty==='right'?' right':' shown';lb=`<span class="lb">${LABEL[ty]}</span>`}
+    else if(r.tried.includes(i)){c+=' wrong';lb=`<span class="lb">${LABEL[ty]}</span>`}
+    h+=`<button type="button" class="${c}" data-i="${i}">${lb}<span>“${t}”</span></button>`;
+  });
+  h+='</div>';
+  if(r.solved)h+=`<div class="note">${CHECK}<span>${it.w}</span></div>`;
+  h+=nav('soft',SOFT.length,k,j=>st.soft[j]&&st.soft[j].solved);
+  box.innerHTML=h;
+  box.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i,rr=st.soft[k]||(st.soft[k]={tried:[],first:null,solved:false});
+    if(rr.solved||rr.tried.includes(i))return;
+    if(rr.first===null)rr.first=i;
+    if(it.o[i][1]==='right')rr.solved=true;else rr.tried.push(i);
+    save();renderSoft();progress();
+  });
+  bindNav(box,'soft',SOFT.length,renderSoft);
+}
+
+/* ---------- 2.2 LABEL ---------- */
+function renderLabel(){
+  const box=document.querySelector('.task[data-part="label"]'),k=st.pos.label,it=LAB[k],r=st.label[k]||(st.label[k]={});
+  let h=`<span class="num">${k+1} of ${LAB.length}</span><div class="bubble"><span class="who">Sales assistant</span>“${it.c}”</div>`;
+  it.a.forEach(([t,ans],i)=>{
+    const rr=r[i]||{tried:[],first:null,ok:false};
+    h+=`<div class="lbl${rr.ok?' done':''}"><p>“${t}”</p><div class="chips">`+LBLS.map((l,j)=>{
+      let c='chip';if(rr.ok&&j===ans)c+=' ok';else if(rr.tried.includes(j))c+=' no';
+      return `<button type="button" class="${c}" data-a="${i}" data-j="${j}">${l}</button>`}).join('')+`</div></div>`;
+  });
+  h+=nav('label',LAB.length,k,j=>labelDone(j));
+  box.innerHTML=h;
+  box.querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.a,j=+b.dataset.j,rr=r[i]||(r[i]={tried:[],first:null,ok:false});
+    if(rr.ok||rr.tried.includes(j))return;
+    if(rr.first===null)rr.first=j;
+    if(j===it.a[i][1])rr.ok=true;else rr.tried.push(j);
+    save();renderLabel();progress();
+  });
+  bindNav(box,'label',LAB.length,renderLabel);
+}
+function labelDone(k){const r=st.label[k];return !!r&&[0,1,2].every(i=>r[i]&&r[i].ok)}
+
+/* ---------- stepper nav ---------- */
+function nav(part,n,k,isDone){
+  return `<div class="nav"><button type="button" data-nav="-1" ${k===0?'disabled':''}>Back</button><span class="dots">`+
+   Array.from({length:n},(_,j)=>`<i class="${isDone(j)?'d':''}${j===k?' c':''}"></i>`).join('')+
+   `</span><button type="button" class="go" data-nav="1">${k===n-1?'Next part':'Next'}</button></div>`;
+}
+function bindNav(box,part,n,render){
+  box.querySelectorAll('[data-nav]').forEach(b=>b.onclick=()=>{
+    const k=st.pos[part]+(+b.dataset.nav);
+    if(k>=n){const nx=part==='soft'?'#p2':'#orderTask';document.querySelector(nx).scrollIntoView({behavior:'smooth',block:'start'});return}
+    st.pos[part]=Math.max(0,k);save();render();
+  });
+}
+
+/* ---------- 2.3 ORDER ---------- */
+function renderOrder(){
+  const slots=$('#slots'),pool=$('#pool');slots.innerHTML='';pool.innerHTML='';
+  ORDER.forEach(([lab],i)=>{const d=document.createElement('div');d.className='slot'+(st.order[i]!==undefined?' filled':'');
+    d.innerHTML=`<span class="st">${i+1} · ${lab}</span><span>${st.order[i]!==undefined?'“'+ORDER[i][1]+'”':''}</span>`;slots.appendChild(d)});
+  POOL_ORDER.forEach(i=>{if(st.order.includes(i))return;const b=document.createElement('button');b.type='button';b.className='pl';b.textContent='“'+ORDER[i][1]+'”';
+    b.onclick=()=>{const next=st.order.length;
+      if(st.orderFirst[next]===undefined)st.orderFirst[next]=i;
+      if(i===next){st.order.push(i);save();renderOrder();progress()}
+      else{b.classList.add('shake');setTimeout(()=>b.classList.remove('shake'),600);save()}};
+    pool.appendChild(b)});
+  if(st.order.length===ORDER.length)pool.innerHTML=`<div class="note">${CHECK}<span>Great: listen, empathise, ask, answer, close. Kind but firm.</span></div>`;
+}
+
+/* ---------- 2.4 GAPS ---------- */
+let selGap=null;
+function renderGaps(){
+  const bank=$('#bank'),dlg=$('#dlg');
+  bank.querySelectorAll('.bk').forEach(x=>x.remove());dlg.innerHTML='';
+  GAPS.bank.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='bk'+(Object.values(st.gaps).includes(i)?' used':'');b.textContent=t;
+    b.onclick=()=>{if(b.classList.contains('used'))return;
+      let g=selGap;if(g===null){for(let j=0;j<6;j++){if(st.gaps[j]===undefined){g=j;break}}}
+      if(g===null)return;
+      if(st.gapFirst[g]===undefined)st.gapFirst[g]=i;
+      if(i===g){st.gaps[g]=i;selGap=null;save();renderGaps();progress()}
+      else{b.classList.add('shake');const ge=dlg.querySelector(`[data-g="${g}"]`);if(ge)ge.classList.add('shake');setTimeout(()=>{b.classList.remove('shake');if(ge)ge.classList.remove('shake')},600);save()}};
+    bank.appendChild(b)});
+  GAPS.lines.forEach(([who,t])=>{const p=document.createElement('p');p.className='ln';
+    p.innerHTML=`<span class="who">${who}:</span>`+t.replace(/\{(\d)\}/g,(m,g)=>{g=+g;const f=st.gaps[g]!==undefined;
+      return `<button type="button" class="gap${f?' fill':''}${selGap===g?' sel':''}" data-g="${g}">${f?GAPS.bank[g]:(g+1)}</button>`});
+    dlg.appendChild(p)});
+  dlg.querySelectorAll('.gap').forEach(b=>b.onclick=()=>{const g=+b.dataset.g;if(st.gaps[g]!==undefined)return;selGap=selGap===g?null:g;renderGaps()});
+}
+
+/* ---------- 3.1 TECHNIQUES ---------- */
+TECH.forEach((t,k)=>{
+  const d=document.createElement('div');d.className='tq';
+  d.innerHTML=`<button type="button"><span class="n">${k+1}</span><span class="h"><b>${t.n}</b><small>${t.s}</small></span><svg class="arr"><use href="#i-down"/></svg></button>
+  <div class="body" hidden>
+    <div class="kv"><span class="k">When to use it</span><span>${t.when}</span></div>
+    <div class="kv"><span class="k">How it sounds</span><ul>${t.how.map(x=>`<li>“${x}”</li>`).join('')}</ul></div>
+    <div class="kv"><span class="k">Schedule example</span><div class="ex"><span class="e">Sales assistant: “${t.e}”</span><span class="d">You: “${t.d}”</span></div></div>
+    <div class="careful"><svg><use href="#i-warn"/></svg><span><b>Be careful:</b> ${t.care}</span></div>
+  </div>`;
+  d.querySelector('button').onclick=()=>{const b=d.querySelector('.body');b.hidden=!b.hidden;d.classList.toggle('open',!b.hidden)};
+  $('#techs').appendChild(d);
+});
+/* ---------- 3.2 SCHEME ---------- */
+SCHEME.forEach(([q,k])=>{
+  const b=document.createElement('button');b.type='button';b.className='sq';
+  b.innerHTML=`<span>${q}</span><span class="tap">Tap to check</span><span class="ans" hidden><svg class="ic"><use href="#i-arrow"/></svg>${k+1} · ${TECH[k].n}</span>`;
+  b.onclick=()=>{b.querySelector('.ans').hidden=false;b.querySelector('.tap').hidden=true;b.classList.add('open')};
+  $('#scheme').appendChild(b);
+});
+
+/* ---------- 4 FINAL ---------- */
+const fin=$('#final');fin.value=st.final||'';fin.oninput=()=>{st.final=fin.value;save();progress()};
+CHECKS.forEach((t,i)=>{const b=document.createElement('button');b.type='button';b.className='ck'+(st.checks.includes(i)?' on':'');
+  b.innerHTML=`<span class="box"><svg><use href="#i-ok"/></svg></span><span>${t}</span>`;
+  b.onclick=()=>{const p=st.checks.indexOf(i);if(p>-1)st.checks.splice(p,1);else st.checks.push(i);b.classList.toggle('on');save()};
+  $('#check').appendChild(b)});
+
+/* ---------- SCORES + PROGRESS ---------- */
+function scores(){
+  const s1=SOFT.reduce((a,it,k)=>a+((st.soft[k]&&st.soft[k].first!==null&&it.o[st.soft[k].first][1]==='right')?1:0),0);
+  let s2=0;LAB.forEach((it,k)=>it.a.forEach((x,i)=>{const r=st.label[k]&&st.label[k][i];if(r&&r.first===x[1])s2++}));
+  const s3=ORDER.reduce((a,_,i)=>a+(st.orderFirst[i]===i?1:0),0);
+  const s4=[0,1,2,3,4,5].reduce((a,g)=>a+(st.gapFirst[g]===g?1:0),0);
+  return {s1,s2,s3,s4};
+}
+function progress(){
+  const dSoft=SOFT.filter((_,k)=>st.soft[k]&&st.soft[k].solved).length;
+  const dLab=LAB.filter((_,k)=>labelDone(k)).length;
+  const dOrd=st.order.length===ORDER.length?1:0;
+  const dGap=Object.keys(st.gaps).length===6?1:0;
+  const dFin=(st.final||'').trim()?1:0;
+  const done=dSoft+dLab+dOrd+dGap+dFin;
+  $('#count').textContent=done+' / '+TOTAL;$('#pb').style.width=(done/TOTAL*100)+'%';
+  const parts=[dSoft===SOFT.length,dLab===LAB.length&&dOrd&&dGap,true,!!dFin];
+  document.querySelectorAll('#steps a').forEach((a,j)=>a.classList.toggle('done',parts[j]&&(j!==2)));
+  const s=scores();$('#s1').textContent=s.s1+'/8';$('#s2').textContent=s.s2+'/18';$('#s3').textContent=s.s3+'/5';$('#s4').textContent=s.s4+'/6';
+  const left=TOTAL-done;$('#missing').textContent=left?`${left} task${left>1?'s':''} not finished yet. You can still send what you have.`:'All tasks are done. Great work!';
+}
+
+/* ---------- SEND ---------- */
+function answersText(){
+  const s=scores(),L=['The Schedule Talk · Homework',''];
+  L.push('1.2 Make it softer: '+s.s1+'/8');
+  SOFT.forEach((it,k)=>{const r=st.soft[k];L.push(`${k+1}. ${r&&r.first!==null?'first choice: '+LABEL[it.o[r.first][1]]:'(not done)'}`)});
+  L.push('','2.2 Too soft / too hard / just right: '+s.s2+'/18');
+  L.push('2.3 Conversation order: '+s.s3+'/5','2.4 Gaps: '+s.s4+'/6','','4. My reply to Lucia:',(st.final||'').trim()||'(not done)','','Checklist: '+(st.checks.length?st.checks.sort().map(i=>CHECKS[i]).join('; '):'(nothing ticked)'));
+  return L.join('\n');
+}
+function payload(){
+  const s=scores();
+  const soft={title:'1.2 Make it softer',topic:'Softening phrases',kind:'quiz',items:SOFT.map((it,k)=>{const r=st.soft[k];const f=r&&r.first!==null?it.o[r.first]:null;
+    return {q:it.s,a:f?f[0]+' ('+LABEL[f[1]]+')':'',correct:it.o.find(x=>x[1]==='right')[0],ok:f?f[1]==='right':null}})};
+  const lab={title:'2.2 Too soft, too hard or just right',topic:'Schedule conversations: kind but firm',kind:'quiz',items:[]};
+  LAB.forEach((it,k)=>it.a.forEach((x,i)=>{const r=st.label[k]&&st.label[k][i];lab.items.push({q:it.c+' → '+x[0],a:r&&r.first!==null?LBLS[r.first]:'',correct:LBLS[x[1]],ok:r&&r.first!==null?r.first===x[1]:null})}));
+  const ord={title:'2.3 Build the conversation',topic:'5 steps: listen, empathise, ask, answer, close',kind:'quiz',items:ORDER.map((x,i)=>({q:'Step '+(i+1)+' · '+x[0],a:st.orderFirst[i]!==undefined?ORDER[st.orderFirst[i]][1]:'',correct:x[1],ok:st.orderFirst[i]!==undefined?st.orderFirst[i]===i:null}))};
+  const gap={title:'2.4 Fill the gaps',topic:'Closed periods: soft phrases',kind:'quiz',items:[0,1,2,3,4,5].map(g=>({q:'Gap '+(g+1),a:st.gapFirst[g]!==undefined?GAPS.bank[st.gapFirst[g]]:'',correct:GAPS.bank[g],ok:st.gapFirst[g]!==undefined?st.gapFirst[g]===g:null}))};
+  const fin={title:'4. Reply to Lucia',topic:'Writing: a kind but firm reply about the schedule',kind:'write',items:[{q:'Lucia: night re-tagging Thursday, opening Friday at 7, asked for the 20th off',a:(st.final||'').trim()},{q:'Checklist ticked',a:st.checks.slice().sort().map(i=>CHECKS[i]).join('; ')}]};
+  return {scores:{'Make it softer':s.s1+'/8','Labels':s.s2+'/18','Conversation':s.s3+'/5','Gaps':s.s4+'/6'},sections:[soft,lab,ord,gap,fin],text:answersText(),empty:(st.final||'').trim()?0:1};
+}
+if(window.HWSubmit){HWSubmit.init({student:'dominika',homework:'dominika/schedule-talk',title:'The Schedule Talk'});HWSubmit.mount('hw-send',payload)}
+
+/* ---------- RESTART ---------- */
+let armed=false;
+$('#restart').onclick=()=>{const b=$('#restart');
+  if(!armed){armed=true;b.textContent='Sure? Tap again';b.classList.add('warn');setTimeout(()=>{armed=false;b.textContent='Start again';b.classList.remove('warn')},3000);return}
+  st={soft:{},label:{},order:[],orderFirst:{},gaps:{},gapFirst:{},final:'',checks:[],pos:{soft:0,label:0}};save();
+  location.reload();
+};
+
+renderSoft();renderLabel();renderOrder();renderGaps();progress();
+</script>
+</body>
+</html>
